@@ -5,7 +5,6 @@ from Token import token
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
     HELP_YES, HELP_NO
 from translate import Translator
-from currency_converter import CurrencyConverter
 from cleverbot import Cleverbot
 
 client = discord.Client()
@@ -89,8 +88,11 @@ async def on_message(msg):
                     if chk_curr(b):
                         b = float(b)
                         if cc in CURR_LIST and ct in CURR_LIST:
-                            fc = CurrencyConverter().convert(b, cc, ct)
-                            await client.send_message(msg.channel, cc + ': ' + str(b) + '   ' + ct + ': ' + str(fc))
+                            r = requests.get('http://www.apilayer.net/api/live?access_key=f2c2ba1705aee2e5565b354c' +
+                                             '60efc225&from=' + cc + '&to=' + ct + '&amount=' + str(b))
+                            d = json.loads(r.text)
+                            await client.send_message(msg.channel, cc + ': ' + str(b) + '   ' + ct + ': ' +
+                                                      str(d['quotes'][cc + ct]))
                         else:
                             await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
                                                                    'currencysystem.com/codes/, <@' + msg.author.id +
