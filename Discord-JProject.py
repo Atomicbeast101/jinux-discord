@@ -3,7 +3,7 @@ import requests
 import json
 from Token import token
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO
+    HELP_YES, HELP_NO, HELP_BALL
 from translate import Translator
 from cleverbot import Cleverbot
 
@@ -56,6 +56,8 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP_YES)
                     elif arg == 'no':
                         await client.send_message(msg.channel, HELP_NO)
+                    elif arg == '8ball':
+                        await client.send_message(msg.channel, HELP_BALL)
                     else:
                         await client.send_message(msg.channel, HELP)
                 else:
@@ -172,6 +174,17 @@ async def on_message(msg):
                 else:
                     await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
                                                            + '>?')
+            elif cmd == '-8ball':
+                if len(msg.content.split(' ')) > 1:
+                    q = msg.content[7:]
+                    q.replace(' ', '%')
+                    q.replace('?', '%3F')
+                    q.replace(',', '%2C')
+                    r = requests.get('https://8ball.delegator.com/magic/JSON/' + q)
+                    d = json.loads(r.text)
+                    await client.send_message(msg.channel, get_mention(msg) + d['magic']['answer'])
+                else:
+                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -8ball <Question...>')
         else:
             if msg.content.startswith('<@258753582600421386>'):
                 m = msg.content[22:]

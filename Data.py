@@ -51,3 +51,6 @@ Vote yes on an active poll.```'''
 
 HELP_NO = '''```Help Guide: -no
 Vote no on an active poll.```'''
+
+HELP_BALL = '''```Help Guide: -8ball <Question...?>
+Magic eight ball answering machine.```'''
