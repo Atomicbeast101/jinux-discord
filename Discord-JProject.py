@@ -161,7 +161,7 @@ async def on_message(msg):
                     await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
                                                            + '>?')
     else:
-        if msg.content.startswith('<@256116246154706954>'):
+        if msg.content.startswith('<@258753582600421386>'):
             m = msg.content[22:]
             r = Cleverbot().ask(m)
             await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
