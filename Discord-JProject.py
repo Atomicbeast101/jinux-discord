@@ -37,20 +37,20 @@ async def on_message(msg):
             if cmd == '-help':
                 args = msg.content.split(' ')
                 if len(args) == 2:
-                    cmd = args[1].lower()
-                    if cmd is 'cat':
+                    arg = args[1].lower()
+                    if arg == 'cat':
                         await client.send_message(msg.channel, HELP_CAT)
-                    elif cmd is 'trans':
+                    elif arg == 'trans':
                         await client.send_message(msg.channel, HELP_TRANS)
-                    elif cmd is 'chucknorris':
+                    elif arg == 'chucknorris':
                         await client.send_message(msg.channel, HELP_CHUCKNORRIS)
-                    elif cmd is 'convert':
+                    elif arg == 'convert':
                         await client.send_message(msg.channel, HELP_CONVERT)
-                    elif cmd is 'poll':
+                    elif arg == 'poll':
                         await client.send_message(msg.channel, HELP_POLL)
-                    elif cmd is 'yes':
+                    elif arg == 'yes':
                         await client.send_message(msg.channel, HELP_YES)
-                    elif cmd is 'no':
+                    elif arg == 'no':
                         await client.send_message(msg.channel, HELP_NO)
                     else:
                         await client.send_message(msg.channel, HELP)
@@ -80,32 +80,30 @@ async def on_message(msg):
                 d = json.loads(r.text)
                 await client.send_message(msg.channel, d['value'])
             elif cmd == '-convert':
-                await client.send_message(msg.channel, 'Currently under development.')
-                # args = msg.content.split(' ')
-                # if len(args) == 4:
-                #    b = args[1]
-                #    cc = args[2]
-                #    ct = args[3]
-                #    if chk_curr(b):
-                #        b = float(b)
-                #        if cc in CURR_LIST and ct in CURR_LIST:
-                #            r = requests.get('http://www.apilayer.net/api/live?access_key=f2c2ba1705aee2e5565b354c' +
-                #                             '60efc225&from=' + cc + '&to=' + ct + '&amount=' + str('%.2f' % b))
-                #            d = json.loads(r.text)
-                #            nb = float(d['quotes'][cc + ct])
-                #            nb *= 10.0
-                #            await client.send_message(msg.channel, '`' + cc + ': ' + str('%.2f' % b) + '`  >  `' + ct +
-                #                                      ': ' + str('%.2f' % nb) + '`')
-                #        else:
-                #            await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
-                #                                                   'currencysystem.com/codes/, <@' + msg.author.id +
-                #                                                   '>!')
-                #    else:
-                #        await client.send_message(msg.channel, 'Currency must be in numeric/decimal value! Like 100' +
-                #                                               'or 54.42, <@' + msg.author.id + '>!')
-                # else:
-                #    await client.send_message(msg.channel, 'Usage: -$convert <amount> <current-currency> <currency-' +
-                #                                           'to-convert-to>')
+                args = msg.content.split(' ')
+                if len(args) == 4:
+                    b = args[1]
+                    cc = args[2]
+                    ct = args[3]
+                    if chk_curr(b):
+                        b = float(b)
+                        if cc in CURR_LIST and ct in CURR_LIST:
+                            r = requests.get('http://free.currencyconverterapi.com/api/v3/convert?q=' + cc + '_' + ct +
+                                             '&compact=y')
+                            d = json.loads(r.text)
+                            nb = b * float(d[cc + '_' + ct]['val'])
+                            await client.send_message(msg.channel, '`' + cc + ': ' + str('%.2f' % b) + '`  >  `' + ct +
+                                                      ': ' + str('%.2f' % nb) + '`')
+                        else:
+                            await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
+                                                                   'currencysystem.com/codes/, <@' + msg.author.id +
+                                                                   '>!')
+                    else:
+                        await client.send_message(msg.channel, 'Currency must be in numeric/decimal value! Like 100' +
+                                                               'or 54.42, <@' + msg.author.id + '>!')
+                else:
+                    await client.send_message(msg.channel, 'Usage: -convert <amount> <current-currency> <currency-' +
+                                                           'to-convert-to>')
             elif cmd == '-poll':
                 if msg.author.server_permissions.administrator:
                     args = msg.content.split(' ')
