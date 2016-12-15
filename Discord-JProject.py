@@ -2,30 +2,14 @@ import discord
 import requests
 import json
 from Token import token
+from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
+    HELP_YES, HELP_NO
 from translate import Translator
 from currency_converter import CurrencyConverter
 from cleverbot import Cleverbot
 
 client = discord.Client()
-LANG_LIST = ['AB', 'AA', 'AF', 'SQ', 'AM,' 'AR', 'HY', 'AS', 'AY', 'AZ', 'BA', 'EU', 'BN', 'DZ', 'BH', 'BI', 'BR', 'BG',
-             'MY', 'BE', 'KM', 'CA', 'ZH', 'CO', 'HR', 'CS', 'DA', 'NL', 'EN', 'EO', 'ET', 'FO', 'FJ', 'FI', 'FR', 'FY',
-             'GD', 'GL', 'KA', 'DE', 'EL', 'KL', 'GN', 'GU', 'HA', 'IW', 'HI', 'HU', 'IS', 'IN', 'IA', 'IE', 'IK', 'GA',
-             'IT', 'JA', 'JW', 'KN', 'KS', 'KK', 'RW', 'KY', 'RN', 'KO', 'KU', 'LO', 'LA', 'LV', 'LN', 'LT', 'MK', 'MG',
-             'MS', 'ML', 'MT', 'MI', 'MR', 'MO', 'MN', 'NA', 'NE', 'NO', 'OC', 'OR', 'OM', 'PS', 'FA', 'PL', 'PT', 'PA',
-             'QU', 'RM', 'RO', 'RU', 'SM', 'SG', 'SA', 'SR', 'SH', 'ST', 'TN', 'SN', 'SD', 'SI', 'SS', 'SK', 'SL', 'SO',
-             'ES', 'SU', 'SW', 'SV', 'TL', 'TG', 'TA', 'TT', 'TE', 'TH', 'BO', 'TI', 'TO', 'TS', 'TR', 'TK', 'TW', 'UK',
-             'UR', 'UZ', 'VI', 'VO', 'CY', 'WO', 'XH', 'JI', 'YO', 'ZU']
-CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD', 'BHD', 'BDT', 'BBD', 'BYN', 'BZD',
-             'BMD', 'BTN', 'BOB', 'BWP', 'BRL', 'GBP', 'BND', 'BGN', 'BIF', 'KHR', 'CAD', 'CVE', 'KYD', 'XOF', 'XAF',
-             'XPF', 'CLP', 'CNY', 'COP', 'KMF', 'CDF', 'CRC', 'HRK', 'CUP', 'CZK', 'DKK', 'DJF', 'DOP', 'XCD', 'EGP',
-             'SVC', 'ERN', 'EEK', 'ETB', 'EUR', 'FKP', 'FJD', 'GMD', 'GEL', 'GHS', 'GIP', 'XAU', 'XFO', 'GTQ', 'GNF',
-             'GYD', 'HTG', 'HNL', 'HKD', 'HUF', 'ISK', 'XDR', 'INR', 'IDR', 'IRR', 'IQD', 'ILS', 'JMD', 'JPY', 'JOD',
-             'KZT', 'KES', 'KWD', 'KGS', 'LAK', 'LVL', 'LBP', 'LSL', 'LRD', 'LYD', 'LTL', 'MOP', 'MKD', 'MGA', 'MWK',
-             'MYR', 'MVR', 'MRO', 'MUR', 'MXN', 'MDL', 'MNT', 'MAD', 'MZN', 'MMK', 'NAD', 'NPR', 'ANG', 'NZD', 'NIO',
-             'NGN', 'KPW', 'NOK', 'OMR', 'PKR', 'XPD', 'PAB', 'PGK', 'PYG', 'PEN', 'PHP', 'XPT', 'PLN', 'QAR', 'RON',
-             'RUB', 'RWF', 'SHP', 'WST', 'STD', 'SAR', 'RSD', 'SCR', 'SLL', 'XAG', 'SGD', 'SBD', 'SOS', 'ZAR', 'KRW',
-             'LKR', 'SDG', 'SRD', 'SZL', 'SEK', 'CHF', 'SYP', 'TWD', 'TJS', 'TZS', 'THB', 'TOP', 'TTD', 'TND', 'TRY',
-             'TMT', 'AED', 'UGX', 'XFU', 'UAH', 'UYU', 'USD', 'UZS', 'VUV', 'VEF', 'VND', 'YER', 'ZMK', 'ZWL']
+
 poll = False
 q = ""
 yes = 0
@@ -51,21 +35,28 @@ async def on_message(msg):
     if len(msg.content) > 0:
         if msg.content[0] == '-':
             cmd = msg.content.split(' ')[0].lower()
-            # Commands goes here
             if cmd == '-help':
-                await client.send_message(msg.channel, 'List of commands:')
-                await client.send_message(msg.channel, '1) -cat = Random pic/gif of any cat.')
-                await client.send_message(msg.channel, '2) -trans <lang> <msg> = Translate message to any language ' +
-                                                       'of choice.')
-                await client.send_message(msg.channel, '  Languages: https://www.sitepoint.com/web-foundations/' +
-                                                       'iso-2-letter-language-codes/')
-                await client.send_message(msg.channel, '3) -chucknorris = Random Chuck Norris jokes.')
-                await client.send_message(msg.channel, '4) -$convert <amount> <current-currency> <currency-to-convert' +
-                                                       '-to> = Convert currency.')
-                await client.send_message(msg.channel, '5) -poll <start|stop> (Question...) Create poll, only admins ' +
-                                                       'can create/stop them.')
-                await client.send_message(msg.channel, '       -yes = Answer yes to poll question.')
-                await client.send_message(msg.channel, '       -no = Answer no to poll question.')
+                args = msg.content.split(' ')
+                if len(args) == 2:
+                    cmd = args[1].lower()
+                    if cmd is 'cat':
+                        await client.send_message(msg.channel, HELP_CAT)
+                    elif cmd is 'trans':
+                        await client.send_message(msg.channel, HELP_TRANS)
+                    elif cmd is 'chucknorris':
+                        await client.send_message(msg.channel, HELP_CHUCKNORRIS)
+                    elif cmd is 'convert':
+                        await client.send_message(msg.channel, HELP_CONVERT)
+                    elif cmd is 'poll':
+                        await client.send_message(msg.channel, HELP_POLL)
+                    elif cmd is 'yes':
+                        await client.send_message(msg.channel, HELP_YES)
+                    elif cmd is 'no':
+                        await client.send_message(msg.channel, HELP_NO)
+                    else:
+                        await client.send_message(msg.channel, HELP)
+                else:
+                    await client.send_message(msg.channel, HELP)
             elif cmd == '-cat':
                 r = requests.get('http://random.cat/meow')
                 d = json.loads(r.text)
@@ -89,7 +80,7 @@ async def on_message(msg):
                 r = requests.get('https://api.chucknorris.io/jokes/random')
                 d = json.loads(r.text)
                 await client.send_message(msg.channel, d['value'])
-            elif cmd == '-$currency':
+            elif cmd == '-convert':
                 args = msg.content.split(' ')
                 if len(args) == 4:
                     b = args[1]
@@ -170,7 +161,6 @@ async def on_message(msg):
                     await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
                                                            + '>?')
     else:
-        # Mentions goes here
         if msg.content.startswith('<@256116246154706954>'):
             m = msg.content[22:]
             r = Cleverbot().ask(m)
