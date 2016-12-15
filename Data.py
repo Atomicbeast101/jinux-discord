@@ -27,7 +27,8 @@ HELP = '''```List of commands:
 5) -convert <amount> <currency-code> <currency-code-to> = Convert currency.
 6) -poll <start|stop> <Question...> = Create or stop polls. Currently only for admins.
 7) -yes = Answer yes to active poll.
-8) -no = Answer no to active poll.```'''
+8) -no = Answer no to active poll.
+9) -8ball = Magic eight ball answering machine.```'''
 
 HELP_CAT = '''```Help Guide: -cat
 Posts a random picture or animated gif of a cat.```'''
