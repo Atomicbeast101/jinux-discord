@@ -19,7 +19,7 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
              'LKR', 'SDG', 'SRD', 'SZL', 'SEK', 'CHF', 'SYP', 'TWD', 'TJS', 'TZS', 'THB', 'TOP', 'TTD', 'TND', 'TRY',
              'TMT', 'AED', 'UGX', 'XFU', 'UAH', 'UYU', 'USD', 'UZS', 'VUV', 'VEF', 'VND', 'YER', 'ZMK', 'ZWL']
 
-HELP = '''\'\'\'List of commands:
+HELP = '''```List of commands:
 1) -help <command> = More information about the specified command.
 2) -cat = Random picture or gif of a cat.
 3) -trans <lang-code> <msg> = Translate message to desired language.
@@ -27,27 +27,27 @@ HELP = '''\'\'\'List of commands:
 5) -convert <amount> <currency-code> <currency-code-to> = Convert currency.
 6) -poll <start|stop> <Question...> = Create or stop polls. Currently only for admins.
 7) -yes = Answer yes to active poll.
-8) -no = Answer no to active poll.\'\'\''''
+8) -no = Answer no to active poll.```'''
 
-HELP_CAT = '''Help Guide: -cat
-Posts a random picture or animated gif of a cat.'''
+HELP_CAT = '''```Help Guide: -cat
+Posts a random picture or animated gif of a cat.```'''
 
-HELP_TRANS = '''Help Guide: -trans <lang-code> <msg>
-Translate a specified message to a supported language of choice.
+HELP_TRANS = '''```Help Guide: -trans <lang-code> <msg>
+Translate a specified message to a supported language of choice.```
 List of supported language codes: https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/'''
 
-HELP_CHUCKNORRIS = '''Help Guide: -chucknorris
-Posts a random Chuck Norris joke.'''
+HELP_CHUCKNORRIS = '''```Help Guide: -chucknorris
+Posts a random Chuck Norris joke.```'''
 
-HELP_CONVERT = '''Help Guide: -convert <amount> <from-currency-code> <to-currency-code>
-Converts the specified amount of money to a desired currency.
+HELP_CONVERT = '''```Help Guide: -convert <amount> <from-currency-code> <to-currency-code>
+Converts the specified amount of money to a desired currency.```
 List of supported currency codes: https://currencysystem.com/codes/'''
 
-HELP_POLL = '''Help  Guide: -poll <start|stop> <desired question>
-Create or stop polls. Only admins are allowed to use this command.'''
+HELP_POLL = '''```Help  Guide: -poll <start|stop> <desired question>
+Create or stop polls. Only admins are allowed to use this command.```'''
 
-HELP_YES = '''Help Guide: -yes
-Vote yes on an active poll.'''
+HELP_YES = '''```Help Guide: -yes
+Vote yes on an active poll.```'''
 
-HELP_NO = '''Help Guide: -no
-Vote no on an active poll.'''
+HELP_NO = '''```Help Guide: -no
+Vote no on an active poll.```'''

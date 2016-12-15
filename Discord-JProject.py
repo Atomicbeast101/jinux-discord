@@ -24,6 +24,10 @@ def chk_curr(msg):
         return False
 
 
+def get_mention(msg):
+    return '<@' + msg.author.id + '> '
+
+
 @client.event
 async def on_message(msg):
     global poll
@@ -69,12 +73,12 @@ async def on_message(msg):
                         tn = tr.translate(s)
                         await client.send_message(msg.channel, tn)
                     else:
-                        await client.send_message(msg.channel, 'Invalid language input! Please check https://www.' +
-                                                               'sitepoint.com/web-foundations/iso-2-letter-language-' +
-                                                               'codes/ for correct language code! Ex: en for English ' +
-                                                               'or de for German')
+                        await client.send_message(msg.channel, 'Invalid language input! Please checkhttps://www.site' +
+                                                  'point.com/web-foundations/iso-2-letter-language-codes/ for correct' +
+                                                  'language code! Ex: en for English or de for German')
                 else:
-                    await client.send_message(msg.channel, 'Usage: -trans <language> <to translate...>')
+                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -trans <language> ' +
+                                              '<to translate...>')
             elif cmd == '-chucknorris':
                 r = requests.get('https://api.chucknorris.io/jokes/random')
                 d = json.loads(r.text)
@@ -95,15 +99,14 @@ async def on_message(msg):
                             await client.send_message(msg.channel, '`' + cc + ': ' + str('%.2f' % b) + '`  >  `' + ct +
                                                       ': ' + str('%.2f' % nb) + '`')
                         else:
-                            await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
-                                                                   'currencysystem.com/codes/, <@' + msg.author.id +
-                                                                   '>!')
+                            await client.send_message(msg.channel, get_mention(msg) + 'Invalid currency code! Please ' +
+                                                      'check https://currencysystem.com/codes/!')
                     else:
-                        await client.send_message(msg.channel, 'Currency must be in numeric/decimal value! Like 100' +
-                                                               'or 54.42, <@' + msg.author.id + '>!')
+                        await client.send_message(msg.channel, get_mention(msg) + 'Currency must be in numeric/' +
+                                                  'decimal value! Like 100 or 54.42!')
                 else:
-                    await client.send_message(msg.channel, 'Usage: -convert <amount> <current-currency> <currency-' +
-                                                           'to-convert-to>')
+                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -convert <amount> <current-' +
+                                              'currency> <currency-to-convert-to>')
             elif cmd == '-poll':
                 if msg.author.server_permissions.administrator:
                     args = msg.content.split(' ')
@@ -123,7 +126,8 @@ async def on_message(msg):
                                     await client.send_message(msg.channel, '[Poll Started]: ' + q)
                                     await client.send_message(msg.channel, 'Answer: -yes OR -no')
                             else:
-                                await client.send_message(msg.channel, 'Usage: -poll start <Question...?>')
+                                await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll start <' +
+                                                          'Question...?>')
                         elif args[1] == 'stop':
                             if not poll:
                                 await client.send_message(msg.channel, "Poll isn't running, <@" + msg.author.id + ">!")
@@ -133,9 +137,11 @@ async def on_message(msg):
                                 await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' +
                                                           str(no) + '`')
                         else:
-                            await client.send_message(msg.channel, 'Usage: -poll <start|stop> (Question...?)')
+                            await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll <start|stop> ' +
+                                                      '(Question...?)')
                     else:
-                        await client.send_message(msg.channel, 'Usage: -poll <start|stop> (Question...?)')
+                        await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll <start|stop> ' +
+                                                  '(Question...?)')
                 else:
                     await client.send_message(msg.channel, 'You must be an administrator, <@' + msg.author.id + '>!')
             elif cmd == '-yes':
@@ -143,7 +149,7 @@ async def on_message(msg):
                     if msg.author.id not in voted:
                         voted.append(msg.author.id)
                         yes += 1
-                        await client.send_message(msg.channel, 'Question: ' + q)
+                        await client.send_message(msg.channel, '[Question]: ' + q)
                         await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
                                                   '`')
                     else:
@@ -157,7 +163,7 @@ async def on_message(msg):
                     if msg.author.id not in voted:
                         voted.append(msg.author.id)
                         no += 1
-                        await client.send_message(msg.channel, 'Question: ' + q)
+                        await client.send_message(msg.channel, '[Question]: ' + q)
                         await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
                                                   '`')
                     else:
