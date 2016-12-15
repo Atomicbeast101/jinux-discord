@@ -139,4 +139,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # IGNORE
-Token.py
+/Token.py
