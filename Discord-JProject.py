@@ -80,29 +80,32 @@ async def on_message(msg):
                 d = json.loads(r.text)
                 await client.send_message(msg.channel, d['value'])
             elif cmd == '-convert':
-                args = msg.content.split(' ')
-                if len(args) == 4:
-                    b = args[1]
-                    cc = args[2]
-                    ct = args[3]
-                    if chk_curr(b):
-                        b = float(b)
-                        if cc in CURR_LIST and ct in CURR_LIST:
-                            r = requests.get('http://www.apilayer.net/api/live?access_key=f2c2ba1705aee2e5565b354c' +
-                                             '60efc225&from=' + cc + '&to=' + ct + '&amount=' + str(b))
-                            d = json.loads(r.text)
-                            await client.send_message(msg.channel, cc + ': ' + str(b) + '   ' + ct + ': ' +
-                                                      str(d['quotes'][cc + ct]))
-                        else:
-                            await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
-                                                                   'currencysystem.com/codes/, <@' + msg.author.id +
-                                                                   '>!')
-                    else:
-                        await client.send_message(msg.channel, 'Currency must be in numeric/decimal value! Like 100' +
-                                                               'or 54.42, <@' + msg.author.id + '>!')
-                else:
-                    await client.send_message(msg.channel, 'Usage: -$convert <amount> <current-currency> <currency-' +
-                                                           'to-convert-to>')
+                await client.send_message(msg.channel, 'Currently under development.')
+                # args = msg.content.split(' ')
+                # if len(args) == 4:
+                #    b = args[1]
+                #    cc = args[2]
+                #    ct = args[3]
+                #    if chk_curr(b):
+                #        b = float(b)
+                #        if cc in CURR_LIST and ct in CURR_LIST:
+                #            r = requests.get('http://www.apilayer.net/api/live?access_key=f2c2ba1705aee2e5565b354c' +
+                #                             '60efc225&from=' + cc + '&to=' + ct + '&amount=' + str('%.2f' % b))
+                #            d = json.loads(r.text)
+                #            nb = float(d['quotes'][cc + ct])
+                #            nb *= 10.0
+                #            await client.send_message(msg.channel, '`' + cc + ': ' + str('%.2f' % b) + '`  >  `' + ct +
+                #                                      ': ' + str('%.2f' % nb) + '`')
+                #        else:
+                #            await client.send_message(msg.channel, 'Invalid currency code! Please check https://' +
+                #                                                   'currencysystem.com/codes/, <@' + msg.author.id +
+                #                                                   '>!')
+                #    else:
+                #        await client.send_message(msg.channel, 'Currency must be in numeric/decimal value! Like 100' +
+                #                                               'or 54.42, <@' + msg.author.id + '>!')
+                # else:
+                #    await client.send_message(msg.channel, 'Usage: -$convert <amount> <current-currency> <currency-' +
+                #                                           'to-convert-to>')
             elif cmd == '-poll':
                 if msg.author.server_permissions.administrator:
                     args = msg.content.split(' ')
@@ -129,7 +132,8 @@ async def on_message(msg):
                             else:
                                 poll = False
                                 await client.send_message(msg.channel, '[Poll Closed]: ' + q)
-                                await client.send_message(msg.channel, 'Result: Yes: ' + str(yes) + '   No: ' + str(no))
+                                await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' +
+                                                          str(no) + '`')
                         else:
                             await client.send_message(msg.channel, 'Usage: -poll <start|stop> (Question...?)')
                     else:
@@ -142,7 +146,8 @@ async def on_message(msg):
                         voted.append(msg.author.id)
                         yes += 1
                         await client.send_message(msg.channel, 'Question: ' + q)
-                        await client.send_message(msg.channel, 'Result: Yes: ' + str(yes) + '   No: ' + str(no))
+                        await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
+                                                  '`')
                     else:
                         await client.send_message(msg.channel, 'Trying to commit a voting fraud, <@' + msg.author.id
                                                                + '>?')
@@ -155,17 +160,18 @@ async def on_message(msg):
                         voted.append(msg.author.id)
                         no += 1
                         await client.send_message(msg.channel, 'Question: ' + q)
-                        await client.send_message(msg.channel, 'Result: Yes: ' + str(yes) + '   No: ' + str(no))
+                        await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
+                                                  '`')
                     else:
                         await client.send_message(msg.channel, 'Trying to commit a voting fraud <@' + msg.author.id
                                                                + '>?')
                 else:
                     await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
                                                            + '>?')
-    else:
-        if msg.content.startswith('<@258753582600421386>'):
-            m = msg.content[22:]
-            r = Cleverbot().ask(m)
-            await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
+        else:
+            if msg.content.startswith('<@258753582600421386>'):
+                m = msg.content[22:]
+                r = Cleverbot().ask(m)
+                await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
 
 client.run(token)
