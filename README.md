@@ -8,7 +8,7 @@ Personal bot for Discord server(s).
 
 ## Setup
 ### Ubuntu Installation
-In most cases, Python is usually installed by default in Ubuntu, but may not be latest version you need to run Jinux bot.
+In most cases, Python is usually installed by default in Ubuntu, but may not be in latest version you need to run Jinux bot.
 
 1) Python version 3+:
 ```Bash
