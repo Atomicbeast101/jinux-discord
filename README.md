@@ -34,7 +34,7 @@ sudo python3 -m pip install discord.py
 
 5) Download the github files and export it to anywhere you want to store on your computer.
 
-7) Create a new application with the name of bot you want to appear on your server through [here]https://discordapp.com/developers/applications/me
+7) Create a new application with the name of bot you want to appear on your server through https://discordapp.com/developers/applications/me
 
 8) After you get it created, you need to enable that app as a bot so this bot can perform the job.
 
