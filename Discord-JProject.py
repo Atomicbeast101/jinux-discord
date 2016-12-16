@@ -9,6 +9,7 @@ from cleverbot import Cleverbot
 
 client = discord.Client()
 
+# Variables for poll system
 poll = False
 q = ""
 yes = 0
@@ -16,6 +17,7 @@ no = 0
 voted = []
 
 
+# Checks to make sure the string currency can be converted to float data value
 def chk_curr(msg):
     try:
         float(msg)
@@ -24,10 +26,12 @@ def chk_curr(msg):
         return False
 
 
+# Returns the mention of the author that the bot will reply to
 def get_mention(msg):
     return '<@' + msg.author.id + '> '
 
 
+# Automatically called everytime a player sends a message to any channel
 @client.event
 async def on_message(msg):
     global poll
@@ -38,6 +42,7 @@ async def on_message(msg):
     if len(msg.content) > 0:
         if msg.content[0] == '-':
             cmd = msg.content.split(' ')[0].lower()
+            # Help Guide
             if cmd == '-help':
                 args = msg.content.split(' ')
                 if len(args) == 2:
@@ -62,10 +67,12 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP)
                 else:
                     await client.send_message(msg.channel, HELP)
+            # Posts random picture/gif of cat through -cat command
             elif cmd == '-cat':
                 r = requests.get('http://random.cat/meow')
                 d = json.loads(r.text)
                 await client.send_message(msg.channel, d['file'])
+            # Translate message to language of user choice through -trans command
             elif cmd == '-trans':
                 args = msg.content.split(' ')
                 if len(args) >= 3:
@@ -81,10 +88,12 @@ async def on_message(msg):
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -trans <language> ' +
                                               '<to translate...>')
+            # Posts random Chuck Norris joke through -chucknorris command
             elif cmd == '-chucknorris':
                 r = requests.get('https://api.chucknorris.io/jokes/random')
                 d = json.loads(r.text)
                 await client.send_message(msg.channel, d['value'])
+            # Converts money between different currencies through -convert command
             elif cmd == '-convert':
                 args = msg.content.split(' ')
                 if len(args) == 4:
@@ -109,6 +118,7 @@ async def on_message(msg):
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -convert <amount> <current-' +
                                               'currency> <currency-to-convert-to>')
+            # Poll system through -poll command
             elif cmd == '-poll':
                 if msg.author.server_permissions.administrator:
                     args = msg.content.split(' ')
@@ -174,6 +184,7 @@ async def on_message(msg):
                 else:
                     await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
                                                            + '>?')
+            # Magic eight ball through -8ball command
             elif cmd == '-8ball':
                 if len(msg.content.split(' ')) > 1:
                     q = msg.content[7:]
@@ -186,6 +197,7 @@ async def on_message(msg):
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -8ball <Question...>')
         else:
+            # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@258753582600421386>'):
                 m = msg.content[22:]
                 r = Cleverbot().ask(m)
