@@ -40,7 +40,7 @@ sudo python3 -m pip install discord.py
 
 9) Copy the token through clicking on 'click to reveal' link and paste it to the token variable in Token.py Python script:
 ```Python
-token = 'tokengoeshere...
+token = 'tokengoeshere...'
 ```
 
 10) Now we need to register that app to a specific server so that way the bot can find it's path to your server. Copy the 18-digit code from Client ID and follow the URL (replace the YOUR_CLIENT_ID_HERE with the Client ID code):
