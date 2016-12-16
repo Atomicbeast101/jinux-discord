@@ -20,6 +20,7 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
              'TMT', 'AED', 'UGX', 'XFU', 'UAH', 'UYU', 'USD', 'UZS', 'VUV', 'VEF', 'VND', 'YER', 'ZMK', 'ZWL']
 
 HELP = '''```List of commands:
+
 1) -help <command> = More information about the specified command.
 2) -cat = Random picture or gif of a cat.
 3) -trans <lang-code> <msg> = Translate message to desired language.
@@ -31,27 +32,48 @@ HELP = '''```List of commands:
 9) -8ball = Magic eight ball answering machine.```'''
 
 HELP_CAT = '''```Help Guide: -cat
+
 Posts a random picture or animated gif of a cat.```'''
 
 HELP_TRANS = '''```Help Guide: -trans <lang-code> <msg>
-Translate a specified message to a supported language of choice.```
-List of supported language codes: https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/'''
+
+Translate a specified message to a supported language of choice.
+
+<lang-code> = The language code to which the message should be translated.
+<msg> = The message to be translated.```
+List of supported language codes:
+https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/'''
 
 HELP_CHUCKNORRIS = '''```Help Guide: -chucknorris
+
 Posts a random Chuck Norris joke.```'''
 
-HELP_CONVERT = '''```Help Guide: -convert <amount> <from-currency-code> <to-currency-code>
-Converts the specified amount of money to a desired currency.```
+HELP_CONVERT = '''```Help Guide: -convert <amount> <from-currency> <to-currency>
+
+Converts the specified amount of money to a desired currency.
+
+<amount> = The amount to convert.
+<from-currency> = The currency code from which to convert.
+<to-currency> = The currency code to which the amount should be converted.```
 List of supported currency codes: https://currencysystem.com/codes/'''
 
-HELP_POLL = '''```Help  Guide: -poll <start|stop> <desired question>
-Create or stop polls. Only admins are allowed to use this command.```'''
+HELP_POLL = '''```Help  Guide: -poll <start|stop> <question>
+
+Create or stop polls. Currently only admins are allowed to use this command.
+
+<start|stop> = Either start a new poll or stop an active poll.
+<question> = Desired poll question.```'''
 
 HELP_YES = '''```Help Guide: -yes
+
 Vote yes on an active poll.```'''
 
 HELP_NO = '''```Help Guide: -no
+
 Vote no on an active poll.```'''
 
-HELP_BALL = '''```Help Guide: -8ball <Question...?>
-Magic eight ball answering machine.```'''
+HELP_BALL = '''```Help Guide: -8ball <question>
+
+Ask the magical 8ball a question and receive an answer.
+
+<question> = Desired question.```'''
