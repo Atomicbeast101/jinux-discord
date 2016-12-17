@@ -1,9 +1,9 @@
 import discord
 import requests
 import json
-from Token import token
+from ClientID_TokenID import TOKEN_ID, CLIENT_ID
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL
+    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP
 from translate import Translator
 from cleverbot import Cleverbot
 
@@ -21,6 +21,15 @@ voted = []
 def chk_curr(msg):
     try:
         float(msg)
+        return True
+    except ValueError:
+        return False
+
+
+# Checks to make sure the string temperature can be converted to int data value
+def chk_temp(msg):
+    try:
+        int(msg)
         return True
     except ValueError:
         return False
@@ -63,6 +72,8 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP_NO)
                     elif arg == '8ball':
                         await client.send_message(msg.channel, HELP_BALL)
+                    elif arg == 'temp':
+                        await client.send_message(msg.channel, HELP_TEMP)
                     else:
                         await client.send_message(msg.channel, HELP)
                 else:
@@ -196,9 +207,32 @@ async def on_message(msg):
                     await client.send_message(msg.channel, get_mention(msg) + d['magic']['answer'])
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -8ball <Question...>')
+            # Convert temperature between F and C through -temp command
+            elif cmd == '-temp':
+                args = msg.content.split(' ')
+                if len(args) == 3:
+                    if chk_temp(args[1]):
+                        t = int(args[1])
+                        if args[2].upper() == 'F':
+                            ft = (t * 1.8) + 32
+                            await client.send_message(msg.channel, str('%.0f' % t) + ' C`  >   ' + str('%.0f' % ft)
+                                                      + ' F`')
+                        elif args[2].upper() == 'C':
+                            ft = (t - 32) * .5556
+                            await client.send_message(msg.channel, str('%.0f' % t) + ' F`  >   ' + str('%.0f' % ft)
+                                                      + ' C`')
+                        else:
+                            await client.send_message(msg.channel,
+                                                      'Bruh. You can only convert the temperature between ' +
+                                                      ' F or C, <@' + msg.author.id + '>!')
+                    else:
+                        await client.send_message(msg.channel, 'Temperature to convert must be in whole #,  <@'
+                                                  + msg.author.id + '>!')
+                else:
+                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -temp <temp #> <F|C>')
         else:
             # Automatic response to mention. Running on CleverBot API
-            if msg.content.startswith('<@258753582600421386>'):
+            if msg.content.startswith('<@' + CLIENT_ID + '>'):
                 m = msg.content[22:]
                 r = Cleverbot().ask(m)
                 await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)

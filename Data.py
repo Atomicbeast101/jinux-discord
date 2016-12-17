@@ -29,7 +29,8 @@ HELP = '''```List of commands:
 6) -poll <start|stop> <Question...> = Create or stop polls. Currently only for admins.
 7) -yes = Answer yes to active poll.
 8) -no = Answer no to active poll.
-9) -8ball = Magic eight ball answering machine.```'''
+9) -8ball = Magic eight ball answering machine.
+10) -temp <temp #> <F|C> = Convert temperature to F or C.```'''
 
 HELP_CAT = '''```Help Guide: -cat
 Posts a random picture or animated gif of a cat.```'''
@@ -68,3 +69,8 @@ Magic eight ball answering machine.```'''
 HELP_BALL = '''```Help Guide: -8ball <question>
 Ask the magical 8ball a question and receive an answer.
 <question> = Desired question.```'''
+
+HELP_TEMP = '''```Help Guide: -temp <temp #> <F|C>
+Convert temperature between F and C.
+<temp #> = Temperature you want to convert to.
+<F|C> = Convert to F or C.```'''
