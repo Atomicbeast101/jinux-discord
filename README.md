@@ -19,7 +19,7 @@ sudo apt-get -y upgrade
 sudo apt-get install python3
 ```
 
-2) Pthon pip (so we can install packages):
+2) Python pip (so we can install packages):
 ```Bash
 sudo apt-get install -y python3-pip
 ```
@@ -59,6 +59,7 @@ https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot
 ```Bash
 python3 /path/to/Discord-JProject.py
 ```
+
 
 ### Windows installation (coming soon)
 
