@@ -237,4 +237,4 @@ async def on_message(msg):
                 r = Cleverbot().ask(m)
                 await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
 
-client.run(token)
+client.run(TOKEN_ID)
