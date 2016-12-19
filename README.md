@@ -60,12 +60,8 @@ https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot
 python3 /path/to/Discord-JProject.py
 ```
 
-<<<<<<< HEAD
 
-### Windows installation (coming soon)
-=======
 ### Windows Installation
->>>>>>> origin/master
 
 1) Download latest Python version 3+: https://www.python.org/downloads/windows/, then double click on the .exe file to start the installation.
 
