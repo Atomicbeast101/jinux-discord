@@ -9,7 +9,7 @@ Personal bot for Discord server(s).
 - Sudo access (Linux) or Administrator access (Windows)
 
 ## Setup
-### Ubuntu Installation
+### Ubuntu/Debian Installation
 In most cases, Python is usually installed by default in Ubuntu, but may not be in latest version you need to run Jinux bot.
 
 1) Python version 3+:
