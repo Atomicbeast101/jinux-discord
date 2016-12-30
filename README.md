@@ -5,14 +5,14 @@ Personal bot for Discord server(s).
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
 - Python packages: discord.py, asyncio, cleverbot, translate & bs4
 - Linux or Windows OS (Standard server version is recommended.)
-- Strong internet speed with minimal latency (All Discord servers are based in North Eastern part of USA.)
+- Strong internet speed with minimal latency (Latency effects the response time from the bot.)
 - Sudo access (Linux) or Administrator access (Windows)
 
 ## Setup
 ### Ubuntu/Debian Installation
 In most cases, Python is usually installed by default in Ubuntu, but may not be in latest version you need to run Jinux bot.
 
-1) Python version 3+:
+1) Python version 3.5+:
 ```Bash
 sudo apt-get update
 sudo apt-get install python3
@@ -120,7 +120,7 @@ python3 /path/to/Discord-JProject.py
 
 ### Windows Installation
 
-1) Download latest Python version 3+: https://www.python.org/downloads/windows/, then double click on the .exe file to start the installation.
+1) Download latest Python version 3.5+: https://www.python.org/downloads/windows/, then double click on the .exe file to start the installation.
 
 2) Open up the Command Prompt through Administrator mode.
 Click on start menu and type down 'cmd' and then right click on the Command Prompt and run it as Administrator. (Administrator mode is needed in order to do any installations through Python.)
