@@ -1,13 +1,17 @@
 import discord
 import requests
 import json
+import re
+import bs4
 from ClientID_TokenID import TOKEN_ID, CLIENT_ID
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP
+    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_GOOGLE
 from translate import Translator
 from cleverbot import Cleverbot
 
+# Setting up bot
 client = discord.Client()
+client.change_status('Version: 1.3')
 
 # Variables for poll system
 poll = False
@@ -74,6 +78,8 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP_BALL)
                     elif arg == 'temp':
                         await client.send_message(msg.channel, HELP_TEMP)
+                    elif arg == 'google':
+                        await client.send_message(msg.channel, HELP_GOOGLE)
                     else:
                         await client.send_message(msg.channel, HELP)
                 else:
@@ -109,8 +115,8 @@ async def on_message(msg):
                 args = msg.content.split(' ')
                 if len(args) == 4:
                     b = args[1]
-                    cc = args[2]
-                    ct = args[3]
+                    cc = args[2].upper()
+                    ct = args[3].upper()
                     if chk_curr(b):
                         b = float(b)
                         if cc in CURR_LIST and ct in CURR_LIST:
@@ -131,10 +137,10 @@ async def on_message(msg):
                                               'currency> <currency-to-convert-to>')
             # Poll system through -poll command
             elif cmd == '-poll':
-                if msg.author.server_permissions.administrator:
+                if msg.channel.permissions_for(msg.author).administrator:
                     args = msg.content.split(' ')
                     if len(args) >= 2:
-                        if args[1] == 'start':
+                        if args[1].lower() == 'start':
                             if len(args) >= 3:
                                 if poll:
                                     await client.send_message(msg.channel, '<@' + msg.author.id + '> poll already ' +
@@ -149,9 +155,9 @@ async def on_message(msg):
                                     await client.send_message(msg.channel, '[Poll Started]: ' + q)
                                     await client.send_message(msg.channel, 'Answer: -yes OR -no')
                             else:
-                                await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll start <' +
-                                                          'Question...?>')
-                        elif args[1] == 'stop':
+                                await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll start ' +
+                                                          '<Question...?>')
+                        elif args[1].lower() == 'stop':
                             if not poll:
                                 await client.send_message(msg.channel, "Poll isn't running, <@" + msg.author.id + ">!")
                             else:
@@ -230,11 +236,20 @@ async def on_message(msg):
                                                   + msg.author.id + '>!')
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -temp <temp #> <F|C>')
+            elif cmd == '-google':
+                s = msg.content[7:].replace(' ', '+')
+                h = requests.get('https://www.google.com/#q=' + s).text
+                s = bs4(h)
+                l = s.findAll('a', id=re.compile("^p-"), limit=1)
+                await client.send_message(msg.channel, get_mention(msg) + 'Google Result: ' + l['href'])
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>'):
                 m = msg.content[22:]
                 r = Cleverbot().ask(m)
                 await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
+            # Detect advertising system
+            else:
+                print('To add here...')
 
 client.run(TOKEN_ID)

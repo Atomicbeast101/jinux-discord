@@ -30,7 +30,8 @@ HELP = '''```List of commands:
 7) -yes = Answer yes to active poll.
 8) -no = Answer no to active poll.
 9) -8ball = Magic eight ball answering machine.
-10) -temp <temp #> <F|C> = Convert temperature to F or C.```'''
+10) -temp <temp #> <F|C> = Convert temperature to F or C.
+11) -google <to-search> = Gets first result from Google search.```'''
 
 HELP_CAT = '''```Help Guide: -cat
 Posts a random picture or animated gif of a cat.```'''
@@ -74,3 +75,7 @@ HELP_TEMP = '''```Help Guide: -temp <temp #> <F|C>
 Convert temperature between F and C.
 <temp #> = Temperature you want to convert to.
 <F|C> = Convert to F or C.```'''
+
+HELP_GOOGLE = '''```Help Guide: -google <to-search>
+Retrieve first result from Google search.
+<to-search> = No need to explain here.```'''
