@@ -1,4 +1,4 @@
-# Discord-JProject
+# Discord-JProject (v1.3)
 Personal bot for Discord server(s).
 
 ## Requirements
