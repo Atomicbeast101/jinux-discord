@@ -30,11 +30,7 @@ sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev
 
 4) Install Python packages with PIP:
 ```Bash
-sudo python3 -m pip install discord.py
-sudo python3 -m pip install asyncio
-sudo python3 -m pip install cleverbot
-sudo python3 -m pip install translate
-sudo python3 -m pip install bs4
+sudo python3 -m pip install discord.py asyncio cleverbot translate bs4
 ```
 
 5) Download the github files and export it to anywhere you want to store on your computer.
@@ -84,11 +80,7 @@ sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev
 
 4) Install Python packages with PIP:
 ```Bash
-sudo python3 -m pip install discord.py
-sudo python3 -m pip install asyncio
-sudo python3 -m pip install cleverbot
-sudo python3 -m pip install translate
-sudo python3 -m pip install bs4
+sudo python3 -m pip install discord.py asyncio cleverbot translate bs4
 ```
 
 5) Download the github files and export it to anywhere you want to store on your computer.
@@ -127,7 +119,7 @@ Click on start menu and type down 'cmd' and then right click on the Command Prom
 
 3) Run the command in Command Prompt to install the Discord Python API:
 ```PowerShell
-python -m pip install discord.py
+python -m pip install discord.py asyncio cleverbot translate bs4
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
