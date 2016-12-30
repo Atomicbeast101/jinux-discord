@@ -221,12 +221,12 @@ async def on_message(msg):
                         t = int(args[1])
                         if args[2].upper() == 'F':
                             ft = (t * 1.8) + 32
-                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' C`  >   `' +
-                                                      str('%.0f' % ft) + ' F`')
+                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' Celsius`  >   `' +
+                                                      str('%.0f' % ft) + ' Fahrenheit`')
                         elif args[2].upper() == 'C':
                             ft = (t - 32) * .5556
-                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' F`  >   `' +
-                                                      str('%.0f' % ft) + ' C`')
+                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' Fahrenheit`  >   `' +
+                                                      str('%.0f' % ft) + ' Celsius`')
                         else:
                             await client.send_message(msg.channel,
                                                       'Bruh. You can only convert the temperature between ' +
@@ -236,12 +236,6 @@ async def on_message(msg):
                                                   + msg.author.id + '>!')
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -temp <temp #> <F|C>')
-            elif cmd == '-google':
-                s = msg.content[7:].replace(' ', '+')
-                h = requests.get('https://www.google.com/#q=' + s).text
-                s = BeautifulSoup(h)
-                l = s.findAll('a', id=re.compile("^p-"), limit=1)
-                await client.send_message(msg.channel, get_mention(msg) + 'Google Result: ' + l['href'])
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>'):

@@ -74,7 +74,7 @@ Ask the magical 8ball a question and receive an answer.
 HELP_TEMP = '''```Help Guide: -temp <temp #> <F|C>
 Convert temperature between F and C.
 <temp #> = Temperature you want to convert to.
-<F|C> = Convert to F or C.```'''
+<F|C> = Convert to Fahrenheit or Celsius.```'''
 
 HELP_GOOGLE = '''```Help Guide: -google <to-search>
 Retrieve first result from Google search.
