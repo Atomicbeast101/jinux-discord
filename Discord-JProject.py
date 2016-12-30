@@ -2,12 +2,12 @@ import discord
 import requests
 import json
 import re
-import bs4
 from ClientID_TokenID import TOKEN_ID, CLIENT_ID
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
     HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_GOOGLE
 from translate import Translator
 from cleverbot import Cleverbot
+from bs4 import BeautifulSoup
 
 # Setting up bot
 client = discord.Client()
@@ -221,12 +221,12 @@ async def on_message(msg):
                         t = int(args[1])
                         if args[2].upper() == 'F':
                             ft = (t * 1.8) + 32
-                            await client.send_message(msg.channel, str('%.0f' % t) + ' C`  >   ' + str('%.0f' % ft)
-                                                      + ' F`')
+                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' C`  >   `' +
+                                                      str('%.0f' % ft) + ' F`')
                         elif args[2].upper() == 'C':
                             ft = (t - 32) * .5556
-                            await client.send_message(msg.channel, str('%.0f' % t) + ' F`  >   ' + str('%.0f' % ft)
-                                                      + ' C`')
+                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' F`  >   `' +
+                                                      str('%.0f' % ft) + ' C`')
                         else:
                             await client.send_message(msg.channel,
                                                       'Bruh. You can only convert the temperature between ' +
@@ -239,7 +239,7 @@ async def on_message(msg):
             elif cmd == '-google':
                 s = msg.content[7:].replace(' ', '+')
                 h = requests.get('https://www.google.com/#q=' + s).text
-                s = bs4(h)
+                s = BeautifulSoup(h)
                 l = s.findAll('a', id=re.compile("^p-"), limit=1)
                 await client.send_message(msg.channel, get_mention(msg) + 'Google Result: ' + l['href'])
         else:
@@ -248,8 +248,5 @@ async def on_message(msg):
                 m = msg.content[22:]
                 r = Cleverbot().ask(m)
                 await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
-            # Detect advertising system
-            else:
-                print('To add here...')
 
 client.run(TOKEN_ID)
