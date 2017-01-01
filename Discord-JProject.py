@@ -1,17 +1,15 @@
 import discord
 import requests
 import json
-import re
 from ClientID_TokenID import TOKEN_ID, CLIENT_ID
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_GOOGLE
+    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_YOUTUBE
 from translate import Translator
 from cleverbot import Cleverbot
 from bs4 import BeautifulSoup
 
 # Setting up bot
 client = discord.Client()
-client.change_status('Version: 1.3')
 
 # Variables for poll system
 poll = False
@@ -41,10 +39,10 @@ def chk_temp(msg):
 
 # Returns the mention of the author that the bot will reply to
 def get_mention(msg):
-    return '<@' + msg.author.id + '> '
+    return '<@{}>'.format(msg.author.id)
 
 
-# Automatically called everytime a player sends a message to any channel
+# Automatically called every time a player sends a message to any channel
 @client.event
 async def on_message(msg):
     global poll
@@ -78,8 +76,8 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP_BALL)
                     elif arg == 'temp':
                         await client.send_message(msg.channel, HELP_TEMP)
-                    elif arg == 'google':
-                        await client.send_message(msg.channel, HELP_GOOGLE)
+                    elif arg == 'youtube':
+                        await client.send_message(msg.channel, HELP_YOUTUBE)
                     else:
                         await client.send_message(msg.channel, HELP)
                 else:
@@ -88,7 +86,7 @@ async def on_message(msg):
             elif cmd == '-cat':
                 r = requests.get('http://random.cat/meow')
                 d = json.loads(r.text)
-                await client.send_message(msg.channel, d['file'])
+                await client.send_message(msg.channel, '{}'.format(d['file']))
             # Translate message to language of user choice through -trans command
             elif cmd == '-trans':
                 args = msg.content.split(' ')
@@ -99,12 +97,13 @@ async def on_message(msg):
                         tn = tr.translate(s)
                         await client.send_message(msg.channel, tn)
                     else:
-                        await client.send_message(msg.channel, 'Invalid language input! Please checkhttps://www.site' +
-                                                  'point.com/web-foundations/iso-2-letter-language-codes/ for correct' +
-                                                  'language code! Ex: en for English or de for German')
+                        await client.send_message(msg.channel, '{} Invalid language input! Please check https://www' +
+                                                  '.sitepoint.com/web-foundations/iso-2-letter-language-codes/ for' +
+                                                  'correct language code! Ex: en for English or de for German'
+                                                  .format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -trans <language> ' +
-                                              '<to translate...>')
+                    await client.send_message(msg.channel, '{} Usage: -trans <language> <to translate...>'
+                                                           .format(get_mention(msg)))
             # Posts random Chuck Norris joke through -chucknorris command
             elif cmd == '-chucknorris':
                 r = requests.get('https://api.chucknorris.io/jokes/random')
@@ -120,21 +119,21 @@ async def on_message(msg):
                     if chk_curr(b):
                         b = float(b)
                         if cc in CURR_LIST and ct in CURR_LIST:
-                            r = requests.get('http://free.currencyconverterapi.com/api/v3/convert?q=' + cc + '_' + ct +
-                                             '&compact=y')
+                            r = requests.get('http://free.currencyconverterapi.com/api/v3/convert?q={}_{}&compact=y'
+                                             .format(cc, ct))
                             d = json.loads(r.text)
                             nb = b * float(d[cc + '_' + ct]['val'])
-                            await client.send_message(msg.channel, '`' + cc + ': ' + str('%.2f' % b) + '`  >  `' + ct +
-                                                      ': ' + str('%.2f' % nb) + '`')
+                            await client.send_message(msg.channel, '`{}: {:.2f}` > `{}: {:.2f}`'.format(cc, b, ct, nb))
                         else:
-                            await client.send_message(msg.channel, get_mention(msg) + 'Invalid currency code! Please ' +
-                                                      'check https://currencysystem.com/codes/!')
+                            await client.send_message(msg.channel, '{} Invalid currency code! Please check https://' +
+                                                                   'currencysystem.com/codes/!'
+                                                                   .format(get_mention(msg)))
                     else:
-                        await client.send_message(msg.channel, get_mention(msg) + 'Currency must be in numeric/' +
-                                                  'decimal value! Like 100 or 54.42!')
+                        await client.send_message(msg.channel, '{} Currency must be in numeric/decimal value! Like ' +
+                                                               '100 or 54.42!'.format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -convert <amount> <current-' +
-                                              'currency> <currency-to-convert-to>')
+                    await client.send_message(msg.channel, '{} Usage: -convert <amount> <current-currency> <currency' +
+                                                           '-to-convert-to>'.format(get_mention(msg)))
             # Poll system through -poll command
             elif cmd == '-poll':
                 if msg.channel.permissions_for(msg.author).administrator:
@@ -143,64 +142,65 @@ async def on_message(msg):
                         if args[1].lower() == 'start':
                             if len(args) >= 3:
                                 if poll:
-                                    await client.send_message(msg.channel, '<@' + msg.author.id + '> poll already ' +
-                                                                           'running! Please close the current one ' +
-                                                                           'with: -poll stop')
+                                    await client.send_message(msg.channel, '{} poll already running! Please close '
+                                                                           'the current one with: -poll stop'
+                                                                           .format(get_mention(msg)))
                                 else:
                                     poll = True
                                     yes = 0
                                     no = 0
                                     voted = []
                                     q = msg.content[12:]
-                                    await client.send_message(msg.channel, '[Poll Started]: ' + q)
+                                    await client.send_message(msg.channel, '[Poll Started]: {}'.format(q))
                                     await client.send_message(msg.channel, 'Answer: -yes OR -no')
                             else:
-                                await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll start ' +
-                                                          '<Question...?>')
+                                await client.send_message(msg.channel, '{} Usage: -poll start <Question...?>'
+                                                                       .format(get_mention(msg)))
                         elif args[1].lower() == 'stop':
                             if not poll:
-                                await client.send_message(msg.channel, "Poll isn't running, <@" + msg.author.id + ">!")
+                                await client.send_message(msg.channel, "Poll isn't running, {}!"
+                                                                       .format(get_mention(msg)))
                             else:
                                 poll = False
-                                await client.send_message(msg.channel, '[Poll Closed]: ' + q)
-                                await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' +
-                                                          str(no) + '`')
+                                await client.send_message(msg.channel, '[Poll Closed]: {}'.format(q))
+                                await client.send_message(msg.channel, 'Result: `Yes: {}`    `No: {}`'.format(str(yes),
+                                                                                                              str(no)))
                         else:
-                            await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll <start|stop> ' +
-                                                      '(Question...?)')
+                            await client.send_message(msg.channel, '{} Usage: -poll <start|stop> (Question...?)'
+                                                                   .format(get_mention(msg)))
                     else:
-                        await client.send_message(msg.channel, get_mention(msg) + 'Usage: -poll <start|stop> ' +
-                                                  '(Question...?)')
+                        await client.send_message(msg.channel, '{} Usage: -poll <start|stop> (Question...?)'
+                                                               .format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, 'You must be an administrator, <@' + msg.author.id + '>!')
+                    await client.send_message(msg.channel, 'You must be an administrator, {}!'.format(get_mention(msg)))
             elif cmd == '-yes':
                 if poll:
                     if msg.author.id not in voted:
                         voted.append(msg.author.id)
                         yes += 1
                         await client.send_message(msg.channel, '[Question]: ' + q)
-                        await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
-                                                  '`')
+                        await client.send_message(msg.channel, 'Result: `Yes: {}`    `No: {}`'.format(str(yes),
+                                                                                                      str(no)))
                     else:
-                        await client.send_message(msg.channel, 'Trying to commit a voting fraud, <@' + msg.author.id
-                                                               + '>?')
+                        await client.send_message(msg.channel, 'Trying to commit a voting fraud, {}?'
+                                                               .format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, 'Why are you trying to say yes for, <@' + msg.author.id
-                                                           + '>?')
+                    await client.send_message(msg.channel, 'Why are you trying to say yes for, {}?'
+                                                           .format(get_mention(msg)))
             elif cmd == '-no':
                 if poll:
                     if msg.author.id not in voted:
                         voted.append(msg.author.id)
                         no += 1
                         await client.send_message(msg.channel, '[Question]: ' + q)
-                        await client.send_message(msg.channel, 'Result: `Yes: ' + str(yes) + '`    `No: ' + str(no) +
-                                                  '`')
+                        await client.send_message(msg.channel, 'Result: `Yes: {}`    `No: {}`'.format(str(yes),
+                                                                                                      str(no)))
                     else:
-                        await client.send_message(msg.channel, 'Trying to commit a voting fraud <@' + msg.author.id
-                                                               + '>?')
+                        await client.send_message(msg.channel, 'Trying to commit a voting fraud, {}?'
+                                                               .format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, 'Why are you trying to say no for, <@' + msg.author.id
-                                                           + '>?')
+                    await client.send_message(msg.channel, 'Why are you trying to say no for, {}?'
+                                                           .format(get_mention(msg)))
             # Magic eight ball through -8ball command
             elif cmd == '-8ball':
                 if len(msg.content.split(' ')) > 1:
@@ -210,7 +210,7 @@ async def on_message(msg):
                     q.replace(',', '%2C')
                     r = requests.get('https://8ball.delegator.com/magic/JSON/' + q)
                     d = json.loads(r.text)
-                    await client.send_message(msg.channel, get_mention(msg) + d['magic']['answer'])
+                    await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), d['magic']['answer']))
                 else:
                     await client.send_message(msg.channel, get_mention(msg) + 'Usage: -8ball <Question...>')
             # Convert temperature between F and C through -temp command
@@ -221,26 +221,47 @@ async def on_message(msg):
                         t = int(args[1])
                         if args[2].upper() == 'F':
                             ft = (t * 1.8) + 32
-                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' Celsius`  >   `' +
-                                                      str('%.0f' % ft) + ' Fahrenheit`')
+                            await client.send_message(msg.channel, '`{:.2f} Celsius`  >  `{:.2f} Fahrenheit'
+                                                                   .format(t, ft))
                         elif args[2].upper() == 'C':
                             ft = (t - 32) * .5556
-                            await client.send_message(msg.channel, '`' + str('%.0f' % t) + ' Fahrenheit`  >   `' +
-                                                      str('%.0f' % ft) + ' Celsius`')
+                            await client.send_message(msg.channel, '`{:.2f} Fahrenheit`  >  `{:.2f} Celsius'
+                                                      .format(t, ft))
                         else:
-                            await client.send_message(msg.channel,
-                                                      'Bruh. You can only convert the temperature between ' +
-                                                      ' F or C, <@' + msg.author.id + '>!')
+                            await client.send_message(msg.channel, 'You can only convert the temperature between F ' +
+                                                                   'or C, {}'.format(get_mention(msg)))
                     else:
-                        await client.send_message(msg.channel, 'Temperature to convert must be in whole #,  <@'
-                                                  + msg.author.id + '>!')
+                        await client.send_message(msg.channel, 'Temperature to convert must be in whole #, {}'
+                                                               .format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -temp <temp #> <F|C>')
+                    await client.send_message(msg.channel, '{} Usage: -temp <temp #> <F|C>'.format(get_mention(msg)))
+            # Search first video from YouTube
+            elif cmd == '-youtube':
+                se = msg.content[8:]
+                se.replace(" ", "+")
+                try:
+                    s = BeautifulSoup(requests.get('https://www.youtube.com/results?search_query={}'.format(se)).text,
+                                      'html.parser')
+                    vds = s.find('div', id='results').find_all('div', class_='yt-lockup-content')
+                    if not vds:
+                        await client.send_message(msg.channel, "{} Couldn't find any results!".format(get_mention(msg)))
+                    i, f = 0, False
+                    while not f and i < 20:
+                        h = vds[i].find('a', class_='yt-uix-sessionlink')['href']
+                        if h.startswith('/watch'):
+                            f = True
+                        i += 1
+                    if not f:
+                        await client.send_message(msg.channel, "{} Couldn't find any link!".format(get_mention(msg)))
+                    await client.send_message(msg.channel, 'https://youtube.com{}'.format(h))
+                except Exception as ex:
+                    await client.send_message(msg.channel, '{} Unable to search for a video!'.format(get_mention(msg)))
+                    print(ex)
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>'):
                 m = msg.content[22:]
                 r = Cleverbot().ask(m)
-                await client.send_message(msg.channel, '<@' + msg.author.id + '> ' + r)
+                await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), r))
 
 client.run(TOKEN_ID)
