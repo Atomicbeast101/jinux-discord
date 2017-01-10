@@ -12,37 +12,6 @@ from bs4 import BeautifulSoup
 client = discord.Client()
 
 
-# Setup Bot Conversations
-class Conversations(object):
-    q = ''
-    r = ''
-
-    def __init__(self, quest, resp):
-        global q
-        global r
-        q = quest
-        r = resp
-
-    @staticmethod
-    def get_q():
-        return q
-
-    @staticmethod
-    def get_r():
-        return r
-
-chats = list()
-# DO NOT REMOVE THESE!
-chats.append(Conversations('who made you?', 'Atomicbeast101 made me! You can find him at ' +
-                           'http://github.com/atomicbeast101!'))
-chats.append(Conversations('who owns you?', 'Pretty much Atomicbeast101 owns me.'))
-chats.append(Conversations('who is your master?', 'Pretty much Atomicbeast101 is.'))
-chats.append(Conversations('who made you', 'Atomicbeast101 made me! You can find him at ' +
-                           'http://github.com/atomicbeast101!'))
-chats.append(Conversations('who owns you', 'Pretty much Atomicbeast101 owns me.'))
-chats.append(Conversations('who is your master', 'Pretty much Atomicbeast101 is.'))
-
-
 # Variables for poll system
 poll = False
 q = ""
