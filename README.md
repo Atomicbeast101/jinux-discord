@@ -1,4 +1,4 @@
-# Discord-JProject (v1.3)
+# Discord-JProject (v1.4)
 Personal bot for Discord server(s).
 
 ## Requirements
@@ -147,3 +147,8 @@ https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot
 ```PowerShell
 python /path/to/Discord-JProject.py
 ```
+
+
+## Change Log:
+- [v1.4] = Added -gif feature
+- [v1.3] = Added -youtube feature
