@@ -100,13 +100,13 @@ async def on_message(msg):
                         tn = tr.translate(s)
                         await client.send_message(msg.channel, tn)
                     else:
-                        await client.send_message(msg.channel, '{} Invalid language input! Please check https://www' +
-                                                  '.sitepoint.com/web-foundations/iso-2-letter-language-codes/ for' +
-                                                  'correct language code! Ex: en for English or de for German'
-                                                  .format(get_mention(msg)))
+                        await client.send_message(msg.channel, '{} Invalid language input! Please check https://www.' +
+                                                               'sitepoint.com/web-foundations/iso-2-letter-language-' +
+                                                               'codes/ for correct language code! Ex: en for English ' +
+                                                               'or de for German'.format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, '{} Usage: -trans <language> <to translate...>'
-                                                           .format(get_mention(msg)))
+                    await client.send_message(msg.channel, '{} Usage: -trans <language> '
+                                                           '<to translate...>'.format(get_mention(msg)))
             # Posts random Chuck Norris joke through -chucknorris command
             elif cmd == '-chucknorris':
                 r = requests.get('https://api.chucknorris.io/jokes/random')
@@ -215,7 +215,7 @@ async def on_message(msg):
                     d = json.loads(r.text)
                     await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), d['magic']['answer']))
                 else:
-                    await client.send_message(msg.channel, get_mention(msg) + 'Usage: -8ball <Question...>')
+                    await client.send_message(msg.channel, '{} Usage: -8ball <Question...>'.format(get_mention(msg)))
             # Convert temperature between F and C through -temp command
             elif cmd == '-temp':
                 args = msg.content.split(' ')
@@ -224,18 +224,18 @@ async def on_message(msg):
                         t = int(args[1])
                         if args[2].upper() == 'F':
                             ft = (t * 1.8) + 32
-                            await client.send_message(msg.channel, '`{:.2f} Celsius`  >  `{:.2f} Fahrenheit'
+                            await client.send_message(msg.channel, '`{:.2f} Celsius`  >  `{:.2f} Fahrenheit`'
                                                                    .format(t, ft))
                         elif args[2].upper() == 'C':
                             ft = (t - 32) * .5556
-                            await client.send_message(msg.channel, '`{:.2f} Fahrenheit`  >  `{:.2f} Celsius'
+                            await client.send_message(msg.channel, '`{:.2f} Fahrenheit`  >  `{:.2f} Celsius`'
                                                       .format(t, ft))
                         else:
                             await client.send_message(msg.channel, 'You can only convert the temperature between F ' +
                                                                    'or C, {}'.format(get_mention(msg)))
                     else:
-                        await client.send_message(msg.channel, 'Temperature to convert must be in whole #, {}'
-                                                               .format(get_mention(msg)))
+                        await client.send_message(msg.channel, 'Temperature to convert must be in whole # (lke 19 or ' +
+                                                               '25, {}'.format(get_mention(msg)))
                 else:
                     await client.send_message(msg.channel, '{} Usage: -temp <temp #> <F|C>'.format(get_mention(msg)))
             # Search first video from YouTube
@@ -271,12 +271,16 @@ async def on_message(msg):
             elif cmd == '-gif':
                 args = msg.content.split(' ')
                 if len(args) >= 2:
-                    s = msg.content[6:]
-                    s = s.replace(' ', '+')
-                    r = requests.get('http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag={}'.format(s))
-                    d = json.loads(r.text)
-                    await client.send_message(msg.channel, '{}'.format(
-                                                                d['data']['fixed_height_downsampled_url']))
+                    try:
+                        s = msg.content[6:]
+                        s = s.replace(' ', '+')
+                        r = requests.get('http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag={}'.format(s))
+                        d = json.loads(r.text)
+                        await client.send_message(msg.channel, '{}'.format(
+                                                                    d['data']['fixed_height_downsampled_url']))
+                    except Exception as ex:
+                        await client.send_message(msg.channel, '{} Unable to find a GIF!'.format(get_mention(msg)))
+                        print(ex)
                 else:
                     await client.send_message(msg.channel, '{} Usage: -gif <tags>'.format(get_mention(msg)))
         else:
