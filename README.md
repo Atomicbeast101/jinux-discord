@@ -1,4 +1,4 @@
-# Discord-JProject (v1.4)
+# Discord-JProject (v1.4.1)
 Personal bot for Discord server(s).
 
 ## Requirements
@@ -147,5 +147,6 @@ python /path/to/Discord-JProject.py
 
 
 ## Change Log:
+- [v1.4.1] = Fixed formatting and implemented proper error handling for -gif
 - [v1.4] = Added -gif feature
 - [v1.3] = Added -youtube feature
