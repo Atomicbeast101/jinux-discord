@@ -3,13 +3,45 @@ import requests
 import json
 from ClientID_TokenID import TOKEN_ID, CLIENT_ID
 from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_YOUTUBE
+    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_YOUTUBE, HELP_GIF
 from translate import Translator
 from cleverbot import Cleverbot
 from bs4 import BeautifulSoup
 
 # Setting up bot
 client = discord.Client()
+
+
+# Setup Bot Conversations
+class Conversations(object):
+    q = ''
+    r = ''
+
+    def __init__(self, quest, resp):
+        global q
+        global r
+        q = quest
+        r = resp
+
+    @staticmethod
+    def get_q():
+        return q
+
+    @staticmethod
+    def get_r():
+        return r
+
+chats = list()
+# DO NOT REMOVE THESE!
+chats.append(Conversations('who made you?', 'Atomicbeast101 made me! You can find him at ' +
+                           'http://github.com/atomicbeast101!'))
+chats.append(Conversations('who owns you?', 'Pretty much Atomicbeast101 owns me.'))
+chats.append(Conversations('who is your master?', 'Pretty much Atomicbeast101 is.'))
+chats.append(Conversations('who made you', 'Atomicbeast101 made me! You can find him at ' +
+                           'http://github.com/atomicbeast101!'))
+chats.append(Conversations('who owns you', 'Pretty much Atomicbeast101 owns me.'))
+chats.append(Conversations('who is your master', 'Pretty much Atomicbeast101 is.'))
+
 
 # Variables for poll system
 poll = False
@@ -78,6 +110,8 @@ async def on_message(msg):
                         await client.send_message(msg.channel, HELP_TEMP)
                     elif arg == 'youtube':
                         await client.send_message(msg.channel, HELP_YOUTUBE)
+                    elif arg == 'gif':
+                        await client.send_message(msg.channel, HELP_GIF)
                     else:
                         await client.send_message(msg.channel, HELP)
                 else:
@@ -237,31 +271,50 @@ async def on_message(msg):
                     await client.send_message(msg.channel, '{} Usage: -temp <temp #> <F|C>'.format(get_mention(msg)))
             # Search first video from YouTube
             elif cmd == '-youtube':
-                se = msg.content[8:]
-                se.replace(" ", "+")
-                try:
-                    s = BeautifulSoup(requests.get('https://www.youtube.com/results?search_query={}'.format(se)).text,
-                                      'html.parser')
-                    vds = s.find('div', id='results').find_all('div', class_='yt-lockup-content')
-                    if not vds:
-                        await client.send_message(msg.channel, "{} Couldn't find any results!".format(get_mention(msg)))
-                    i, f = 0, False
-                    while not f and i < 20:
-                        h = vds[i].find('a', class_='yt-uix-sessionlink')['href']
-                        if h.startswith('/watch'):
-                            f = True
-                        i += 1
-                    if not f:
-                        await client.send_message(msg.channel, "{} Couldn't find any link!".format(get_mention(msg)))
-                    await client.send_message(msg.channel, 'https://youtube.com{}'.format(h))
-                except Exception as ex:
-                    await client.send_message(msg.channel, '{} Unable to search for a video!'.format(get_mention(msg)))
-                    print(ex)
+                args = msg.content.split(' ')
+                if len(args) >= 2:
+                    se = msg.content[8:]
+                    se.replace(" ", "+")
+                    try:
+                        s = BeautifulSoup(requests.get('https://www.youtube.com/results?search_query={}'.format(se))
+                                          .text, 'html.parser')
+                        vds = s.find('div', id='results').find_all('div', class_='yt-lockup-content')
+                        if not vds:
+                            await client.send_message(msg.channel, "{} Couldn't find any results!"
+                                                      .format(get_mention(msg)))
+                        i, f = 0, False
+                        while not f and i < 20:
+                            h = vds[i].find('a', class_='yt-uix-sessionlink')['href']
+                            if h.startswith('/watch'):
+                                f = True
+                            i += 1
+                        if not f:
+                            await client.send_message(msg.channel, "{} Couldn't find any link!"
+                                                      .format(get_mention(msg)))
+                        await client.send_message(msg.channel, 'https://youtube.com{}'.format(h))
+                    except Exception as ex:
+                        await client.send_message(msg.channel, '{} Unable to search for a video!'
+                                                  .format(get_mention(msg)))
+                        print(ex)
+                else:
+                    await client.send_message(msg.channel, '{} Usage: -youtube <to-search>'.format(get_mention(msg)))
+            # Posts random GIF from Giphy depending on tags players put down
+            elif cmd == '-gif':
+                args = msg.content.split(' ')
+                if len(args) >= 2:
+                    s = msg.content[6:]
+                    s = s.replace(' ', '+')
+                    r = requests.get('http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag={}'.format(s))
+                    d = json.loads(r.text)
+                    await client.send_message(msg.channel, '{}'.format(
+                                                                d['data']['fixed_height_downsampled_url']))
+                else:
+                    await client.send_message(msg.channel, '{} Usage: -gif <tags>'.format(get_mention(msg)))
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>'):
                 m = msg.content[22:]
-                r = Cleverbot().ask(m)
-                await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), r))
+                re = Cleverbot().ask(m)
+                await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), re))
 
 client.run(TOKEN_ID)

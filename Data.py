@@ -31,7 +31,8 @@ HELP = '''```List of commands:
 8) -no = Answer no to active poll.
 9) -8ball = Magic eight ball answering machine.
 10) -temp <temp #> <F|C> = Convert temperature to F or C.
-11) -youtube <to-search> = Gets first video from YouTube search results.```'''
+11) -youtube <to-search> = Gets first video from YouTube search results.
+12) -gif <tags> = Gets a GIF from Giphy according to the tags given.```'''
 
 HELP_CAT = '''```Help Guide: -cat
 Posts a random picture or animated gif of a cat.```'''
@@ -79,3 +80,7 @@ Convert temperature between F and C.
 HELP_YOUTUBE = '''```Help Guide: -youtube <to-search>
 Retrieves first video from YouTube search results.
 <to-search> = No need to explain here.```'''
+
+HELP_GIF = '''```Help Guide: -gif <tags>
+Retrieves GIF from Giphy according to the tags given.
+<tags> = Specific GIF you want to find (ex: silly OR american).```'''
