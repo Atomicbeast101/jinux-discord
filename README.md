@@ -14,8 +14,9 @@ In most cases, Python is usually installed by default in Ubuntu, but may not be 
 
 1) Python version 3.5+:
 ```Bash
+sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
-sudo apt-get install python3
+sudo apt-get install python3.5
 ```
 
 2) Python pip (so we can install packages):
