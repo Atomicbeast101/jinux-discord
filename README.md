@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Discord-JProject (v1.5)
+=======
+# Discord-JProject (v1.4.1)
+>>>>>>> origin/master
 Personal bot for Discord server(s).
 
 ## Requirements
@@ -147,6 +151,10 @@ python /path/to/Discord-JProject.py
 
 
 ## Change Log:
+<<<<<<< HEAD
 - [v1.5] = Improved chat formatting, can do -help gif OR -help -gif, & has game status `Playing Bot | -help`
+=======
+- [v1.4.1] = Fixed formatting and implemented proper error handling for -gif
+>>>>>>> origin/master
 - [v1.4] = Added -gif feature
 - [v1.3] = Added -youtube feature
