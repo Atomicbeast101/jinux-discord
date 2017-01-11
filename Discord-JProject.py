@@ -12,6 +12,12 @@ from bs4 import BeautifulSoup
 client = discord.Client()
 
 
+# Preparing the bot
+@client.event
+async def on_ready():
+    await client.change_presence(game=discord.Game(name='Bot | -help'))
+
+
 # Variables for poll system
 poll = False
 q = ""
@@ -59,6 +65,7 @@ async def on_message(msg):
                 args = msg.content.split(' ')
                 if len(args) == 2:
                     arg = args[1].lower()
+                    arg = arg.replace('-', '')
                     if arg == 'cat':
                         await client.send_message(msg.channel, HELP_CAT)
                     elif arg == 'trans':
@@ -237,7 +244,7 @@ async def on_message(msg):
                         await client.send_message(msg.channel, 'Temperature to convert must be in whole # (lke 19 or ' +
                                                                '25, {}'.format(get_mention(msg)))
                 else:
-                    await client.send_message(msg.channel, '{} Usage: -temp <temp #> <F|C>'.format(get_mention(msg)))
+                    await client.send_message(msg.channel, '{} Usage: -temp <temp#> <F|C>'.format(get_mention(msg)))
             # Search first video from YouTube
             elif cmd == '-youtube':
                 args = msg.content.split(' ')
@@ -280,7 +287,6 @@ async def on_message(msg):
                                                                     d['data']['fixed_height_downsampled_url']))
                     except Exception as ex:
                         await client.send_message(msg.channel, '{} Unable to find a GIF!'.format(get_mention(msg)))
-                        print(ex)
                 else:
                     await client.send_message(msg.channel, '{} Usage: -gif <tags>'.format(get_mention(msg)))
         else:
