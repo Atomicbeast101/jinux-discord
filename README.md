@@ -1,5 +1,7 @@
-# Discord-JProject (v1.5)
-Personal bot for Discord server(s).
+# Discord-JProject (Jinux) - v1.5
+*Personal bot for Discord server(s).*
+
+[<img src="https://img.shields.io/badge/discord-py-blue.svg">](https://github.com/Rapptz/discord.py)
 
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
