@@ -1,7 +1,7 @@
 # Discord-JProject (Jinux) - v1.5
 *Personal bot for Discord server(s).*
 
-[<img src="https://img.shields.io/badge/API-discord.py-lightgrey.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-red.svg">](https://www.python.org/downloads/release/python-360/) [<img src="https://img.shields.io/badge/pip-asyncio%20cleverbot%20translate%20bs4-yellow.svg">](https://pypi.python.org/pypi?%3Aaction=browse)
+[<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/) [<img src="https://img.shields.io/badge/pip-asyncio%20cleverbot%20translate%20bs4-lightgrey.svg">](https://pypi.python.org/pypi?%3Aaction=browse)
 
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
