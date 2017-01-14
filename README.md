@@ -22,7 +22,7 @@
 | `-info` | Information about this bot. | N/A |
 | `-time <timezone>` | Get current time according to timezone. | -timezone America/Chicago |
 | `-rps <rock|paper|scissors>` | Rock, paper, scissors game. | -rps rock |
-| `-twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>` | Twitch live stream notification. | -twitch add atomicbeast101 OR -twitch toggle OR -twitch setchannel #CHANNEL_ID# |
+| `-twitch <add|remove|list| toggle|setchannel> <username-OR-channel-ID>` | Twitch live stream notification. | -twitch add atomicbeast101 OR -twitch toggle OR -twitch setchannel #CHANNEL_ID# |
 | `-coinflip` | Flip a coin to receive heads or tails. | N/A |
 
 > Administrators only have access to `-poll <start|stop>` and `-twitch <add|remove|toggle|setchannel>`. Users can do -twitch list. Bot checks for any Twitch users that are live streaming every 60 seconds.
