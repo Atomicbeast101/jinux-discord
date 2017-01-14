@@ -3,6 +3,30 @@
 
 [<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/)
 
+## Commands
+| Command | Description | Example |
+|:-------:|-------------|---------|
+| `-help <cmd>` | Lists commands and description for each.  | -help cat |
+| `-cat` | Posts a random picture/gif of a cat. | N/A |
+| `-trans <lang-code> <msg>` | Translate message to desired language. | -trans de How are you? |
+| `-chucknorris` | Posts a random Chuck Norris joke. | N/A |
+| `-convert <amount> <from-code> <to-code>` | Convert currency. | -convert 100 USD EUR |
+| `-poll <start|stop> <question>` | Create or stop polls. | -poll start Is gaming fun? |
+| `-yes` | Answer yes to active poll. | N/A |
+| `-no` | Answer no to active poll. | N/A |
+| `-8ball` | Magic eight ball answering machine. | N/A |
+| `-temp <temp#> <from-F|K|C> <to-F|K|C>` | Convert temperature between F, K, or C. | -temp 30 F C |
+| `-youtube <to-search>` | Gets first video from YouTube search results. | -youtube best game ever |
+| `-gif <tags>` | Gets a GIF from Giphy according to the tags given. | -gif american |
+| `-uptime` | Bot's uptime status. | N/A |
+| `-info` | Information about this bot. | N/A |
+| `-time <timezone>` | Get current time according to timezone. | -timezone America/Chicago |
+| `-rps <rock|paper|scissors>` | Rock, paper, scissors game. | -rps rock |
+| `-twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>` | Twitch live stream notification. | -twitch add atomicbeast101 OR -twitch toggle OR -twitch setchannel #CHANNEL_ID# |
+| `-coinflip` | Flip a coin to receive heads or tails. | N/A |
+
+> Administrators only have access to `-poll <start|stop>` and `-twitch <add|remove|toggle|setchannel>`. Users can do -twitch list.
+
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
 - Python packages: discord.py, asyncio, cleverbot, translate, bs4, pytz & python-twitch
