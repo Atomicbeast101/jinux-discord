@@ -24,16 +24,16 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
 
 HELP = '''```Markdown
 # List of commands #
-1. help <command> = More information about the specified command.
+1. help <command> = Lists commands and description for each.
 2. {0}cat = Random picture or gif of a cat.
 3. {0}trans <lang-code> <msg> = Translate message to desired language.
 4. {0}chucknorris = Random Chuck Norris jokes.
 5. {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-6. {0}poll <start|stop> <Question...> = Create or stop polls. Currently only for admins.
+6. {0}poll <start|stop> <Question...> = Create or stop polls.
 7. {0}yes = Answer yes to active poll.
 8. {0}no = Answer no to active poll.
 9. {0}8ball = Magic eight ball answering machine.
-10. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature to F or C.
+10. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
 11. {0}youtube <to-search> = Gets first video from YouTube search results.
 12. {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
 13. {0}uptime = Bot's uptime status.
@@ -53,7 +53,7 @@ Translate a specified message to a supported language of choice.
 <lang-code> = The language code to which the message should be translated.
 <msg> = The message to be translated.```
 List of supported language codes:
-https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/'''.format(CMD_CHAR)
+<https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/>'''.format(CMD_CHAR)
 
 HELP_CHUCKNORRIS = '''```Markdown
 [Help Guide]: {}chucknorris
@@ -65,7 +65,7 @@ Converts the specified amount of money to a desired currency.
 <amount> = The amount to convert.
 <from-currency> = The currency code from which to convert.
 <to-currency> = The currency code to which the amount should be converted.```
-List of supported currency codes: https://currencysystem.com/codes/'''.format(CMD_CHAR)
+List of supported currency codes: <https://currencysystem.com/codes/>'''.format(CMD_CHAR)
 
 HELP_POLL = '''```Markdown
 [Help Guide]: {}poll <start|stop> <question>
@@ -114,8 +114,8 @@ Information about this bot.'''.format(CMD_CHAR)
 HELP_TIME = '''```Markdown
 [Help Guide]: {}time <timezone>
 Get current time according to timezone.
-<timezone> = Timezone to get current time from (ex: America/Chicago),
-List of timezones: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones```'''.format(CMD_CHAR)
+<timezone> = Timezone to get current time from (ex: America/Chicago).```
+List of timezones: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>'''.format(CMD_CHAR)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
