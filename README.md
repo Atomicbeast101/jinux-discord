@@ -25,7 +25,13 @@
 | `-twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>` | Twitch live stream notification. | -twitch add atomicbeast101 OR -twitch toggle OR -twitch setchannel #CHANNEL_ID# |
 | `-coinflip` | Flip a coin to receive heads or tails. | N/A |
 
-> Administrators only have access to `-poll <start|stop>` and `-twitch <add|remove|toggle|setchannel>`. Users can do -twitch list.
+> Administrators only have access to `-poll <start|stop>` and `-twitch <add|remove|toggle|setchannel>`. Users can do -twitch list. Bot checks for any Twitch users that are live streaming every 60 seconds.
+
+List of translate codes: [https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/](https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/)
+
+List of currency codes: [https://currencysystem.com/codes/](https://currencysystem.com/codes/)
+
+List of timezones: [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
