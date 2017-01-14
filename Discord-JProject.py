@@ -496,7 +496,7 @@ async def on_message(msg):
                             if len(args) == 3:
                                 if args[2].lower() in users:
                                     users.remove(args[2].lower())
-                                    f = open('twitch_usernames.txt', 'a')
+                                    f = open('twitch_usernames.txt', 'w')
                                     for u in users:
                                         f.write(u + '\n')
                                     f.close()
