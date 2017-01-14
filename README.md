@@ -1,11 +1,11 @@
-# Discord-JProject (Jinux) - v1.5
+# Discord-JProject (Jinux) - v2.0
 *Personal bot for Discord server(s).*
 
-[<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/) [<img src="https://img.shields.io/badge/pip-asyncio%20cleverbot%20translate%20bs4-lightgrey.svg">](https://pypi.python.org/pypi?%3Aaction=browse)
+[<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/) [<img src="https://img.shields.io/badge/pip-asyncio%20cleverbot%20translate%20bs4%20pytz%20python-twitch-lightgrey.svg">](https://pypi.python.org/pypi?%3Aaction=browse)
 
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
-- Python packages: discord.py, asyncio, cleverbot, translate & bs4
+- Python packages: discord.py, asyncio, cleverbot, translate, bs4, pytz & python-twitch
 - Linux or Windows OS (Standard server version is recommended.)
 - Strong internet speed with minimal latency (Latency effects the response time from the bot.)
 - Sudo access (Linux) or Administrator access (Windows)
@@ -33,7 +33,7 @@ sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev
 
 4) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install discord.py asyncio cleverbot translate bs4
+sudo python3.5 -m pip install discord.py asyncio cleverbot translate bs4 pytz python-twitch
 ```
 
 5) Download the github files and export it to anywhere you want to store on your computer.
@@ -79,7 +79,7 @@ sudo yum install python35u-pip
 
 3) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install discord.py asyncio cleverbot translate bs4
+sudo python3.5 -m pip install discord.py asyncio cleverbot translate bs4 pytz python-twitch
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
@@ -118,7 +118,7 @@ Click on start menu and type down 'cmd' and then right click on the Command Prom
 
 3) Run the command in Command Prompt to install the Discord Python API:
 ```PowerShell
-python -m pip install discord.py asyncio cleverbot translate bs4
+python -m pip install discord.py asyncio cleverbot translate bs4 pytz python-twitch
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
@@ -149,6 +149,7 @@ python /path/to/Discord-JProject.py
 
 
 ## Change Log:
+- [v2.0] = Added following commands: -uptime, -time, -info, -coinflip, -rps & -twitch. Added Kelvin to -temp command.
 - [v1.5] = Improved chat formatting, can do -help gif OR -help -gif, & has game status `Playing Bot | -help`
 - [v1.4.1] = Fixed formatting and implemented proper error handling for -gif
 - [v1.4] = Added -gif feature
