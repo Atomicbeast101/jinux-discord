@@ -35,7 +35,7 @@ active = list()
 @client.event
 async def on_ready():
     # Sets game status
-    await client.change_presence(game=discord.Game(name='Bot v2.0 | -help'))
+    await client.change_presence(game=discord.Game(name='Bot v2.1 | -help'))
 
     # Sets up current time status
     global curr_uptime
@@ -564,8 +564,9 @@ async def on_message(msg):
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>'):
-                m = msg.content[22:]
-                re = Cleverbot().ask(m)
-                await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), re))
+                if int(msg.author.id) != int(CLIENT_ID):
+                    m = msg.content[22:]
+                    re = Cleverbot().ask(m)
+                    await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), re))
 
 client.run(TOKEN_ID)
