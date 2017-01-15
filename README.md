@@ -1,4 +1,4 @@
-# Discord-JProject (Jinux) - v2.0
+# Discord-JProject (Jinux) - v2.1
 *Personal bot for Discord server(s).*
 
 [<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/)
@@ -179,6 +179,7 @@ python /path/to/Discord-JProject.py
 
 
 ## Change Log:
+- [v2.1] = Bot kept talking to himself so I told him not to. (bug happens when doing -trans en @BotName Hello!).
 - [v2.0] = Added following commands: -uptime, -time, -info, -coinflip, -rps & -twitch. Added Kelvin to -temp command.
 - [v1.5] = Improved chat formatting, can do -help gif OR -help -gif, & has game status `Playing Bot | -help`
 - [v1.4.1] = Fixed formatting and implemented proper error handling for -gif
