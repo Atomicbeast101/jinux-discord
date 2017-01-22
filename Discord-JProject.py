@@ -39,7 +39,7 @@ cb = Cleverbot('Jinux')
 @client.event
 async def on_ready():
     # Sets game status
-    await client.change_presence(game=discord.Game(name='Bot v2.1 | -help'))
+    await client.change_presence(game=discord.Game(name='Bot v2.2 | -help'))
 
     # Sets up current time status
     global curr_uptime
