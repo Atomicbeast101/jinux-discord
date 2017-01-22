@@ -31,6 +31,10 @@ users = list()
 active = list()
 
 
+# Cleverbot
+cb = Cleverbot('Jinux')
+
+
 # Preparing the bot
 @client.event
 async def on_ready():
@@ -566,7 +570,7 @@ async def on_message(msg):
             if msg.content.startswith('<@' + CLIENT_ID + '>'):
                 if int(msg.author.id) != int(CLIENT_ID):
                     m = msg.content[22:]
-                    re = Cleverbot().ask(m)
+                    re = cb.ask(m)
                     await client.send_message(msg.channel, '{} {}'.format(get_mention(msg), re))
 
 client.run(TOKEN_ID)
