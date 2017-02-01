@@ -1,8 +1,8 @@
-# Token ID goes here
-TOKEN_ID = 'tokenidgoeshere...'
+# Bot's Token ID
+TOKEN_ID = 'MjcxNDY4MzI3NjA2NTUwNTI5.C2G4GQ.P3Cpfh2EU-f87e7CVbaYzAgsFvM'
 
-# Client ID goes here
-CLIENT_ID = 'clientidgoeshere...'
+# Bot's Client ID
+CLIENT_ID = '271468327606550529'
 
-# Starting character of command
+# Starting character of the command (ex: - for -help OR = for =help)
 CMD_CHAR = '-'
