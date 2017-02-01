@@ -1,4 +1,10 @@
-from Config import CMD_CHAR
+# Initialize configparser
+from configparser import ConfigParser
+config = ConfigParser()
+config.read('config.ini')
+
+# Fetch command character
+CMD_CHAR = config.get('Jinux', 'Character')
 
 # Bot uses this data. Nothing to explain much here.
 LANG_LIST = ['AB', 'AA', 'AF', 'SQ', 'AM,' 'AR', 'HY', 'AS', 'AY', 'AZ', 'BA', 'EU', 'BN', 'DZ', 'BH', 'BI', 'BR', 'BG',
