@@ -8,13 +8,8 @@ TOKEN_ID = config.get('Jinux', 'Token')
 CMD_CHAR = config.get('Jinux', 'Character')
 CLIENT_ID = config.get('Jinux', 'Client_ID')
 
-import discord
-import requests
-import json
-import asyncio
-from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_YOUTUBE, HELP_GIF, HELP_UPTIME, HELP_INFO, HELP_TIME, HELP_TWITCH, \
-    HELP_COINFLIP
+import discord, requests, json, asyncio, os, sys
+from Data import *
 from translate import Translator
 from cleverbot import Cleverbot
 from bs4 import BeautifulSoup
@@ -24,14 +19,11 @@ from random import choice
 from twitch.api import v3
 from threading import Thread
 
-
 # Setting up bot
 client = discord.Client()
 
-
 # Uptime
 curr_uptime = 0
-
 
 # Twitch
 t_enable = False
@@ -39,10 +31,8 @@ ch = 0
 users = list()
 active = list()
 
-
 # Cleverbot
 cb = Cleverbot('Jinux')
-
 
 # Preparing the bot
 @client.event
@@ -572,6 +562,15 @@ async def on_message(msg):
             elif cmd == CMD_CHAR + 'coinflip':
                 a = choice(['heads', 'tails'])
                 await client.send_message(msg.channel, 'Coinflip: `{}`.'.format(a))
+
+            # Restart command
+            elif cmd == CMD_CHAR + 'restart':
+                if msg.channel.permissions_for(msg.author).administrator:
+                    await client.send_message(msg.channel, ':regional_indicator_b: :regional_indicator_r: :regional_indicator_b:')
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
+                else:
+                    await client.send_message(msg.channel, 'You must be an administrator, {}!'
+                                                .format(get_mention(msg)))
         else:
             # Automatic response to mention. Running on CleverBot API
             if msg.content.startswith('<@' + CLIENT_ID + '>') and config.getboolean('Cleverbot', 'Enabled'):
