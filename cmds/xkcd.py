@@ -1,6 +1,5 @@
-from config import CMD_CHAR
 from bs4 import BeautifulSoup
-from random import choose
+from random import choice
 import requests
 import aiohttp
 
@@ -18,7 +17,7 @@ async def ex(c, ch, m, a):
         else:
             b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
             ids = b.find('div', id='middleContainer').find_all('a')
-            idr = choose(ids)['href']
+            idr = choice(ids)['href']
             idr.replace('/', '')
             async with aiohttp.ClientSession() as s:
                 async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
@@ -28,7 +27,7 @@ async def ex(c, ch, m, a):
     else:
         b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
         ids = b.find('div', id='middleContainer').find_all('a')
-        idr = choose(ids)['href']
+        idr = choice(ids)['href']
         idr.replace('/', '')
         async with aiohttp.ClientSession() as s:
             async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:

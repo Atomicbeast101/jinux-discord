@@ -1,9 +1,8 @@
-from config import CMD_CHAR
 import aiohttp
 
 
 # 8ball command
-async def ex(c, ch, m, q):
+async def ex(c, ch, m, q, CMD_CHAR):
     if len(q.split(' ')) >= 1:
         q.replace(' ', '%')
         q.replace('?', '%3F')

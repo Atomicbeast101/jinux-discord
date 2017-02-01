@@ -1,6 +1,5 @@
-from config import CMD_CHAR
 import aiohttp
-from data import CURR_LIST
+from Data import CURR_LIST
 
 
 # Value checker
@@ -13,7 +12,7 @@ def is_f(v):
 
 
 # Convert command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     if len(a) == 3:
         b = a[0]
         cc = a[1].upper()
@@ -28,8 +27,8 @@ async def ex(c, ch, m, a):
                         nb = b * float(d[cc + '_' + ct]['val'])
                         await c.send_message(ch, '`{}: {:.2f}` > `{}: {:.2f}`'.format(cc, b, ct, nb))
             else:
-                await c.send_message(msg.channel, '{} Invalid currency code! Please check https://currencysystem.com/'
-                                                  'codes/!'.format(m))
+                await c.send_message(ch, '{} Invalid currency code! Please check https://currencysystem.com/'
+                                         'codes/!'.format(m))
         else:
             await c.send_message(ch, '{}, currency must be in numeric/decimal value! Like 100 or 54.42!'.format(m))
     else:

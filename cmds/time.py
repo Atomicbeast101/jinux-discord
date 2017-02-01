@@ -1,10 +1,9 @@
-from config import CMD_CHAR
 from datetime import datetime
 from pytz import timezone, all_timezones
 
 
 # Time command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     if len(a) > 0:
         a = a.split(' ')[0]
         if len(a) == 3:

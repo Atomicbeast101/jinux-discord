@@ -1,9 +1,8 @@
-from config import CMD_CHAR
 from random import choice
 
 
 # RPS command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     a = a.split(' ')
     if len(a) > 0:
         a = a[0].lower()

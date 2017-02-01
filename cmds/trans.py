@@ -1,11 +1,10 @@
-from config import CMD_CHAR
 import aiohttp
 from translate import Translator
-from data import LANG_LIST
+from Data import LANG_LIST
 
 
 # Trans command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     if len(a.split(' ')) >= 2:
         if a.split(' ')[0].upper() in LANG_LIST:
             s = a[3:]

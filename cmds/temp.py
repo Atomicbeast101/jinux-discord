@@ -1,6 +1,3 @@
-from config import CMD_CHAR
-
-
 # Value checker
 def is_f(v):
     try:
@@ -9,8 +6,9 @@ def is_f(v):
     except ValueError:
         return False
 
+
 # Temp command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     a = a.split(' ')
     if len(a) == 3:
         if is_f(a[0]):
@@ -28,7 +26,7 @@ async def ex(c, ch, m, a):
                     f = (t * (9 / 5)) - 459.67
                     await c.send_message(ch, '`{:.1f} Kelvin`  >  `{:.1f} Fahrenheit`'.format(t, f))
                 elif fr == 'K' and to == 'C':
-                    f = (t * (9/5)) - 273.15
+                    f = (t * (9 / 5)) - 273.15
                     await c.send_message(ch, '`{:.1f} Kelvin`  >  `{:.1f} Celsius`'.format(t, f))
                 elif fr == 'C' and to == 'F':
                     f = (t * 1.8) + 32

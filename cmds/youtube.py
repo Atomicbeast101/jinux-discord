@@ -1,10 +1,9 @@
-from config import CMD_CHAR
 from bs4 import BeautifulSoup
 import requests
 
 
 # Youtube command
-async def ex(c, ch, m, a):
+async def ex(c, ch, m, a, CMD_CHAR):
     if len(a) > 0:
         a.replace(" ", "+")
         try:

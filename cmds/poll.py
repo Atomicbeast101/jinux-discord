@@ -1,8 +1,5 @@
-from config import CMD_CHAR
-
-
 # Poll command
-async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd):
+async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
     if ch.permissions_for(au):
         a = a.split(' ')
         if len(a) >= 2:
@@ -56,7 +53,7 @@ async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd):
 
 
 # Vote command
-async def ex_vote(c, ch, au, m, a, pll, q, opt, vts, vtd):
+async def ex_vote(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
     if pll:
         if au.id in vtd:
             await c.send_message(ch, 'What are you trying to make a voting fraud, {}?'.format(m))

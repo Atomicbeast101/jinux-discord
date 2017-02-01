@@ -1,9 +1,10 @@
 # Initialize configparser
 from configparser import ConfigParser
+
 config = ConfigParser()
 config.read('config.ini')
 
-# Fetch command character
+# Fetch config data and turn it into objects
 CMD_CHAR = config.get('Jinux', 'Character')
 
 # Bot uses this data. Nothing to explain much here.
@@ -147,7 +148,7 @@ Bot's uptime status.```'''.format(CMD_CHAR)
 HELP_XKCD = '''```Markdown
 [Help Guide]: {}xkcd <latest>
 Gets random or latest comic from xkcd.com website.
-<latest> = Latest comic published on xkcd.com.```'''
+<latest> = Latest comic published on xkcd.com.```'''.format(CMD_CHAR)
 
 HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>

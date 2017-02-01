@@ -1,9 +1,8 @@
-from config import CMD_CHAR
 import random as r
 
 
 # Choose command
-async def ex(c, ch, m, o):
+async def ex(c, ch, m, o, CMD_CHAR):
     if len(o) >= 2:
         await c.send_message(ch, '{}, I choose `{}`!'.format(m, r.choice(o)))
     else:

@@ -1,11 +1,8 @@
-from config import CMD_CHAR
-from data import HELP_CAT, HELP_CHOOSE, HELP_CHUCKNORRIS, HELP_COINFLIP, HELP_CONVERT, HELP_DICE, HELP_EIGHTBALL, \
-    HELP_GIF, HELP, HELP_INFO, HELP_POLL, HELP_PURGE, HELP_REDDIT, HELP_RPS, HELP_TEMP, HELP_TIME, HELP_TRANS, \
-    HELP_TWITCH, HELP_UPTIME, HELP_YOUTUBE
+from Data import *
 
 
 # Help command
-async def ex(c, pch, dch, m, a):
+async def ex(c, pch, dch, m, a, CMD_CHAR):
     if len(a) == 2:
         s = a[1].lower()
         s.replace(CMD_CHAR, '')

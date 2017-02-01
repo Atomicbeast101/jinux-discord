@@ -1,9 +1,8 @@
-from config import CMD_CHAR
 import aiohttp
 
 
 # 8ball command
-async def ex(c, ch, a):
+async def ex(c, ch, a, CMD_CHAR):
     if len(a.split(' ')) > 0:
         a.replace(' ', '+')
         async with aiohttp.ClientSession() as s:
