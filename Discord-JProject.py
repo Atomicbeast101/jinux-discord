@@ -1,11 +1,15 @@
-import discord
-import requests
-import json
-import asyncio
-from Config import TOKEN_ID, CLIENT_ID, CMD_CHAR
-from Data import LANG_LIST, CURR_LIST, HELP, HELP_CAT, HELP_TRANS, HELP_CHUCKNORRIS, HELP_CONVERT, HELP_POLL,\
-    HELP_YES, HELP_NO, HELP_BALL, HELP_TEMP, HELP_YOUTUBE, HELP_GIF, HELP_UPTIME, HELP_INFO, HELP_TIME, HELP_TWITCH, \
-    HELP_COINFLIP
+# Initialize configparser
+from configparser import ConfigParser
+config = ConfigParser()
+config.read('config.ini')
+
+# Fetch config data and turn it into objects
+TOKEN_ID = config.get('Jinux', 'Token')
+CMD_CHAR = config.get('Jinux', 'Character')
+CLIENT_ID = config.get('Jinux', 'Client_ID')
+
+import discord, requests, json, asyncio, os, sys
+from Data import *
 from translate import Translator
 from cleverbot import Cleverbot
 from bs4 import BeautifulSoup
@@ -15,14 +19,11 @@ from random import choice
 from twitch.api import v3
 from threading import Thread
 
-
 # Setting up bot
 client = discord.Client()
 
-
 # Uptime
 curr_uptime = 0
-
 
 # Twitch
 t_enable = False
@@ -30,33 +31,29 @@ ch = 0
 users = list()
 active = list()
 
-
 # Cleverbot
 cb = Cleverbot('Jinux')
-
 
 # Preparing the bot
 @client.event
 async def on_ready():
     # Sets game status
-    await client.change_presence(game=discord.Game(name='Bot v2.2 | -help'))
+    await client.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
 
     # Sets up current time status
     global curr_uptime
     curr_uptime = datetime.now()
 
     # Sets up twitch live status notification
-    f = open('twitch_settings.txt', 'r')
-    e = f.readline().rstrip()
+    twitch_enabled = config.getboolean('Twitch', 'Enabled')
+    global twitch_channel
+    twitch_channel = config.getint('Twitch', 'Channel')
     global t_enable
-    if e == 'True':
+
+    if twitch_enabled:
         t_enable = True
     else:
         t_enable = False
-    c = f.readline().rstrip()
-    global ch
-    ch = int(c)
-    f.close()
     fu = open('twitch_usernames.txt', 'r')
     global users
     for li in fu:
@@ -66,13 +63,13 @@ async def on_ready():
 
 async def run_notify():
     while True:
-        await asyncio.sleep(60)
+        await asyncio.sleep(config.getint('Twitch', 'Interval'))
         if t_enable:
             for u in users:
                 r = v3.streams.by_channel(u)['stream']
                 if r is not None:
                     if u not in active:
-                        await client.send_message(client.get_channel(str(ch)), '**{0} is now live!** Link: <https://'
+                        await client.send_message(client.get_channel(str(twitch_channel)), '**{0} is now live!** Link: <https://'
                                                                                'www.twitch.tv/{0}>'.format(u))
                     active.append(u)
                 else:
@@ -565,9 +562,18 @@ async def on_message(msg):
             elif cmd == CMD_CHAR + 'coinflip':
                 a = choice(['heads', 'tails'])
                 await client.send_message(msg.channel, 'Coinflip: `{}`.'.format(a))
+
+            # Restart command
+            elif cmd == CMD_CHAR + 'restart':
+                if msg.channel.permissions_for(msg.author).administrator:
+                    await client.send_message(msg.channel, ':regional_indicator_b: :regional_indicator_r: :regional_indicator_b:')
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
+                else:
+                    await client.send_message(msg.channel, 'You must be an administrator, {}!'
+                                                .format(get_mention(msg)))
         else:
             # Automatic response to mention. Running on CleverBot API
-            if msg.content.startswith('<@' + CLIENT_ID + '>'):
+            if msg.content.startswith('<@' + CLIENT_ID + '>') and config.getboolean('Cleverbot', 'Enabled'):
                 if int(msg.author.id) != int(CLIENT_ID):
                     m = msg.content[22:]
                     re = cb.ask(m)
