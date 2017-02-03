@@ -1,4 +1,4 @@
-# Discord-JProject (Jinux) - v2.2
+# Jinux - v3.0
 *Personal bot for Discord server(s).*
 
 [<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/)
