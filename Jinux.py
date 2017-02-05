@@ -80,7 +80,7 @@ async def on_message(msg):
         elif cmd == 'purge':
             print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
-            await reddit.ex(c, msg.channel, get_m(msg), msg.content[8:], CMD_CHAR)
+            await reddit.ex(c, msg.author, msg.channel, get_m(msg), msg.content[8:], CMD_CHAR)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
             await rps.ex(c, msg.channel, get_m(msg), msg.content[5:], CMD_CHAR)
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):

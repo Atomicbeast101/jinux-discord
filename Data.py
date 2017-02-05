@@ -44,7 +44,7 @@ HELP = '''```Markdown
 11. {0}poll <start|stop> <Question...> = Create or stop polls.
 12. {0}vote <option> = Vote an option to the poll.
 13. {0}purge <?> = ???
-14. {0}reddit <?> = ???
+14. {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
 15. {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
 16. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
 17. {0}time <timezone> = Get current time according to timezone.
@@ -107,7 +107,9 @@ HELP_PURGE = '''```Markdown
 ```'''
 
 HELP_REDDIT = '''```Markdown
-```'''
+[Help Guide]: {}reddit <subreddit>
+Get 20 hottest submissions from a subreddit.
+<subreddit> = Subreddit name, such as, gifs or funny```'''
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
