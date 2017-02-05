@@ -1,6 +1,6 @@
 import discord
-from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, rps, temp, time, \
-    trans, uptime, xkcd, youtube, restart
+from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, reddit, rps, temp, \
+    time, trans, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
 from cleverbot import Cleverbot
 from datetime import datetime
@@ -80,7 +80,7 @@ async def on_message(msg):
         elif cmd == 'purge':
             print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
-            print()
+            await reddit.ex(c, msg.channel, get_m(msg), msg.content[8:], CMD_CHAR)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
             await rps.ex(c, msg.channel, get_m(msg), msg.content[5:], CMD_CHAR)
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
@@ -101,7 +101,7 @@ async def on_message(msg):
             await restart.ex(c, msg.channel, get_m(msg), msg.author)
         else:
             print()
-    elif msg.content.star3tswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
+    elif msg.content.startswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
         if int(msg.author.id) != int(CLIENT_ID):
             m = msg.content[22:]
             r = cb.ask(m)
