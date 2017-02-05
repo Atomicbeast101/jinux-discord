@@ -1,6 +1,11 @@
-# Initialize configparser
+import discord
+from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, rps, temp, time, \
+    trans, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
+from cleverbot import Cleverbot
+from datetime import datetime
 
+# Load configuration values
 config = ConfigParser()
 config.read('config.ini')
 
@@ -8,12 +13,6 @@ config.read('config.ini')
 TOKEN_ID = config.get('Jinux', 'Token')
 CMD_CHAR = config.get('Jinux', 'Character')
 CLIENT_ID = config.get('Jinux', 'Client_ID')
-
-import discord
-from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, rps, temp, time, \
-    trans, uptime, xkcd, youtube, restart
-from cleverbot import Cleverbot
-from datetime import datetime
 
 # Preparing the bot
 c = discord.Client()
@@ -102,12 +101,11 @@ async def on_message(msg):
             await restart.ex(c, msg.channel, get_m(msg), msg.author)
         else:
             print()
-    elif msg.content.startswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
+    elif msg.content.star3tswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
         if int(msg.author.id) != int(CLIENT_ID):
             m = msg.content[22:]
             r = cb.ask(m)
             await c.send_message(msg.channel, '{} {}'.format(get_m(msg), r))
-
 
 # Activate Bot
 c.run(TOKEN_ID)
