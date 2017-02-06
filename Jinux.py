@@ -1,6 +1,6 @@
 import discord
 from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, reddit, rps, temp, \
-    time, trans, uptime, xkcd, youtube, restart
+    time, trans, twitch, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
 from cleverbot import Cleverbot
 from datetime import datetime
@@ -27,6 +27,12 @@ vtd = []
 # Current time
 ct = 0
 
+# Twitch
+tw_en = config.get('Twitch', 'enable')
+ch_id = config.get('Twitch', 'channel')
+users = list(config.get('Twitch', 'users').split(','))
+active = list()
+
 # Cleverbot setup
 cb = Cleverbot('Jinux')
 
@@ -48,7 +54,7 @@ def get_m(a):
 @c.event
 async def on_message(msg):
     if msg.content.startswith(CMD_CHAR):
-        global pll, q, opt, vts, vtd
+        global pll, q, opt, vts, vtd, tw_en, ch_id, users, active
         cmd = msg.content[1:].split(' ')[0]
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
             await cat.ex(c, msg.channel)
@@ -90,7 +96,8 @@ async def on_message(msg):
         elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
             await trans.ex(c, msg.channel, get_m(msg), msg.content[7:], CMD_CHAR)
         elif cmd == 'twitch' and config.getboolean('Functions', 'Twitch'):
-            print()
+            tw_en, ch_id, users, active = await twitch.ex(c, msg.author, msg.channel, get_m(a), msg.content[8:],
+                                                          tw_en, ch_id, users, active, CMD_CHAR)
         elif cmd == 'uptime':
             await uptime.ex(c, msg.channel, ct)
         elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
