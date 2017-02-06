@@ -1,9 +1,11 @@
 import discord
+import asyncio
 from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, reddit, rps, temp, \
     time, trans, twitch, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
 from cleverbot import Cleverbot
 from datetime import datetime
+from twitch.api import v3
 
 # Load configuration values
 config = ConfigParser()
@@ -32,6 +34,21 @@ tw_en = config.get('Twitch', 'enable')
 ch_id = config.get('Twitch', 'channel')
 users = list(config.get('Twitch', 'users').split(','))
 active = list()
+async def twitch_live_stream_notify():
+    await c.wait_until_ready()
+    while c.not_closed:
+        await asyncio.sleep(60)
+        for u in users:
+            s = v3.streams.by_channel(u)['stream']
+            if s is not None:
+                if u not in active:
+                    await c.send_message(c.get_channel(str(ch_id)), ''''**{0} is now live!**
+                                                                        URL: <https://www.twitch.tv/{0}'''.format(u))
+                active.append(u)
+            else:
+                if u in active:
+                    active.remove(u)
+c.loop.create_task(twitch_live_stream_notify())
 
 # Cleverbot setup
 cb = Cleverbot('Jinux')
