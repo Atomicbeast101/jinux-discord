@@ -15,7 +15,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                     else:
                         users.append(u)
                         config = ConfigParser()
-                        config.set('Twitch', 'users', users)
+                        config.set('Twitch', 'users', ','.join(users))
                         await c.send_message(dch, '{}, `{}` added!'.format(m, u))
                 else:
                     await c.send_message(dch, '{}, **USAGE** {}twitch add <username>'.format(m, CMD_CHAR))
@@ -28,7 +28,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                     if u in users:
                         users.remove(u)
                         config = ConfigParser()
-                        config.set('Twitch', 'users', users)
+                        config.set('Twitch', 'users', ','.join(users))
                         await c.send_message(dch, '{}, `{}` removed!'.format(m, u))
                     else:
                         await c.send_message(dch, '{}, `{}` is not in the list!'.format(m, u))
