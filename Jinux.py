@@ -99,8 +99,6 @@ async def on_message(msg):
             await youtube.ex(c, msg.channel, get_m(msg), msg.content[9:], CMD_CHAR)
         elif cmd == 'restart':
             await restart.ex(c, msg.channel, get_m(msg), msg.author)
-        else:
-            print()
     elif msg.content.startswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
         if int(msg.author.id) != int(CLIENT_ID):
             m = msg.content[22:]
