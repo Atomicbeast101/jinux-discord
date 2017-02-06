@@ -13,8 +13,8 @@ config.read('config.ini')
 
 # Fetch config data and turn it into objects
 TOKEN_ID = config.get('Jinux', 'Token')
-CMD_CHAR = config.get('Jinux', 'Character')
-CLIENT_ID = config.get('Jinux', 'Client_ID')
+CMD_CHAR = config.get('Jinux', 'Character')[0]
+CLIENT_ID = config.getFloat('Jinux', 'Client_ID')
 
 # Preparing the bot
 c = discord.Client()
@@ -30,8 +30,8 @@ vtd = []
 ct = 0
 
 # Twitch
-tw_en = config.get('Twitch', 'enable')
-ch_id = config.get('Twitch', 'channel')
+tw_en = config.getBoolean('Twitch', 'enable')
+ch_id = config.getFloat('Twitch', 'channel')
 users = list(config.get('Twitch', 'users').split(','))
 active = list()
 async def twitch_live_stream_notify():
