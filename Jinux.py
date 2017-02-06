@@ -1,7 +1,7 @@
 import discord
 import asyncio
-from cmds import cat, choose, chucknorris, coinflip, convert, eightball, gif, bhelp, info, poll, reddit, rps, temp, \
-    time, trans, twitch, uptime, xkcd, youtube, restart
+from cmds import cat, choose, chucknorris, coinflip, convert, dice, eightball, gif, bhelp, info, poll, reddit, rps, \
+    temp, time, trans, twitch, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
 from cleverbot import Cleverbot
 from datetime import datetime
@@ -85,7 +85,7 @@ async def on_message(msg):
         elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
             await convert.ex(c, msg.channel, get_m(msg), msg.content[9:].split(' '), CMD_CHAR)
         elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
-            print()
+            await dice.ex(c, msg.channel, get_m(msg))
         elif cmd == '8ball' and config.getboolean('Functions', '8ball'):
             await eightball.ex(c, msg.channel, get_m(msg), msg.content[7:], CMD_CHAR)
         elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):

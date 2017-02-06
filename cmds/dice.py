@@ -1,0 +1,7 @@
+import random as r
+
+
+# Dice command
+async def ex(c, ch, m):
+    ra = r.choice(['1, 2, 3, 4, 5, 6'])
+    await c.send_message(ch, '{}, *rolls the dice...* I got a `{}`!'.format(m, ra))
