@@ -1,18 +1,18 @@
 # Poll command
-async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
+async def ex_poll(c, ch, au, m, a, Poll, Poll_question, opt, vts, vtd, CMD_CHAR):
     if ch.permissions_for(au):
         a = a.split(' ')
         if len(a) >= 2:
             if a[0].lower() == 'start':
                 if len(a) >= 4:
-                    if pll:
+                    if Poll:
                         await c.send_message(ch, '{}, poll is already running! If you want to close the poll, do {}poll'
                                                  ' stop!'.format(m, CMD_CHAR))
                     else:
-                        pll = True
+                        Poll = True
                         i = 2
                         while i < len(a):
-                            q += a[i] + ' '
+                            Poll_question += a[i] + ' '
                         opt = a[1].lower().split('|')
                         vts = []
                         vtd = []
@@ -23,14 +23,14 @@ async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
                     await c.send_message(ch, '{}, **USAGE:** {}poll start <options1|options2|etc...> <question>'.
                                          format(m, CMD_CHAR))
             elif a[0].lower() == 'stop':
-                if pll:
-                    pll = False
-                    q = ''
+                if Poll:
+                    Poll = False
+                    Poll_question = ''
                     opt = []
                     vts = []
                     vtd = []
                     r = '''```CSS
-                           [Poll Closed]: ''' + q + '''
+                           [Poll Closed]: ''' + Poll_question + '''
                            Results:
                            '''
                     cnt = 0
@@ -49,12 +49,12 @@ async def ex_poll(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
                                      '>'.format(m, CMD_CHAR))
     else:
         await c.send_message(ch, 'You must be an administrator, {}!'.format(m))
-    return pll, q, opt, vts, vtd
+    return Poll, Poll_question, opt, vts, vtd
 
 
 # Vote command
-async def ex_vote(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
-    if pll:
+async def ex_vote(c, ch, au, m, a, Poll, Poll_question, opt, vts, vtd, CMD_CHAR):
+    if Poll:
         if au.id in vtd:
             await c.send_message(ch, 'What are you trying to make a voting fraud, {}?'.format(m))
         else:
@@ -69,7 +69,7 @@ async def ex_vote(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
                     else:
                         cnt += 1
                 r = '''```CSS
-                       [Question]: ''' + q + '''
+                       [Question]: ''' + Poll_question + '''
                        '''
                 cnt = 0
                 for op in opt:
@@ -83,4 +83,4 @@ async def ex_vote(c, ch, au, m, a, pll, q, opt, vts, vtd, CMD_CHAR):
                                             {}```'''.format(m, ', '.join(opt)))
     else:
         await c.send_message(ch, 'What are you trying to vote for, {}?'.format(m))
-    return pll, q, opt, vts, vtd
+    return Poll, Poll_question, opt, vts, vtd

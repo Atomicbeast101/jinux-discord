@@ -1,4 +1,6 @@
 from configparser import ConfigParser
+config = ConfigParser()
+config.read('config.ini')
 
 
 # Twitch command
@@ -15,7 +17,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                     else:
                         users.append(u)
                         config = ConfigParser()
-                        config.set('Twitch', 'users', ','.join(users))
+                        config.set('Twitch', 'Users', ','.join(users))
                         await c.send_message(dch, '{}, `{}` added!'.format(m, u))
                 else:
                     await c.send_message(dch, '{}, **USAGE** {}twitch add <username>'.format(m, CMD_CHAR))
@@ -28,7 +30,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                     if u in users:
                         users.remove(u)
                         config = ConfigParser()
-                        config.set('Twitch', 'users', ','.join(users))
+                        config.set('Twitch', 'Users', ','.join(users))
                         await c.send_message(dch, '{}, `{}` removed!'.format(m, u))
                     else:
                         await c.send_message(dch, '{}, `{}` is not in the list!'.format(m, u))
@@ -49,7 +51,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                 else:
                     tw_en = True
                 config = ConfigParser()
-                config.set('Twitch', 'enable', tw_en)
+                config.set('Twitch', 'Enabled', tw_en)
                 await c.send_message(dch, '{}, Twitch live status notification is now set to `{}`!'.format(m,
                                                                                                            str(tw_en)))
             else:

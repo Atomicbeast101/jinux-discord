@@ -1,65 +1,74 @@
-import discord
 import asyncio
-from cmds import cat, choose, chucknorris, coinflip, convert, dice, eightball, gif, bhelp, info, poll, reddit, rps, \
-    temp, time, trans, twitch, uptime, xkcd, youtube, restart
 from configparser import ConfigParser
-from cleverbot import Cleverbot
 from datetime import datetime
+
+import discord
+from cleverbot import Cleverbot
 from twitch.api import v3
 
-# Load configuration values
+from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice,
+                  eightball, gif, info, poll, reddit, restart, rps, temp, time,
+                  trans, twitch, uptime, xkcd, youtube)
+
+# Setup ConfigParser
 config = ConfigParser()
 config.read('config.ini')
 
 # Fetch config data and turn it into objects
-TOKEN_ID = config.get('Jinux', 'Token')
-CMD_CHAR = config.get('Jinux', 'Character')[0]
-CLIENT_ID = config.getFloat('Jinux', 'Client_ID')
+Token_ID = config.get('Jinux', 'Token')
+Cmd_char = config.get('Jinux', 'Character')
+Client_ID = config.getint('Jinux', 'Client_ID')
+Channel_ID = config.getint('Jinux', 'Channel')
 
 # Preparing the bot
-c = discord.Client()
+dclient = discord.Client()
 
 # Poll system variables
-pll = False
-q = ""
+Poll = False
+Poll_question = ""
 opt = []
 vts = []
 vtd = []
 
 # Current time
-ct = 0
+currenttime = 0
 
 # Twitch
-tw_en = config.getBoolean('Twitch', 'enable')
-ch_id = config.getFloat('Twitch', 'channel')
-users = list(config.get('Twitch', 'users').split(','))
+Twitch_enabled = config.getboolean('Twitch', 'Enabled')
+Streamers = config.get('Twitch', 'Users').split(',')
 active = list()
+
+
 async def twitch_live_stream_notify():
-    await c.wait_until_ready()
-    while c.not_closed:
-        await asyncio.sleep(60)
-        for u in users:
-            s = v3.streams.by_channel(u)['stream']
-            if s is not None:
-                if u not in active:
-                    await c.send_message(c.get_channel(str(ch_id)), ''''**{0} is now live!**
-                                                                        URL: <https://www.twitch.tv/{0}'''.format(u))
-                active.append(u)
+    await dclient.wait_until_ready()
+    while not dclient.is_closed:
+        await asyncio.sleep(config.getint('Twitch', 'Interval'))
+        for Streamer in Streamers:
+            Stream = v3.streams.by_channel(Streamer)
+            if Stream is not None:
+                if Streamer not in active:
+                    await dclient.send_message(dclient.get_channel(str(Channel_ID)), ''''**{0} is now live!**
+                                                                        URL: <https://www.twitch.tv/{0}'''.format(
+                        Streamer))
+                active.append(Streamer)
             else:
-                if u in active:
-                    active.remove(u)
-c.loop.create_task(twitch_live_stream_notify())
+                if Streamer in active:
+                    active.remove(Streamer)
+
+
+dclient.loop.create_task(twitch_live_stream_notify())
 
 # Cleverbot setup
 cb = Cleverbot('Jinux')
 
 
 # Sets up the game status
-@c.event
+@dclient.event
 async def on_ready():
-    await c.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
-    global ct
-    ct = datetime.now()
+    await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
+    global currenttime
+    currenttime = datetime.now()
+    await dclient.send_message(discord.Object(id=Channel_ID), ":raised_hands:")
 
 
 # Mention function
@@ -68,66 +77,69 @@ def get_m(a):
 
 
 # Chatter Bot
-@c.event
+@dclient.event
 async def on_message(msg):
-    if msg.content.startswith(CMD_CHAR):
-        global pll, q, opt, vts, vtd, tw_en, ch_id, users, active
+    if msg.content.startswith(Cmd_char):
+        global Poll, Poll_question, opt, vts, vtd, Twitch_enabled, Channel_ID, Streamers, active
         cmd = msg.content[1:].split(' ')[0]
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
-            await cat.ex(c, msg.channel)
+            await cat.ex(dclient, msg.channel)
         elif cmd == 'choose' and config.getboolean('Functions', 'Choose'):
             o = msg.content[8:].split(' ')
-            await choose.ex(c, msg.channel, get_m(msg), o, CMD_CHAR)
+            await choose.ex(dclient, msg.channel, get_m(msg), o, Cmd_char)
         elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
-            await chucknorris.ex(c, msg.channel)
+            await chucknorris.ex(dclient, msg.channel)
         elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
-            await coinflip.ex(c, msg.channel, get_m(msg))
+            await coinflip.ex(dclient, msg.channel, get_m(msg))
         elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
-            await convert.ex(c, msg.channel, get_m(msg), msg.content[9:].split(' '), CMD_CHAR)
+            await convert.ex(dclient, msg.channel, get_m(msg), msg.content[9:].split(' '), Cmd_char)
         elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
-            await dice.ex(c, msg.channel, get_m(msg))
+            await dice.ex(dclient, msg.channel, get_m(msg))
         elif cmd == '8ball' and config.getboolean('Functions', '8ball'):
-            await eightball.ex(c, msg.channel, get_m(msg), msg.content[7:], CMD_CHAR)
+            await eightball.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):
-            await gif.ex(c, msg.channel, msg.content[5:], get_m(msg), CMD_CHAR)
+            await gif.ex(dclient, msg.channel, msg.content[5:], get_m(msg), Cmd_char)
         elif cmd == 'help':
-            await bhelp.ex(c, msg.author, msg.channel, get_m(msg), msg.content.split(' '), CMD_CHAR)
+            await bhelp.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content.split(' '), Cmd_char)
         elif cmd == 'info':
-            await info.ex(c, msg.channel)
+            await info.ex(dclient, msg.channel)
         elif cmd == 'poll' and config.getboolean('Functions', 'Poll'):
-            pll, q, opt, vts, vtd = await poll.ex_poll(c, msg.channel, msg.author, get_m(msg), msg.content[6:],
-                                                       pll, q, opt, vts, vtd, CMD_CHAR)
+            Poll, Poll_question, opt, vts, vtd = await poll.ex_poll(dclient, msg.channel, msg.author, get_m(msg),
+                                                                    msg.content[6:],
+                                                                    Poll, Poll_question, opt, vts, vtd, Cmd_char)
         elif cmd == 'vote' and config.getboolean('Functions', 'Poll'):
-            pll, q, opt, vts, vtd = await poll.ex_vote(c, msg.channel, msg.author, get_m(msg), msg.content[6:],
-                                                       pll, q, opt, vts, vtd, CMD_CHAR)
+            Poll, Poll_question, opt, vts, vtd = await poll.ex_vote(dclient, msg.channel, msg.author, get_m(msg),
+                                                                    msg.content[6:],
+                                                                    Poll, Poll_question, opt, vts, vtd, Cmd_char)
         elif cmd == 'purge':
             print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
-            await reddit.ex(c, msg.author, msg.channel, get_m(msg), msg.content[8:], CMD_CHAR)
+            await reddit.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[8:], Cmd_char)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
-            await rps.ex(c, msg.channel, get_m(msg), msg.content[5:], CMD_CHAR)
+            await rps.ex(dclient, msg.channel, get_m(msg), msg.content[5:], Cmd_char)
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
-            await temp.ex(c, msg.channel, get_m(msg), msg.content[6:], CMD_CHAR)
+            await temp.ex(dclient, msg.channel, get_m(msg), msg.content[6:], Cmd_char)
         elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
-            await time.ex(c, msg.channel, get_m(msg), msg.content[6:], CMD_CHAR)
+            await time.ex(dclient, msg.channel, get_m(msg), msg.content[6:], Cmd_char)
         elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
-            await trans.ex(c, msg.channel, get_m(msg), msg.content[7:], CMD_CHAR)
+            await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'twitch' and config.getboolean('Functions', 'Twitch'):
-            tw_en, ch_id, users, active = await twitch.ex(c, msg.author, msg.channel, get_m(a), msg.content[8:],
-                                                          tw_en, ch_id, users, active, CMD_CHAR)
+            Twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
+                                                                            get_m(msg), msg.content[8:],
+                                                                            Twitch_enabled, Channel_ID, Streamers,
+                                                                            active, Cmd_char)
         elif cmd == 'uptime':
-            await uptime.ex(c, msg.channel, ct)
+            await uptime.ex(dclient, msg.channel, currenttime)
         elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
-            await xkcd.ex(c, msg.channel, get_m(msg), msg.content[6:])
+            await xkcd.ex(dclient, msg.channel, get_m(msg), msg.content[6:])
         elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
-            await youtube.ex(c, msg.channel, get_m(msg), msg.content[9:], CMD_CHAR)
+            await youtube.ex(dclient, msg.channel, get_m(msg), msg.content[9:], Cmd_char)
         elif cmd == 'restart':
-            await restart.ex(c, msg.channel, get_m(msg), msg.author)
-    elif msg.content.startswith('<@{}>'.format(CLIENT_ID)) and config.getboolean('Functions', 'Cleverbot'):
-        if int(msg.author.id) != int(CLIENT_ID):
-            m = msg.content[22:]
-            r = cb.ask(m)
-            await c.send_message(msg.channel, '{} {}'.format(get_m(msg), r))
+            await restart.ex(dclient, msg.channel, get_m(msg), msg.author)
+    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot'):
+        if int(msg.author.id) != int(Client_ID):
+            await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
+
 
 # Activate Bot
-c.run(TOKEN_ID)
+dclient.run(Token_ID)
