@@ -76,7 +76,7 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
-    await dclient.send_message(discord.Object(id=Channel_ID), ":raised_hands:")
+    await dclient.send_message(discord.Object(id=Channel_ID), ":thumbsup:")
 
 
 # Mention function
