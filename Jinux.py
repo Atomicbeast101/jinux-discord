@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from configparser import ConfigParser
 from datetime import datetime
 
@@ -9,6 +10,13 @@ from twitch.api import v3
 from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice,
                   eightball, gif, info, poll, reddit, restart, rps, temp, time,
                   trans, twitch, uptime, xkcd, youtube)
+
+# Setup Logging
+log = logging.getLogger('discord')
+log.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='jinux_bot.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+log.addHandler(handler)
 
 # Setup ConfigParser
 config = ConfigParser()
@@ -139,7 +147,8 @@ async def on_message(msg):
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot'):
         if int(msg.author.id) != int(Client_ID):
             await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
-
+    elif int(msg.author.id) == int(msg.channel.id) and config.getboolean('Functions', 'Cleverbot'):
+        await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
 
 # Activate Bot
 dclient.run(Token_ID)
