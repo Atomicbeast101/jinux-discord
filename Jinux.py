@@ -50,8 +50,8 @@ active = list()
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
+        await asyncio.sleep(config.getint('Twitch', 'Interval'))
         if Twitch_enabled:
-            await asyncio.sleep(config.getint('Twitch', 'Interval'))
             for Streamer in Streamers:
                 Stream = v3.streams.by_channel(Streamer)
                 if Stream is not None:
@@ -76,7 +76,7 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
-    await dclient.send_message(discord.Object(id=Channel_ID), ":thumbsup:")
+    await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
 
 # Mention function
