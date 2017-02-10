@@ -50,18 +50,19 @@ active = list()
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
-        await asyncio.sleep(config.getint('Twitch', 'Interval'))
-        for Streamer in Streamers:
-            Stream = v3.streams.by_channel(Streamer)
-            if Stream is not None:
-                if Streamer not in active:
-                    await dclient.send_message(dclient.get_channel(str(Channel_ID)), ''''**{0} is now live!**
-                                                                        URL: <https://www.twitch.tv/{0}'''.format(
-                        Streamer))
-                active.append(Streamer)
-            else:
-                if Streamer in active:
-                    active.remove(Streamer)
+		if Twitch_enabled:
+			await asyncio.sleep(config.getint('Twitch', 'Interval'))
+			for Streamer in Streamers:
+				Stream = v3.streams.by_channel(Streamer)
+				if Stream is not None:
+					if Streamer not in active:
+						await dclient.send_message(dclient.get_channel(str(Channel_ID)), ''''**{0} is now live!**
+																			URL: <https://www.twitch.tv/{0}'''.format(
+							Streamer))
+					active.append(Streamer)
+				else:
+					if Streamer in active:
+						active.remove(Streamer)
 
 
 dclient.loop.create_task(twitch_live_stream_notify())
