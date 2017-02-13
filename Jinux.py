@@ -91,7 +91,6 @@ def get_m(a):
 @dclient.event
 async def on_message(msg):
     if msg.content.startswith(Cmd_char):
-        log('COMMAND', 'Recognized starting of command from {}!'.format(get_m(msg)))
         global Poll, Poll_question, opt, vts, vtd, Twitch_enabled, Channel_ID, Streamers, active
         cmd = msg.content[1:].split(' ')[0]
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
@@ -174,8 +173,10 @@ async def on_message(msg):
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot') \
             and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
+            log('CHATTER_BOT', 'Responding to {}.'.format(get_m(msg)))
             await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
     elif msg.author == msg.channel.id and config.getboolean('Functions', 'Cleverbot') and Client_ID != 0:
+        log('CHATTER_BOT', 'Responding to {}.'.format(get_m(msg)))
         await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
 
 # Activate Bot
