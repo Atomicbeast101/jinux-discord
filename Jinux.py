@@ -175,9 +175,6 @@ async def on_message(msg):
         if int(msg.author.id) != int(Client_ID):
             log('CHATTER_BOT', 'Responding to {}.'.format(get_m(msg)))
             await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
-    elif msg.author == msg.channel.id and config.getboolean('Functions', 'Cleverbot') and Client_ID != 0:
-        log('CHATTER_BOT', 'Responding to {}.'.format(get_m(msg)))
-        await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
 
 # Activate Bot
 dclient.run(Token_ID)
