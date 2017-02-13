@@ -2,6 +2,7 @@ import asyncio
 import logging
 from configparser import ConfigParser
 from datetime import datetime
+from time import localtime, strftime
 
 import discord
 from cleverbot import Cleverbot
@@ -12,11 +13,7 @@ from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice,
                   trans, twitch, uptime, xkcd, youtube)
 
 # Setup Logging
-log = logging.getLogger('discord')
-log.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='jinux_bot.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-log.addHandler(handler)
+log_file = open('jinux.log', 'w')
 
 # Setup ConfigParser
 config = ConfigParser()
@@ -47,6 +44,10 @@ Streamers = config.get('Twitch', 'Users').split(',')
 active = list()
 
 
+def log(typ, reason):
+    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+    log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
@@ -70,10 +71,12 @@ cb = Cleverbot()
 # Sets up the game status
 @dclient.event
 async def on_ready():
+    log('BOOTUP', 'Starting up Jinux system...')
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
     await dclient.loop.create_task(twitch_live_stream_notify())
+    log('BOOTUP', 'Finished starting up Jinux system!')
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
@@ -87,61 +90,85 @@ def get_m(a):
 @dclient.event
 async def on_message(msg):
     if msg.content.startswith(Cmd_char):
+        log('COMMAND', 'Recognized starting of command from {}!'.format(get_m(msg)))
         global Poll, Poll_question, opt, vts, vtd, Twitch_enabled, Channel_ID, Streamers, active
         cmd = msg.content[1:].split(' ')[0]
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
+            log('COMMAND', 'Executing -cat command for {}.'.format(get_m(msg)))
             await cat.ex(dclient, msg.channel)
         elif cmd == 'choose' and config.getboolean('Functions', 'Choose'):
             o = msg.content[8:].split(' ')
+            log('COMMAND', 'Executing -choose command for {}.'.format(get_m(msg)))
             await choose.ex(dclient, msg.channel, get_m(msg), o, Cmd_char)
         elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
+            log('COMMAND', 'Executing -chucknorris command for {}.'.format(get_m(msg)))
             await chucknorris.ex(dclient, msg.channel)
         elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
+            log('COMMAND', 'Executing -coinflip command for {}.'.format(get_m(msg)))
             await coinflip.ex(dclient, msg.channel, get_m(msg))
         elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
+            log('COMMAND', 'Executing -convert command for {}.'.format(get_m(msg)))
             await convert.ex(dclient, msg.channel, get_m(msg), msg.content[9:].split(' '), Cmd_char)
         elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
+            log('COMMAND', 'Executing -dice command for {}.'.format(get_m(msg)))
             await dice.ex(dclient, msg.channel, get_m(msg))
         elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
+            log('COMMAND', 'Executing -8ball command for {}.'.format(get_m(msg)))
             await eightball.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):
+            log('COMMAND', 'Executing -gif command for {}.'.format(get_m(msg)))
             await gif.ex(dclient, msg.channel, msg.content[5:], get_m(msg), Cmd_char)
         elif cmd == 'help':
+            log('COMMAND', 'Executing -help command for {}.'.format(get_m(msg)))
             await bhelp.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content.split(' '), Cmd_char)
         elif cmd == 'info':
+            log('COMMAND', 'Executing -info command for {}.'.format(get_m(msg)))
             await info.ex(dclient, msg.channel)
         elif cmd == 'poll' and config.getboolean('Functions', 'Poll'):
+            log('COMMAND', 'Executing -poll command for {}.'.format(get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_poll(dclient, msg.channel, msg.author, get_m(msg),
                                                                     msg.content[6:],
                                                                     Poll, Poll_question, opt, vts, vtd, Cmd_char)
         elif cmd == 'vote' and config.getboolean('Functions', 'Poll'):
+            log('COMMAND', 'Executing -vote command for {}.'.format(get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_vote(dclient, msg.channel, msg.author, get_m(msg),
                                                                     msg.content[6:],
                                                                     Poll, Poll_question, opt, vts, vtd, Cmd_char)
         elif cmd == 'purge':
+            log('COMMAND', 'Executing -purge command for {}.'.format(get_m(msg)))
             print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
+            log('COMMAND', 'Executing -reddit command for {}.'.format(get_m(msg)))
             await reddit.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[8:], Cmd_char)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
+            log('COMMAND', 'Executing -rps command for {}.'.format(get_m(msg)))
             await rps.ex(dclient, msg.channel, get_m(msg), msg.content[5:], Cmd_char)
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
+            log('COMMAND', 'Executing -temp command for {}.'.format(get_m(msg)))
             await temp.ex(dclient, msg.channel, get_m(msg), msg.content[6:], Cmd_char)
         elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
+            log('COMMAND', 'Executing -time command for {}.'.format(get_m(msg)))
             await time.ex(dclient, msg.channel, get_m(msg), msg.content[6:], Cmd_char)
         elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
+            log('COMMAND', 'Executing -trans command for {}.'.format(get_m(msg)))
             await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'twitch' and config.getboolean('Functions', 'Twitch'):
+            log('COMMAND', 'Executing -twitch command for {}.'.format(get_m(msg)))
             Twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
                                                                             get_m(msg), msg.content[8:],
                                                                             Twitch_enabled, Channel_ID, Streamers,
                                                                             active, Cmd_char)
         elif cmd == 'uptime':
+            log('COMMAND', 'Executing -uptime command for {}.'.format(get_m(msg)))
             await uptime.ex(dclient, msg.channel, currenttime)
         elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
+            log('COMMAND', 'Executing -xkcd command for {}.'.format(get_m(msg)))
             await xkcd.ex(dclient, msg.channel, get_m(msg), msg.content[6:])
         elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
+            log('COMMAND', 'Executing -youtube command for {}.'.format(get_m(msg)))
             await youtube.ex(dclient, msg.channel, get_m(msg), msg.content[9:], Cmd_char)
         elif cmd == 'restart':
+            log('COMMAND', 'Executing -restart command for {}.'.format(get_m(msg)))
             await restart.ex(dclient, msg.channel, get_m(msg), msg.author)
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot') \
             and Client_ID != 0:

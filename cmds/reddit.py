@@ -18,6 +18,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
                             r += '''<{}>'''.format('https://www.reddit.com' + i['selftext_html'])
                         if co >= 20:
                             break
+                    await c.send_message(pch, '{}'.format(r))
+                    await c.send_message(dch, '{}, I sent it in a private message.'.format(m))
                 else:
                     await c.send_message(dch, '{}, unable to get submissions from subreddit `{}` because it doesnt '
                                               'exist!'.format(m, a))
