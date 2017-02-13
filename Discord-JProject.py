@@ -13,7 +13,6 @@ from datetime import datetime, timedelta
 from pytz import timezone, all_timezones
 from random import choice
 from twitch.api import v3
-from threading import Thread
 
 
 # Setting up bot
@@ -39,7 +38,7 @@ cb = Cleverbot('Jinux')
 @client.event
 async def on_ready():
     # Sets game status
-    await client.change_presence(game=discord.Game(name='Bot v2.2 | -help'))
+    await client.change_presence(game=discord.Game(name='Bot v2.3 | -help'))
 
     # Sets up current time status
     global curr_uptime
