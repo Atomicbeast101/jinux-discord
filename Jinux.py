@@ -139,7 +139,9 @@ async def on_message(msg):
             print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
             log('COMMAND', 'Executing -reddit command for {}.'.format(get_m(msg)))
-            await reddit.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[8:], Cmd_char)
+            print(msg.content)
+            print(msg.content[8:])
+            await reddit.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[8:])
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
             log('COMMAND', 'Executing -rps command for {}.'.format(get_m(msg)))
             await rps.ex(dclient, msg.channel, get_m(msg), msg.content[5:], Cmd_char)
