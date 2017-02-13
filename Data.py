@@ -36,7 +36,7 @@ HELP = '''```Markdown
 3. {0}chucknorris = Random Chuck Norris jokes.
 4. {0}coinflip = Flip a coin to receive heads or tails.
 5. {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-6. {0}dice = ???
+6. {0}dice = Randomly chooses a number between 1 to 6.
 7. {0}8ball = Magic eight ball answering machine.
 8. {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
 9. help <command> = Lists commands and description for each.
@@ -80,7 +80,8 @@ Converts the specified amount of money to a desired currency.
 List of supported currency codes: <https://currencysystem.com/codes/>'''.format(CMD_CHAR)
 
 HELP_DICE = '''```Markdown
-```'''
+[Help Guide]: {}dice
+Randomly chooses a number between 1 to 6.```'''
 
 HELP_EIGHTBALL = '''```Markdown
 [Help Guide]: {}8ball <question>
