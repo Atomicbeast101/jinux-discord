@@ -45,8 +45,9 @@ active = list()
 
 
 def log(typ, reason):
-    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
-    log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+    if config.getBoolean('Jinux', 'Logging'):
+        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+        log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
 
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
