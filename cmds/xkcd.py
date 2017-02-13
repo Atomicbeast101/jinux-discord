@@ -13,7 +13,7 @@ async def ex(c, ch, m, a):
                 async with s.get('https://xkcd.com/info.0.json') as r:
                     d = await r.json()
                     await c.send_message(ch, '''Title: {}
-                                                {}'''.format(d['safe_title'], d['img']))
+{}'''.format(d['safe_title'], d['img']))
         else:
             b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
             ids = b.find('div', id='middleContainer').find_all('a')
@@ -23,7 +23,7 @@ async def ex(c, ch, m, a):
                 async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
                     d = await r.json()
                     await c.send_message(ch, '''Title: {}
-                                                {}'''.format(d['safe_title'], d['img']))
+{}'''.format(d['safe_title'], d['img']))
     else:
         b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
         ids = b.find('div', id='middleContainer').find_all('a')
@@ -33,4 +33,4 @@ async def ex(c, ch, m, a):
             async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
                 d = await r.json()
                 await c.send_message(ch, '''Title: {}
-                                                        {}'''.format(d['safe_title'], d['img']))
+{}'''.format(d['safe_title'], d['img']))
