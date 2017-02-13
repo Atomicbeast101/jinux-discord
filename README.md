@@ -179,6 +179,8 @@ python /path/to/Discord-JProject.py
 
 
 ## Change Log:
+- [v3.0] = Big update! Such wow! Such awesomeness!
+- [v2.3] = Made Cleverbot API work again.
 - [v2.2] = Fixed bot's roasting program to work with Cleverbot's v2.0.0 update.
 - [v2.1] = Bot kept talking to himself so I told him not to. (bug happens when doing -trans en @BotName Hello!).
 - [v2.0] = Added following commands: -uptime, -time, -info, -coinflip, -rps & -twitch. Added Kelvin to -temp command.
