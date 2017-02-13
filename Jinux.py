@@ -13,7 +13,7 @@ from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice,
                   trans, twitch, uptime, xkcd, youtube)
 
 # Setup Logging
-log_file = open('jinux.log', 'w')
+log_file = open('jinux.log', 'a')
 
 # Setup ConfigParser
 config = ConfigParser()
@@ -76,8 +76,8 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
-    await dclient.loop.create_task(twitch_live_stream_notify())
     log('BOOTUP', 'Finished starting up Jinux system!')
+    await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
