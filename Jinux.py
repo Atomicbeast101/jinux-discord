@@ -45,7 +45,7 @@ active = list()
 
 
 def log(typ, reason):
-    if config.getBoolean('Jinux', 'Logging'):
+    if config.getboolean('Jinux', 'Logging'):
         print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
         log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
 
