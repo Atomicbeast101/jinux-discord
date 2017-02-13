@@ -32,7 +32,7 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
 HELP = '''```Markdown
 # List of commands #
 1. {0}cat = Random picture or gif of a cat.
-2. {0}choose = ???
+2. {0}choose <options_by_space> = Random chooses an option from the list.
 3. {0}chucknorris = Random Chuck Norris jokes.
 4. {0}coinflip = Flip a coin to receive heads or tails.
 5. {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
@@ -59,7 +59,9 @@ HELP_CAT = '''```Markdown
 Posts a random picture or animated gif of a cat.```'''.format(CMD_CHAR)
 
 HELP_CHOOSE = '''```Markdown
-```'''
+[Help Guide]: {}choose <options_by_space>
+Random chooses an option from the list.
+<options_by_space> = List of options for Jinux to choose from. (ex. -choose red green blue)```'''
 
 HELP_CHUCKNORRIS = '''```Markdown
 [Help Guide]: {}chucknorris
