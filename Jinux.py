@@ -76,7 +76,8 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
-    await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
+    if Channel_ID != 0:
+        await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
 
 # Mention function
@@ -144,10 +145,11 @@ async def on_message(msg):
             await youtube.ex(dclient, msg.channel, get_m(msg), msg.content[9:], Cmd_char)
         elif cmd == 'restart':
             await restart.ex(dclient, msg.channel, get_m(msg), msg.author)
-    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot'):
+    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot') \
+            and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
             await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
-    elif int(msg.author.id) == int(msg.channel.id) and config.getboolean('Functions', 'Cleverbot'):
+    elif msg.author == msg.channel.id and config.getboolean('Functions', 'Cleverbot') and Client_ID != 0:
         await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
 
 # Activate Bot
