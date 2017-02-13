@@ -63,11 +63,8 @@ async def twitch_live_stream_notify():
                     if Streamer in active:
                         active.remove(Streamer)
 
-
-dclient.loop.create_task(twitch_live_stream_notify())
-
 # Cleverbot setup
-cb = Cleverbot('Jinux')
+cb = Cleverbot()
 
 
 # Sets up the game status
@@ -76,6 +73,7 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global currenttime
     currenttime = datetime.now()
+    await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
