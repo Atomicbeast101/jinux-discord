@@ -103,7 +103,7 @@ async def on_message(msg):
             await convert.ex(dclient, msg.channel, get_m(msg), msg.content[9:].split(' '), Cmd_char)
         elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
             await dice.ex(dclient, msg.channel, get_m(msg))
-        elif cmd == '8ball' and config.getboolean('Functions', '8ball'):
+        elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
             await eightball.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):
             await gif.ex(dclient, msg.channel, msg.content[5:], get_m(msg), Cmd_char)
