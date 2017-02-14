@@ -35,9 +35,6 @@ opt = []
 vts = []
 vtd = []
 
-# Current time
-currenttime = 0
-
 # Twitch
 Twitch_enabled = config.getboolean('Twitch', 'Enabled')
 Streamers = config.get('Twitch', 'Users').split(',')
@@ -47,7 +44,8 @@ active = list()
 def log(typ, reason):
     if config.getboolean('Jinux', 'Logging'):
         print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
-        log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+        log_file.write(
+            '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
 
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
@@ -74,8 +72,8 @@ cb = Cleverbot()
 async def on_ready():
     log('BOOTUP', 'Starting up Jinux system...')
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
-    global currenttime
-    currenttime = datetime.now()
+    global starttime
+    starttime = datetime.now()
     log('BOOTUP', 'Finished starting up Jinux system!')
     await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
@@ -152,7 +150,7 @@ async def on_message(msg):
         elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
             log('COMMAND', 'Executing -trans command for {}.'.format(get_m(msg)))
             await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
-        elif cmd == 'twitch' and config.getboolean('Functions', 'Twitch'):
+        elif cmd == 'twitch' and Twitch_enabled:
             log('COMMAND', 'Executing -twitch command for {}.'.format(get_m(msg)))
             Twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
                                                                             get_m(msg), msg.content[8:],
@@ -160,7 +158,7 @@ async def on_message(msg):
                                                                             active, Cmd_char)
         elif cmd == 'uptime':
             log('COMMAND', 'Executing -uptime command for {}.'.format(get_m(msg)))
-            await uptime.ex(dclient, msg.channel, currenttime)
+            await uptime.ex(dclient, msg.channel, starttime)
         elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
             log('COMMAND', 'Executing -xkcd command for {}.'.format(get_m(msg)))
             await xkcd.ex(dclient, msg.channel, get_m(msg), msg.content[6:])
