@@ -131,7 +131,7 @@ async def on_message(msg):
             log('COMMAND', 'Executing -vote command for {}.'.format(get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_vote(dclient, msg.channel, msg.author, get_m(msg),
                                                                     msg.content[6:],
-                                                                    Poll, Poll_question, opt, vts, vtd, Cmd_char)
+                                                                    Poll, Poll_question, opt, vts, vtd)
         elif cmd == 'purge':
             log('COMMAND', 'Executing -purge command for {}.'.format(get_m(msg)))
             print()
