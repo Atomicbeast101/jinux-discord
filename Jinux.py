@@ -1,5 +1,4 @@
 import asyncio
-import logging
 from configparser import ConfigParser
 from datetime import datetime
 from time import localtime, strftime
@@ -56,13 +55,14 @@ async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
         await asyncio.sleep(config.getint('Twitch', 'Interval'))
+        log('AUTO_TASK', 'Running Twitch auto task...')
         if twitch_enabled and len(Streamers) > 0:
             for Streamer in Streamers:
                 Stream = v3.streams.by_channel(Streamer)
-                if Stream is not None:
+                if Stream['stream'] is not None:
                     if Streamer not in active:
                         await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                                                   "**{0} is now live!** @https://www.twitch.tv/{0}".format(Streamer))
+                                                   "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(Streamer))
                     active.append(Streamer)
                 else:
                     if Streamer in active:
