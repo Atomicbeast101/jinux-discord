@@ -4,11 +4,9 @@ from configparser import ConfigParser
 # Twitch command
 async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
     a = a.split(' ')
-    print(str(a))
-    if len(a) > 1:
+    if len(a) >= 1:
         sc = a[0].lower()
         if sc == 'add':
-            print('ADD')
             if dch.permissions_for(pch).administrator:
                 if len(a) == 2:
                     u = a[1].lower()
@@ -19,13 +17,14 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                         config = ConfigParser()
                         config.read('config.ini')
                         config.set('Twitch', 'Users', ','.join(users))
+                        with open('config.ini', 'w') as configfile:
+                            config.write(configfile)
                         await c.send_message(dch, '{}, `{}` added!'.format(m, u))
                 else:
                     await c.send_message(dch, '{}, **USAGE** {}twitch add <username>'.format(m, CMD_CHAR))
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'remove':
-            print('REMOVE')
             if dch.permissions_for(pch).administrator:
                 if len(a) == 2:
                     u = a[1].lower()
@@ -34,6 +33,8 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                         config = ConfigParser()
                         config.read('config.ini')
                         config.set('Twitch', 'Users', ','.join(users))
+                        with open('config.ini', 'w') as configfile:
+                            config.write(configfile)
                         await c.send_message(dch, '{}, `{}` removed!'.format(m, u))
                     else:
                         await c.send_message(dch, '{}, `{}` is not in the list!'.format(m, u))
@@ -43,13 +44,15 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'list':
-            print('LIST')
-            await c.send_message(pch, 'List of Twitch usernames: ```{}```'
-                                 .format(', '.join(str(u) for u in users)))
-            await c.send_message(dch, '{}, list of Twitch usernames has been sent in a private channe'
-                                      'l.'.format(m))
+            if tw_en:
+                if len(users) > 1:
+                    await c.send_message(pch, 'List of Twitch usernames: ```{}```'.format(', '.join(str(u) for u in users)))
+                    await c.send_message(dch, '{}, list of Twitch usernames has been sent in a private channel.'.format(m))
+                else:
+                    await c.send_message(dch, '{}, there are no usernames in the list!'.format(m))
+            else:
+                await c.send_message(dch, '{}, Twitch notification is not enabled!'.format(m))
         elif sc == 'toggle':
-            print('TOGGLE')
             if dch.permissions_for(pch).administrator:
                 if tw_en:
                     tw_en = False
@@ -57,17 +60,21 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                     tw_en = True
                 config = ConfigParser()
                 config.read('config.ini')
-                config.set('Twitch', 'Enabled', tw_en)
+                config.set('Twitch', 'Enabled', str(tw_en))
+                with open('config.ini', 'w') as configfile:
+                    config.write(configfile)
                 await c.send_message(dch, '{}, Twitch live status notification is now set to `{}`!'.format(m,
                                                                                                            str(tw_en)))
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'setchannel':
-            print('SETCHANNEL')
             if dch.permissions_for(pch).administrator:
                 ch_id = dch.id
                 config = ConfigParser()
+                config.read('config.ini')
                 config.set('Twitch', 'Channel', ch_id)
+                with open('config.ini', 'w') as configfile:
+                    config.write(configfile)
                 await c.send_message(dch, '{}, it is now set! The notifications will appear here!'.format(m))
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
