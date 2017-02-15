@@ -62,7 +62,7 @@ async def twitch_live_stream_notify():
                 if Stream is not None:
                     if Streamer not in active:
                         await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                        "**{0} is now live!** @https://www.twitch.tv/{0}".format(Streamer))
+                                                   "**{0} is now live!** @https://www.twitch.tv/{0}".format(Streamer))
                     active.append(Streamer)
                 else:
                     if Streamer in active:
@@ -161,7 +161,7 @@ async def on_message(msg):
             await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'twitch' and twitch_enabled:
             log('COMMAND', 'Executing -twitch command for {}.'.format(get_m(msg)))
-            Twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
+            twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
                                                                             get_m(msg), msg.content[
                                                                                 8:],
                                                                             twitch_enabled, twitch_channel, Streamers,
