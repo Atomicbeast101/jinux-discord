@@ -12,12 +12,18 @@ from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice,
                   eightball, gif, info, poll, reddit, restart, rps, temp, time,
                   trans, twitch, uptime, xkcd, youtube)
 
-# Setup Logging
-log_file = open('jinux.log', 'a')
 
 # Setup ConfigParser
 config = ConfigParser()
 config.read('config.ini')
+
+# Setup Logging
+log_file = open('jinux.log', 'a')
+if config.getboolean('Jinux', 'Logging'):
+    def log(typ, reason):
+        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+        log_file.write(
+            '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
 
 # Fetch config data and turn it into objects
 Token_ID = config.get('Jinux', 'Token')
@@ -35,33 +41,33 @@ opt = []
 vts = []
 vtd = []
 
-# Twitch
-Twitch_enabled = config.getboolean('Twitch', 'Enabled')
+
+# Twitch setup
+twitch_enabled = config.getboolean('Twitch', 'Enabled')
 Streamers = config.get('Twitch', 'Users').split(',')
 active = list()
 
-
-def log(typ, reason):
-    if config.getboolean('Jinux', 'Logging'):
-        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
-        log_file.write(
-            '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+try:
+    twitch_channel = config.getint('Twitch', 'Channel')
+except ValueError:
+    twitch_channel = config.getint('Jinux', 'Channel')
 
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
         await asyncio.sleep(config.getint('Twitch', 'Interval'))
-        if Twitch_enabled:
+        if twitch_enabled:
             for Streamer in Streamers:
                 Stream = v3.streams.by_channel(Streamer)
                 if Stream is not None:
                     if Streamer not in active:
-                        await dclient.send_message(dclient.get_channel(str(Channel_ID)), ''''**{0} is now live!** URL:
-                        <https://www.twitch.tv/{0}'''.format(Streamer))
+                        await dclient.send_message(dclient.get_channel(str(twitch_channel)),
+                        "**{0} is now live!** @https://www.twitch.tv/{0}".format(Streamer))
                     active.append(Streamer)
                 else:
                     if Streamer in active:
                         active.remove(Streamer)
+
 
 # Cleverbot setup
 cb = Cleverbot()
@@ -75,7 +81,8 @@ async def on_ready():
     global starttime
     starttime = datetime.now()
     log('BOOTUP', 'Finished starting up Jinux system!')
-    await dclient.loop.create_task(twitch_live_stream_notify())
+    if twitch_enabled:
+        await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
@@ -89,7 +96,7 @@ def get_m(a):
 @dclient.event
 async def on_message(msg):
     if msg.content.startswith(Cmd_char):
-        global Poll, Poll_question, opt, vts, vtd, Twitch_enabled, Channel_ID, Streamers, active
+        global Poll, Poll_question, opt, vts, vtd, twitch_enabled, Channel_ID, Streamers, active, twitch_channel
         cmd = msg.content[1:].split(' ')[0]
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
             log('COMMAND', 'Executing -cat command for {}.'.format(get_m(msg)))
@@ -125,12 +132,14 @@ async def on_message(msg):
         elif cmd == 'poll' and config.getboolean('Functions', 'Poll'):
             log('COMMAND', 'Executing -poll command for {}.'.format(get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_poll(dclient, msg.channel, msg.author, get_m(msg),
-                                                                    msg.content[6:],
+                                                                    msg.content[
+                                                                        6:],
                                                                     Poll, Poll_question, opt, vts, vtd, Cmd_char)
         elif cmd == 'vote' and config.getboolean('Functions', 'Poll'):
             log('COMMAND', 'Executing -vote command for {}.'.format(get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_vote(dclient, msg.channel, msg.author, get_m(msg),
-                                                                    msg.content[6:],
+                                                                    msg.content[
+                                                                        6:],
                                                                     Poll, Poll_question, opt, vts, vtd)
         elif cmd == 'purge':
             log('COMMAND', 'Executing -purge command for {}.'.format(get_m(msg)))
@@ -150,11 +159,12 @@ async def on_message(msg):
         elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
             log('COMMAND', 'Executing -trans command for {}.'.format(get_m(msg)))
             await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
-        elif cmd == 'twitch' and Twitch_enabled:
+        elif cmd == 'twitch' and twitch_enabled:
             log('COMMAND', 'Executing -twitch command for {}.'.format(get_m(msg)))
             Twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
-                                                                            get_m(msg), msg.content[8:],
-                                                                            Twitch_enabled, Channel_ID, Streamers,
+                                                                            get_m(msg), msg.content[
+                                                                                8:],
+                                                                            twitch_enabled, twitch_channel, Streamers,
                                                                             active, Cmd_char)
         elif cmd == 'uptime':
             log('COMMAND', 'Executing -uptime command for {}.'.format(get_m(msg)))
