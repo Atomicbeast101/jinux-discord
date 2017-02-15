@@ -6,8 +6,12 @@ config.read('config.ini')
 # Twitch command
 async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
     a = a.split(' ')
+<<<<<<< HEAD
     print(str(a))
     if len(a) > 0:
+=======
+    if len(a) > 1:
+>>>>>>> origin/v3.0-beta
         sc = a[0].lower()
         if sc == 'add':
             print('ADD')
@@ -66,7 +70,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
             if dch.permissions_for(pch).administrator:
                 ch_id = dch.id
                 config = ConfigParser()
-                config.set('Twitch', 'channel', ch_id)
+                config.set('Twitch', 'Channel', ch_id)
                 await c.send_message(dch, '{}, it is now set! The notifications will appear here!'.format(m))
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
