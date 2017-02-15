@@ -56,7 +56,7 @@ async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
         await asyncio.sleep(config.getint('Twitch', 'Interval'))
-        if twitch_enabled and len(Streamers) > 1:
+        if twitch_enabled and len(Streamers) > 0:
             for Streamer in Streamers:
                 Stream = v3.streams.by_channel(Streamer)
                 if Stream is not None:
@@ -161,9 +161,9 @@ async def on_message(msg):
             await trans.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'twitch':
             log('COMMAND', 'Executing -twitch command for {}.'.format(get_m(msg)))
-            twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(dclient, msg.author, msg.channel,
-                                                                            get_m(msg), msg.content[8:], twitch_enabled,
-                                                                            twitch_channel, Streamers, active, Cmd_char)
+            twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(
+                dclient, msg.author, msg.channel, get_m(msg), msg.content[8:], twitch_enabled, twitch_channel,
+                Streamers, active, Cmd_char)
         elif cmd == 'uptime':
             log('COMMAND', 'Executing -uptime command for {}.'.format(get_m(msg)))
             await uptime.ex(dclient, msg.channel, starttime)
