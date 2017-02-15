@@ -6,9 +6,11 @@ config.read('config.ini')
 # Twitch command
 async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
     a = a.split(' ')
+    print(str(a))
     if len(a) > 0:
         sc = a[0].lower()
         if sc == 'add':
+            print('ADD')
             if dch.permissions_for(pch).administrator:
                 if len(a) == 2:
                     u = a[1].lower()
@@ -24,6 +26,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'remove':
+            print('REMOVE')
             if dch.permissions_for(pch).administrator:
                 if len(a) == 2:
                     u = a[1].lower()
@@ -40,11 +43,13 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'list':
+            print('LIST')
             await c.send_message(pch, 'List of Twitch usernames: ```{}```'
                                  .format(', '.join(str(u) for u in users)))
             await c.send_message(dch, '{}, list of Twitch usernames has been sent in a private channe'
                                       'l.'.format(m))
         elif sc == 'toggle':
+            print('TOGGLE')
             if dch.permissions_for(pch).administrator:
                 if tw_en:
                     tw_en = False
@@ -57,6 +62,7 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
         elif sc == 'setchannel':
+            print('SETCHANNEL')
             if dch.permissions_for(pch).administrator:
                 ch_id = dch.id
                 config = ConfigParser()
@@ -64,6 +70,8 @@ async def ex(c, pch, dch, m, a, tw_en, ch_id, users, active, CMD_CHAR):
                 await c.send_message(dch, '{}, it is now set! The notifications will appear here!'.format(m))
             else:
                 await c.send_message(dch, '{}, you must be an administrator!'.format(m))
+        else:
+            await c.send_message(dch, '{}, **USAGE:** {}twitch <add|remove|list|toggle|setchannel>'.format(m, CMD_CHAR))
     else:
         await c.send_message(dch, '{}, **USAGE:** {}twitch <add|remove|list|toggle|setchannel>'.format(m, CMD_CHAR))
     return tw_en, ch_id, users, active
