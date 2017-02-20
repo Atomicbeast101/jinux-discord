@@ -18,6 +18,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
             await c.send_message(dch, HELP_CONVERT)
         elif s == 'dice':
             await c.send_message(dch, HELP_DICE)
+        elif s == 'dictionary':
+            await c.send_message(dch, HELP_DICTIONARY)
         elif s == '8ball':
             await c.send_message(dch, HELP_EIGHTBALL)
         elif s == 'gif':
