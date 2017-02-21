@@ -8,30 +8,30 @@ async def ex(c, pch, dch, m, a, Cmd_char):
         wrd = a[0].lower()
         pydict = PyDictionary()
         r = json.loads(pydict.meaning(wrd))
-        an = '''```Apache
-# Definition: {} #'''.format(wrd)
+        an = '''```Markdown
+# Meaning: {} #'''.format(wrd)
         if 'Noun' in r:
-            an += '''Noun
+            an += '''<Noun>
 '''
             cnt = 1
             for d in r['Noun']:
-                an += '''  {}) {}
+                an += '''[{}]: {}
 '''.format(cnt, d)
                 cnt += 1
         if 'Verb' in r:
-            an += '''Verb
+            an += '''<Verb>
 '''
             cnt = 1
             for d in r['Verb']:
-                an += '''  {}) ()
+                an += '''[{}]: {}
 '''.format(cnt, d)
                 cnt += 1
         if 'Adjective' in r:
-            an += '''Adjective
+            an += '''<Adjective>
             '''
             cnt = 1
             for d in r['Adjective']:
-                an += '''  {}) ()
+                an += '''[{}]: {}
             '''.format(cnt, d)
                 cnt += 1
         an += '''```'''
