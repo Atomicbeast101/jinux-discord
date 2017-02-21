@@ -53,7 +53,8 @@ HELP = '''```Markdown
 20. {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
 21. {0}uptime = Bot's uptime status.
 22. {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-23. {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(CMD_CHAR)
+23. {0}youtube <to-search> = Gets first video from YouTube search results.
+24. {0}9 = Restarts Jinux.```'''.format(CMD_CHAR)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -165,3 +166,7 @@ HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>
 Retrieves first video from YouTube search results.
 <to-search> = No need to explain here.```'''.format(CMD_CHAR)
+
+HELP_NINE = '''```Markdown
+[Help Guide]: {}9
+Restarts Jinux.```'''.format(CMD_CHAR)

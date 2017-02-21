@@ -48,6 +48,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
             await c.send_message(dch, HELP_XKCD)
         elif s == 'youtube':
             await c.send_message(dch, HELP_YOUTUBE)
+        elif s == '9':
+            await c.send_message(dch, HELP_NINE)
         else:
             await c.send_message(dch, 'I am unable to find the command you are looking for, {}! Perhaps check {}help'
                                       '?'.format(m, CMD_CHAR))

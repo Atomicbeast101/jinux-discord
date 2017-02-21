@@ -175,7 +175,7 @@ async def on_message(msg):
         elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
             log('COMMAND', 'Executing {}youtube command for {}.'.format(Cmd_char, get_m(msg)))
             await youtube.ex(dclient, msg.channel, get_m(msg), msg.content[9:], Cmd_char)
-        elif cmd == 'restart':
+        elif cmd == '9':
             log('COMMAND', 'Executing {}restart command for {}.'.format(Cmd_char, get_m(msg)))
             await restart.ex(dclient, msg.channel, get_m(msg), msg.author)
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot') \
