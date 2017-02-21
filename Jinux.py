@@ -7,8 +7,9 @@ import discord
 from cleverbot import Cleverbot
 from twitch.api import v3
 
-from cmds import (bhelp, cat, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif, info, poll,
-                  reddit, restart, rps, temp, time, trans, twitch, uptime, xkcd, youtube)
+from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif,
+                  info, poll, reddit, restart, rps, serverinfo, temp, time, trans, twitch, update, uptime, xkcd,
+                  youtube)
 
 
 # Setup ConfigParser
@@ -100,6 +101,9 @@ async def on_message(msg):
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
             log('COMMAND', 'Executing {}cat command for {}.'.format(Cmd_char, get_m(msg)))
             await cat.ex(dclient, msg.channel)
+        elif cmd == 'channelinfo' and config.getboolean('Functions', 'ChannelInfo'):
+            log('COMMAND', 'Executing {}channelinfo command for {}.'.format(Cmd_char, get_m(msg)))
+            await channelinfo.ex(dclient, msg.author, msg.channel, get_m(msg))
         elif cmd == 'choose' and config.getboolean('Functions', 'Choose'):
             o = msg.content[8:].split(' ')
             log('COMMAND', 'Executing {}choose command for {}.'.format(Cmd_char, get_m(msg)))
@@ -149,6 +153,9 @@ async def on_message(msg):
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
             log('COMMAND', 'Executing {}rps command for {}.'.format(Cmd_char, get_m(msg)))
             await rps.ex(dclient, msg.channel, get_m(msg), msg.content[5:], Cmd_char)
+        elif cmd == 'serverinfo' and config.getboolean('Functions', 'ServerInfo'):
+            log('COMMAND', 'Executing {}serverinfo command for {}.'.format(Cmd_char, get_m(msg)))
+            await serverinfo.ex(dclient, msg.author, msg.channel, get_m(msg))
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
             log('COMMAND', 'Executing {}temp command for {}.'.format(Cmd_char, get_m(msg)))
             await temp.ex(dclient, msg.channel, get_m(msg), msg.content[6:], Cmd_char)
@@ -163,6 +170,9 @@ async def on_message(msg):
             twitch_enabled, Channel_ID, Streamers, active = await twitch.ex(
                 dclient, msg.author, msg.channel, get_m(msg), msg.content[8:], twitch_enabled, twitch_channel,
                 Streamers, active, Cmd_char)
+        elif cmd == 'update' and config.getboolean('Functions', 'Update'):
+            print()
+            # TODO
         elif cmd == 'uptime':
             log('COMMAND', 'Executing {}uptime command for {}.'.format(Cmd_char, get_m(msg)))
             await uptime.ex(dclient, msg.channel, starttime)
