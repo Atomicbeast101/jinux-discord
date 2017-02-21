@@ -1,6 +1,6 @@
 # Channel Info Command
-async def ex(c, pch, dch, m, ch):
-    channel = ch
+async def ex(c, pch, dch, m):
+    channel = dch
     r = '''```Markdown
 # Channel Information #
 [ID]:             {}
