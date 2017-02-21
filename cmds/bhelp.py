@@ -28,8 +28,6 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
             await c.send_message(dch, HELP_INFO)
         elif s == 'poll':
             await c.send_message(dch, HELP_POLL)
-        elif s == 'purge':
-            await c.send_message(dch, HELP_PURGE)
         elif s == 'reddit':
             await c.send_message(dch, HELP_REDDIT)
         elif s == 'rps':

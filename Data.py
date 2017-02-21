@@ -44,17 +44,16 @@ HELP = '''```Markdown
 11. {0}info = Information about this bot.
 12. {0}poll <start|stop> <Question...> = Create or stop polls.
 13. {0}vote <option> = Vote an option to the poll.
-14. {0}purge <?> = ???
-15. {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
-16. {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
-17. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-18. {0}time <timezone> = Get current time according to timezone.
-19. {0}trans <language-code> <to-translate> = Translate message to desired language.
-20. {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
-21. {0}uptime = Bot's uptime status.
-22. {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-23. {0}youtube <to-search> = Gets first video from YouTube search results.
-24. {0}9 = Restarts Jinux.```'''.format(CMD_CHAR)
+14. {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
+15. {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+16. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+17. {0}time <timezone> = Get current time according to timezone.
+18. {0}trans <language-code> <to-translate> = Translate message to desired language.
+19. {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
+20. {0}uptime = Bot's uptime status.
+21. {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
+22. {0}youtube <to-search> = Gets first video from YouTube search results.
+23. {0}9 = Restarts Jinux.```'''.format(CMD_CHAR)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -111,9 +110,6 @@ Create or stop polls. Currently only admins are allowed to use this command.
 <question> = Desired poll question.```'''.format(CMD_CHAR)
 
 HELP_VOTE = '''```Markdown
-```'''
-
-HELP_PURGE = '''```Markdown
 ```'''
 
 HELP_REDDIT = '''```Markdown

@@ -143,9 +143,6 @@ async def on_message(msg):
                                                                     msg.content[
                                                                         6:],
                                                                     Poll, Poll_question, opt, vts, vtd)
-        elif cmd == 'purge':
-            log('COMMAND', 'Executing {}purge command for {}.'.format(Cmd_char, get_m(msg)))
-            print()
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
             log('COMMAND', 'Executing {}reddit command for {}.'.format(Cmd_char, get_m(msg)))
             await reddit.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[8:])
