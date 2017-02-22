@@ -7,36 +7,40 @@ async def ex(c, pch, dch, m, a, Cmd_char):
     if len(a) == 1:
         wrd = a[0].lower()
         pydict = PyDictionary()
-        r = json.loads(pydict.meaning(wrd))
-        an = '''```Markdown
-# Meaning: {} #'''.format(wrd)
-        if 'Noun' in r:
-            an += '''<Noun>
+        r = pydict.meaning(wrd)
+        try:
+            an = '''```Markdown
+# Meaning: {} #
+'''.format(wrd)
+            if 'Noun' in r:
+                an += '''<Noun>
 '''
-            cnt = 1
-            for d in r['Noun']:
-                an += '''[{}]: {}
+                cnt = 1
+                for d in r['Noun']:
+                    an += '''[{}]: {}
 '''.format(cnt, d)
-                cnt += 1
-        if 'Verb' in r:
-            an += '''<Verb>
+                    cnt += 1
+            if 'Verb' in r:
+                an += '''<Verb>
 '''
-            cnt = 1
-            for d in r['Verb']:
-                an += '''[{}]: {}
+                cnt = 1
+                for d in r['Verb']:
+                    an += '''[{}]: {}
 '''.format(cnt, d)
-                cnt += 1
-        if 'Adjective' in r:
-            an += '''<Adjective>
-            '''
-            cnt = 1
-            for d in r['Adjective']:
-                an += '''[{}]: {}
-            '''.format(cnt, d)
-                cnt += 1
-        an += '''```'''
-        await c.send_message(pch, an)
-        await c.send_message(dch, '{}, the meaning for the term `{}` has been sent in a private message.'
-                             .format(m, wrd))
+                    cnt += 1
+            if 'Adjective' in r:
+                an += '''<Adjective>
+'''
+                cnt = 1
+                for d in r['Adjective']:
+                    an += '''[{}]: {}
+'''.format(cnt, d)
+                    cnt += 1
+            an += '''```'''
+            await c.send_message(pch, an)
+            await c.send_message(dch, '{}, the meaning for the term `{}` has been sent in a private message.'
+                                 .format(m, wrd))
+        except Exception:
+            await c.send_message(dch, '{}, there is no meaning for the term `{}`!'.format(m, wrd))
     else:
         await c.send_message(dch, '{}, **USAGE:** {}dictionary <term>'.format(m, Cmd_char))
