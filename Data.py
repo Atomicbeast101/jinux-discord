@@ -31,33 +31,40 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
 
 HELP = '''```Markdown
 # List of commands #
-1. {0}cat = Random picture or gif of a cat.
-2. {0}choose <options_by_space> = Random chooses an option from the list.
-3. {0}chucknorris = Random Chuck Norris jokes.
-4. {0}coinflip = Flip a coin to receive heads or tails.
-5. {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-6. {0}dice = Randomly chooses a number between 1 to 6.
-7. {0}dictionary <term> = Grab meaning of a given term.
-8. {0}8ball = Magic eight ball answering machine.
-9. {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
-10. {0}help <command> = Lists commands and description for each.
-11. {0}info = Information about this bot.
-12. {0}poll <start|stop> <Question...> = Create or stop polls.
-13. {0}vote <option> = Vote an option to the poll.
-14. {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
-15. {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
-16. {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-17. {0}time <timezone> = Get current time according to timezone.
-18. {0}trans <language-code> <to-translate> = Translate message to desired language.
-19. {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
-20. {0}uptime = Bot's uptime status.
-21. {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-22. {0}youtube <to-search> = Gets first video from YouTube search results.
-23. {0}9 = Restarts Jinux.```'''.format(Cmd_char)
+- {0}cat = Random picture or gif of a cat.
+- {0}channelinfo = Information about the channel you are in.
+- {0}choose <options_by_space> = Random chooses an option from the list.
+- {0}chucknorris = Random Chuck Norris jokes.
+- {0}coinflip = Flip a coin to receive heads or tails.
+- {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
+- {0}dice = Randomly chooses a number between 1 to 6.
+- {0}dictionary <term> = Grab meaning of a given term.
+- {0}8ball = Magic eight ball answering machine.
+- {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
+- {0}help <command> = Lists commands and description for each.
+- {0}info = Information about this bot.
+- {0}poll <start|stop> <Question...> = Create or stop polls.
+- {0}vote <option> = Vote an option to the poll.
+- {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
+- {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+- {0}serverinfo = Information about the server you are in.
+- {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+- {0}time <timezone> = Get current time according to timezone.
+- {0}trans <language-code> <to-translate> = Translate message to desired language.
+- {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
+- {0}update = Update Jinux bot to latest.
+- {0}uptime = Bot's uptime status.
+- {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
+- {0}youtube <to-search> = Gets first video from YouTube search results.
+- {0}9 = Restarts Jinux.```'''.format(Cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
 Posts a random picture or animated gif of a cat.```'''.format(Cmd_char)
+
+HELP_CHANNELINFO = '''```Markdown
+[Help Guide]: {}channelinfo
+Information about the channel you are in.```'''.format(Cmd_char)
 
 HELP_CHOOSE = '''```Markdown
 [Help Guide]: {}choose <options_by_space>
@@ -125,6 +132,10 @@ HELP_RPS = '''```Markdown
 Rock, paper, scissors game.
 <rock|paper|scissors> = Choose your option to compete against the bot.```'''.format(Cmd_char)
 
+HELP_SERVERINFO = '''```Markdown
+[Help Guide]: {}serverinfo
+Information about the server you are in.```'''.format(Cmd_char)
+
 HELP_TEMP = '''```Markdown
 [Help Guide]: {}temp <temp#> <from F|K|C> <to F|K|C>
 Convert temperature between F, K, or C.
@@ -151,6 +162,10 @@ HELP_TWITCH = '''```Markdown
 Receive live status of Twitch username whenever he/she goes online.
 <add|remove|list|toggle|setchannel> = List of sub-commands.
 <username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications```'''.format(Cmd_char)
+
+HELP_UDPATE = '''```Markdown
+[Help Guide]: {}
+```'''.format(Cmd_char)
 
 HELP_UPTIME = '''```Markdown
 [Help Guide]: {}uptime
