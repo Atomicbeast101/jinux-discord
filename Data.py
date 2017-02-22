@@ -94,7 +94,7 @@ Randomly chooses a number between 1 to 6.```'''
 HELP_DICTIONARY = '''```Markdown
 [Help Guide]: {}dictionary <term>
 Grab meaning of a given term.
-<term> = Word to get meaning for.'''
+<term> = Word to get meaning for.```'''.format(Cmd_char)
 
 HELP_EIGHTBALL = '''```Markdown
 [Help Guide]: {}8ball <question>
@@ -125,7 +125,7 @@ Vote an option to the poll.
 HELP_REDDIT = '''```Markdown
 [Help Guide]: {}reddit <subreddit>
 Get 20 hottest submissions from a subreddit.
-<subreddit> = Subreddit name, such as, gifs or funny```'''
+<subreddit> = Subreddit name, such as, gifs or funny```'''.format(Cmd_char)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
@@ -161,7 +161,7 @@ HELP_TWITCH = '''```Markdown
 [Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>
 Receive live status of Twitch username whenever he/she goes online.
 <add|remove|list|toggle|setchannel> = List of sub-commands.
-<username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications```'''.format(Cmd_char)
+<username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(Cmd_char)
 
 HELP_UDPATE = '''```Markdown
 [Help Guide]: {}
