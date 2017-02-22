@@ -8,6 +8,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
         s.replace(CMD_CHAR, '')
         if s == 'cat':
             await c.send_message(dch, HELP_CAT)
+        elif s == 'channelinfo':
+            await c.send_message(dch, HELP_CHANNELINFO)
         elif s == 'choose':
             await c.send_message(dch, HELP_CHOOSE)
         elif s == 'chucknorris':
@@ -32,6 +34,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
             await c.send_message(dch, HELP_REDDIT)
         elif s == 'rps':
             await c.send_message(dch, HELP_RPS)
+        elif s == 'serverinfo':
+            await c.send_message(dch, HELP_SERVERINFO)
         elif s == 'temp':
             await c.send_message(dch, HELP_TEMP)
         elif s == 'time':
@@ -40,6 +44,8 @@ async def ex(c, pch, dch, m, a, CMD_CHAR):
             await c.send_message(dch, HELP_TRANS)
         elif s == 'twitch':
             await c.send_message(dch, HELP_TWITCH)
+        elif s == 'update':
+            await c.send_message(dch, HELP_UDPATE)
         elif s == 'uptime':
             await c.send_message(dch, HELP_UPTIME)
         elif s == 'xkcd':
