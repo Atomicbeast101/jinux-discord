@@ -1,6 +1,10 @@
 # Server Info Command
 async def ex(c, pch, dch, m):
-    server = c.servers[0]
+    server = ''
+    for svr in c.servers:
+        if svr == pch.server:
+            server = svr
+            break
     r = '''```Markdown
 # Server Information #
 [ID]:       {}
