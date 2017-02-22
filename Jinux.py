@@ -10,6 +10,7 @@ from twitch.api import v3
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif,
                   info, poll, reddit, restart, rps, serverinfo, temp, time, trans, twitch, update, uptime, xkcd,
                   youtube)
+import auto_welcome
 
 
 # Setup ConfigParser
@@ -85,6 +86,13 @@ async def on_ready():
         await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
+
+
+# Auto welcome new members
+@dclient.event
+async def on_member_join(mbr):
+    if config.getboolean('Jinux', 'Auto_Welcome'):
+        await auto_welcome.wel(dclient, mbr, config.getint('Auto_Welcome_Channel'), '<@{}>'.format(mbr.id))
 
 
 # Mention function
