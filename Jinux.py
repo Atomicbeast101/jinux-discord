@@ -8,7 +8,7 @@ from cleverbot import Cleverbot
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif,
-                  info, poll, reddit, restart, rps, serverinfo, temp, time, trans, twitch, update, uptime, xkcd,
+                  info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans, twitch, update, uptime, xkcd,
                   youtube)
 import auto_welcome
 
@@ -130,7 +130,7 @@ async def on_message(msg):
             await dice.ex(dclient, msg.channel, get_m(msg))
         elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
             log('COMMAND', 'Executing {}dictionary command for {}.'.format(Cmd_char, get_m(msg)))
-            await dictionary.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[11:], Cmd_char)
+            await dictionary.ex(dclient, msg.author, msg.channel, get_m(msg), msg.content[12:], Cmd_char)
         elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
             log('COMMAND', 'Executing {}8ball command for {}.'.format(Cmd_char, get_m(msg)))
             await eightball.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
@@ -149,6 +149,9 @@ async def on_message(msg):
                                                                     msg.content[
                                                                         6:],
                                                                     Poll, Poll_question, opt, vts, vtd, Cmd_char)
+        elif cmd == 'purge' and config.getboolean('Functions', 'Purge'):
+            log('COMMAND', 'Executing {}purge command for {}.'.format(Cmd_char, get_m(msg)))
+            await purge.ex(dclient, msg.channel, get_m(msg), msg.content[7:], Cmd_char)
         elif cmd == 'vote' and config.getboolean('Functions', 'Poll'):
             log('COMMAND', 'Executing {}vote command for {}.'.format(Cmd_char, get_m(msg)))
             Poll, Poll_question, opt, vts, vtd = await poll.ex_vote(dclient, msg.channel, msg.author, get_m(msg),
