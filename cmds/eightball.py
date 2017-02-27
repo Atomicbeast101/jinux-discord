@@ -2,14 +2,14 @@ import aiohttp
 
 
 # 8ball command
-async def ex(c, ch, m, q, CMD_CHAR):
-    if len(q.split(' ')) >= 1:
-        q.replace(' ', '%')
-        q.replace('?', '%3F')
-        q.replace(',', '%2C')
+async def ex(dclient, channel, mention, question, cmd_char):
+    if len(question.split(' ')) >= 1:
+        question.replace(' ', '%')
+        question.replace('?', '%3F')
+        question.replace(',', '%2C')
         async with aiohttp.ClientSession() as s:
-            async with s.get('https://8ball.delegator.com/magic/JSON/{}'.format(q)) as r:
+            async with s.get('https://8ball.delegator.com/magic/JSON/{}'.format(question)) as r:
                 d = await r.json()
-                await c.send_message(ch, '{}, {}'.format(m, d['magic']['answer']))
+                await dclient.send_message(channel, '{}, {}'.format(mention, d['magic']['answer']))
     else:
-        await c.send_message(ch, '{}, **USAGE:** {}8ball <Question...>'.format(m, CMD_CHAR))
+        await dclient.send_message(channel, '{}, **USAGE:** {}8ball <Question...>'.format(mention, cmd_char))

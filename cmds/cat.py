@@ -2,8 +2,8 @@ import aiohttp
 
 
 # Cat command
-async def ex(c, ch):
+async def ex(dclient, channel):
     async with aiohttp.ClientSession() as s:
         async with s.get('http://random.cat/meow') as r:
             d = await r.json()
-            await c.send_message(ch, '{}'.format(d['file']))
+            await dclient.send_message(channel, '{}'.format(d['file']))

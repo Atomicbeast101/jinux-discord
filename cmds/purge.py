@@ -8,13 +8,13 @@ def is_valid(m):
 
 
 # Purge Command
-async def ex(c, ch, m, a, Cmd_char):
+async def ex(dclient, channel, mention, a, cmd_char):
     a = a.split(' ')
-    if ch.permissions_for(ch).administrator:
+    if channel.permissions_for(a).administrator:
         if len(a) == 1 and is_valid(a[0]):
-            await c.purge_from(ch, int(a[0]))
-            await c.send_message(ch, '{}, {} messages purged!'.format(m, a[0]))
+            await dclient.purge_from(channel, int(a[0]))
+            await dclient.send_message(channel, '{}, {} messages purged!'.format(mention, a[0]))
         else:
-            await c.send_message(ch, '{}, **USAGE** {}purge <#-of-messages>'.format(m, Cmd_char))
+            await dclient.send_message(channel, '{}, **USAGE** {}purge <#-of-messages>'.format(mention, cmd_char))
     else:
-        await c.send_message(ch, '{}, you must be an administrator!'.format(m))
+        await dclient.send_message(channel, '{}, you must be an administrator!'.format(mention))

@@ -19,8 +19,8 @@ def channel_list(server, channel_type):
 
 
 # Server Info Command
-async def ex(c, pch, dch, m):
-    server = discord.utils.get(c.servers, id=pch.server.id)
+async def ex(dclient, private_channel, public_channel, mention):
+    server = discord.utils.get(dclient.servers, id=private_channel.server.id)
     r = '''```Markdown
 # Server Information #
 [ID]:             {}
@@ -35,5 +35,6 @@ async def ex(c, pch, dch, m):
                                   len(server.members), len(channel_list(server, discord.ChannelType.text)),
                                   len(channel_list(server, discord.ChannelType.voice)), server.region,
                                   ', '.join(get_string_roles(server.roles)), server.icon)
-    await c.send_message(pch, r)
-    await c.send_message(dch, '{}, the server information has been sent in a private message.'.format(m))
+    await dclient.send_message(private_channel, r)
+    await dclient.send_message(public_channel, '{}, the server information has been sent in a private message.'
+                               .format(mention))

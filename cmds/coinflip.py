@@ -2,5 +2,5 @@ import random as r
 
 
 # Coin flip command
-async def ex(c, ch, m):
-    await c.send_message(ch, '{}, coin says `{}`!'.format(m, r.choice(['heads', 'tails'])))
+async def ex(dclient, channel, mention):
+    await dclient.send_message(channel, '{}, coin says `{}`!'.format(mention, r.choice(['heads', 'tails'])))

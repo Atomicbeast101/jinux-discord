@@ -5,14 +5,14 @@ import aiohttp
 
 
 # xkcd command
-async def ex(c, ch, m, a):
+async def ex(dclient, channel, a):
     if len(a) > 0:
         a = a.split(' ')[0]
         if a == 'latest':
             async with aiohttp.ClientSession() as s:
                 async with s.get('https://xkcd.com/info.0.json') as r:
                     d = await r.json()
-                    await c.send_message(ch, '''Title: {}
+                    await dclient.send_message(channel, '''Title: {}
 {}'''.format(d['safe_title'], d['img']))
         else:
             b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
@@ -22,7 +22,7 @@ async def ex(c, ch, m, a):
             async with aiohttp.ClientSession() as s:
                 async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
                     d = await r.json()
-                    await c.send_message(ch, '''Title: {}
+                    await dclient.send_message(channel, '''Title: {}
 {}'''.format(d['safe_title'], d['img']))
     else:
         b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
@@ -32,5 +32,5 @@ async def ex(c, ch, m, a):
         async with aiohttp.ClientSession() as s:
             async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
                 d = await r.json()
-                await c.send_message(ch, '''Title: {}
+                await dclient.send_message(channel, '''Title: {}
 {}'''.format(d['safe_title'], d['img']))

@@ -2,7 +2,7 @@ import aiohttp
 
 
 # Reddit command
-async def ex(c, pch, dch, m, a):
+async def ex(dclient, private_channel, public_channel, mention, a):
     a = a.split(' ')
     if len(a) == 1:
         async with aiohttp.ClientSession() as s:
@@ -18,8 +18,8 @@ async def ex(c, pch, dch, m, a):
     <https://reddit.com{}>
 '''.format(cnt, title, url)
                     cnt += 1
-                await c.send_message(pch, r)
-                await c.send_message(dch, '{}, I sent the list in a private message.'.format(m))
+                await dclient.send_message(private_channel, r)
+                await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
     else:
         a = a[1]
         async with aiohttp.ClientSession() as s:
@@ -36,5 +36,5 @@ async def ex(c, pch, dch, m, a):
     <https://reddit.com{}>
 '''.format(cnt, title, url)
                     cnt += 1
-                await c.send_message(pch, r)
-                await c.send_message(dch, '{}, I sent the list in a private message.'.format(m))
+                await dclient.send_message(private_channel, r)
+                await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))

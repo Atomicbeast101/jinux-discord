@@ -1,17 +1,16 @@
 from PyDictionary import PyDictionary
-import json
 
 # Dictionary command
-async def ex(c, pch, dch, m, a, Cmd_char):
+async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
     a = a.split(' ')
     if len(a) == 1:
-        wrd = a[0].lower()
+        word = a[0].lower()
         pydict = PyDictionary()
-        r = pydict.meaning(wrd)
+        r = pydict.meaning(word)
         try:
             an = '''```Markdown
 # Meaning: {} #
-'''.format(wrd)
+'''.format(word)
             if 'Noun' in r:
                 an += '''<Noun>
 '''
@@ -37,10 +36,11 @@ async def ex(c, pch, dch, m, a, Cmd_char):
 '''.format(cnt, d)
                     cnt += 1
             an += '''```'''
-            await c.send_message(pch, an)
-            await c.send_message(dch, '{}, the meaning for the term `{}` has been sent in a private message.'
-                                 .format(m, wrd))
+            await dclient.send_message(private_channel, an)
+            await dclient.send_message(public_channel, '{}, the meaning for the term `{}` has been sent in a private '
+                                                       'message.'.format(mention, word))
         except Exception:
-            await c.send_message(dch, '{}, there is no meaning for the term `{}`!'.format(m, wrd))
+            await dclient.send_message(public_channel, '{}, there is no meaning for the term `{}`!'.format(mention,
+                                                                                                           word))
     else:
-        await c.send_message(dch, '{}, **USAGE:** {}dictionary <term>'.format(m, Cmd_char))
+        await dclient.send_message(public_channel, '{}, **USAGE:** {}dictionary <term>'.format(mention, cmd_char))

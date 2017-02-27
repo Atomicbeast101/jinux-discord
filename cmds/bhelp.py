@@ -2,61 +2,61 @@ from Data import *
 
 
 # Help command
-async def ex(c, pch, dch, m, a, CMD_CHAR):
+async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
     if len(a) == 2:
         s = a[1].lower()
-        s.replace(CMD_CHAR, '')
+        s.replace(cmd_char, '')
         if s == 'cat':
-            await c.send_message(dch, HELP_CAT)
+            await dclient.send_message(public_channel, HELP_CAT)
         elif s == 'channelinfo':
-            await c.send_message(dch, HELP_CHANNELINFO)
+            await dclient.send_message(public_channel, HELP_CHANNELINFO)
         elif s == 'choose':
-            await c.send_message(dch, HELP_CHOOSE)
+            await dclient.send_message(public_channel, HELP_CHOOSE)
         elif s == 'chucknorris':
-            await c.send_message(dch, HELP_CHUCKNORRIS)
+            await dclient.send_message(public_channel, HELP_CHUCKNORRIS)
         elif s == 'coinflip':
-            await c.send_message(dch, HELP_COINFLIP)
+            await dclient.send_message(public_channel, HELP_COINFLIP)
         elif s == 'convert':
-            await c.send_message(dch, HELP_CONVERT)
+            await dclient.send_message(public_channel, HELP_CONVERT)
         elif s == 'dice':
-            await c.send_message(dch, HELP_DICE)
+            await dclient.send_message(public_channel, HELP_DICE)
         elif s == 'dictionary':
-            await c.send_message(dch, HELP_DICTIONARY)
+            await dclient.send_message(public_channel, HELP_DICTIONARY)
         elif s == '8ball':
-            await c.send_message(dch, HELP_EIGHTBALL)
+            await dclient.send_message(public_channel, HELP_EIGHTBALL)
         elif s == 'gif':
-            await c.send_message(dch, HELP_GIF)
+            await dclient.send_message(public_channel, HELP_GIF)
         elif s == 'info':
-            await c.send_message(dch, HELP_INFO)
+            await dclient.send_message(public_channel, HELP_INFO)
         elif s == 'poll':
-            await c.send_message(dch, HELP_POLL)
+            await dclient.send_message(public_channel, HELP_POLL)
         elif s == 'reddit':
-            await c.send_message(dch, HELP_REDDIT)
+            await dclient.send_message(public_channel, HELP_REDDIT)
         elif s == 'rps':
-            await c.send_message(dch, HELP_RPS)
+            await dclient.send_message(public_channel, HELP_RPS)
         elif s == 'serverinfo':
-            await c.send_message(dch, HELP_SERVERINFO)
+            await dclient.send_message(public_channel, HELP_SERVERINFO)
         elif s == 'temp':
-            await c.send_message(dch, HELP_TEMP)
+            await dclient.send_message(public_channel, HELP_TEMP)
         elif s == 'time':
-            await c.send_message(dch, HELP_TIME)
+            await dclient.send_message(public_channel, HELP_TIME)
         elif s == 'trans':
-            await c.send_message(dch, HELP_TRANS)
+            await dclient.send_message(public_channel, HELP_TRANS)
         elif s == 'twitch':
-            await c.send_message(dch, HELP_TWITCH)
+            await dclient.send_message(public_channel, HELP_TWITCH)
         elif s == 'update':
-            await c.send_message(dch, HELP_UDPATE)
+            await dclient.send_message(public_channel, HELP_UDPATE)
         elif s == 'uptime':
-            await c.send_message(dch, HELP_UPTIME)
+            await dclient.send_message(public_channel, HELP_UPTIME)
         elif s == 'xkcd':
-            await c.send_message(dch, HELP_XKCD)
+            await dclient.send_message(public_channel, HELP_XKCD)
         elif s == 'youtube':
-            await c.send_message(dch, HELP_YOUTUBE)
+            await dclient.send_message(public_channel, HELP_YOUTUBE)
         elif s == '9':
-            await c.send_message(dch, HELP_NINE)
+            await dclient.send_message(public_channel, HELP_NINE)
         else:
-            await c.send_message(dch, 'I am unable to find the command you are looking for, {}! Perhaps check {}help'
-                                      '?'.format(m, CMD_CHAR))
+            await dclient.send_message(public_channel, 'I am unable to find the command you are looking for, {}! '
+                                                       'Perhaps check {}help?'.format(mention, cmd_char))
     else:
-        await c.send_message(pch, HELP)
-        await c.send_message(dch, '{}, I sent you the help guide in a private message.'.format(m))
+        await c.send_message(private_channel, HELP)
+        await c.send_message(public_channel, '{}, I sent you the help guide in a private message.'.format(mention))

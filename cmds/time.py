@@ -3,16 +3,17 @@ from pytz import timezone, all_timezones
 
 
 # Time command
-async def ex(c, ch, m, a, CMD_CHAR):
+async def ex(dclient, channel, mention, a, cmd_char):
     if len(a) > 0:
         a = a.split(' ')[0]
         if len(a) == 3:
             a = a.upper()
         if a in all_timezones:
-            t = datetime.now(timezone(a))
-            await c.send_message(ch, 'It is `{:%H:%M:%S}` or `{:%I:%M:%S %p}` in `{}` right now.'.format(t, t, a))
+            time_now = datetime.now(timezone(a))
+            await dclient.send_message(channel, 'It is `{:%H:%M:%S}` or `{:%I:%M:%S %p}` in `{}` right now.'
+                                       .format(time_now, time_now, a))
         else:
-            await c.send_message(ch, 'Invalid timezone input, `{}`! Please check <https://en.wikipedia.org/wiki/List_'
-                                     'of_tz_database_time_zones>, {}!'.format(a, m))
+            await dclient.send_message(channel, 'Invalid timezone input, `{}`! Please check <https://en.wikipedia.org'
+                                                '/wiki/List_of_tz_database_time_zones>, {}!'.format(a, mention))
     else:
-        await c.send_message(ch, '{}, **USAGE:** {}time <timezone>'.format(m, CMD_CHAR))
+        await dclient.send_message(channel, '{}, **USAGE:** {}time <timezone>'.format(mention, cmd_char))

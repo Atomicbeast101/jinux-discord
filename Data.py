@@ -5,7 +5,7 @@ config = ConfigParser()
 config.read('config.ini')
 
 # Fetch config data and turn it into objects
-Cmd_char = config.get('Jinux', 'Character')
+cmd_char = config.get('Jinux', 'Character')
 
 # Bot uses this data. Nothing to explain much here.
 LANG_LIST = ['AB', 'AA', 'AF', 'SQ', 'AM,' 'AR', 'HY', 'AS', 'AY', 'AZ', 'BA', 'EU', 'BN', 'DZ', 'BH', 'BI', 'BR', 'BG',
@@ -56,15 +56,15 @@ HELP = '''```Markdown
 - {0}uptime = Bot's uptime status.
 - {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
 - {0}youtube <to-search> = Gets first video from YouTube search results.
-- {0}9 = Restarts Jinux.```'''.format(Cmd_char)
+- {0}9 = Restarts Jinux.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
-Posts a random picture or animated gif of a cat.```'''.format(Cmd_char)
+Posts a random picture or animated gif of a cat.```'''.format(cmd_char)
 
 HELP_CHANNELINFO = '''```Markdown
 [Help Guide]: {}channelinfo
-Information about the channel you are in.```'''.format(Cmd_char)
+Information about the channel you are in.```'''.format(cmd_char)
 
 HELP_CHOOSE = '''```Markdown
 [Help Guide]: {}choose <options_by_space>
@@ -73,11 +73,11 @@ Random chooses an option from the list.
 
 HELP_CHUCKNORRIS = '''```Markdown
 [Help Guide]: {}chucknorris
-Posts a random Chuck Norris joke.```'''.format(Cmd_char)
+Posts a random Chuck Norris joke.```'''.format(cmd_char)
 
 HELP_COINFLIP = '''```Markdown
 [Help Guide]: {}coinflip
-Flip a coin to receive heads or tails.```'''.format(Cmd_char)
+Flip a coin to receive heads or tails.```'''.format(cmd_char)
 
 HELP_CONVERT = '''```Markdown
 [Help Guide]: {}convert <amount> <from-currency> <to-currency>
@@ -85,7 +85,7 @@ Converts the specified amount of money to a desired currency.
 <amount> = The amount to convert.
 <from-currency> = The currency code from which to convert.
 <to-currency> = The currency code to which the amount should be converted.```
-List of supported currency codes: <https://currencysystem.com/codes/>'''.format(Cmd_char)
+List of supported currency codes: <https://currencysystem.com/codes/>'''.format(cmd_char)
 
 HELP_DICE = '''```Markdown
 [Help Guide]: {}dice
@@ -94,60 +94,60 @@ Randomly chooses a number between 1 to 6.```'''
 HELP_DICTIONARY = '''```Markdown
 [Help Guide]: {}dictionary <term>
 Grab meaning of a given term.
-<term> = Word to get meaning for.```'''.format(Cmd_char)
+<term> = Word to get meaning for.```'''.format(cmd_char)
 
 HELP_EIGHTBALL = '''```Markdown
 [Help Guide]: {}8ball <question>
 Ask the magical 8ball a question and receive an answer.
-<question> = Desired question.```'''.format(Cmd_char)
+<question> = Desired question.```'''.format(cmd_char)
 
 HELP_GIF = '''```Markdown
 [Help Guide]: {}gif <tags>
 Retrieves GIF from Giphy according to the tags given.
-<tags> = Specific GIF you want to find (ex: silly OR american).```'''.format(Cmd_char)
+<tags> = Specific GIF you want to find (ex: silly OR american).```'''.format(cmd_char)
 
 HELP_INFO = '''```Markdown
 [Help Guide]: {}info
-Information about this bot.```'''.format(Cmd_char)
+Information about this bot.```'''.format(cmd_char)
 
 HELP_POLL = '''```Markdown
 [Help Guide]: {}poll <start|stop> <question>
 Create or stop polls. Currently only admins are allowed to use this command.
 <start|stop> = Either start a new poll or stop an active poll.
-<question> = Desired poll question.```'''.format(Cmd_char)
+<question> = Desired poll question.```'''.format(cmd_char)
 
 HELP_VOTE = '''```Markdown
 [Help Guide]: {}vote <option>
 Vote an option to the poll.
 <option> = List of options given from the Poll.
-```'''.format(Cmd_char)
+```'''.format(cmd_char)
 
 HELP_REDDIT = '''```Markdown
 [Help Guide]: {}reddit <subreddit>
 Get 20 hottest submissions from a subreddit.
-<subreddit> = Subreddit name, such as, gifs or funny```'''.format(Cmd_char)
+<subreddit> = Subreddit name, such as, gifs or funny```'''.format(cmd_char)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
 Rock, paper, scissors game.
-<rock|paper|scissors> = Choose your option to compete against the bot.```'''.format(Cmd_char)
+<rock|paper|scissors> = Choose your option to compete against the bot.```'''.format(cmd_char)
 
 HELP_SERVERINFO = '''```Markdown
 [Help Guide]: {}serverinfo
-Information about the server you are in.```'''.format(Cmd_char)
+Information about the server you are in.```'''.format(cmd_char)
 
 HELP_TEMP = '''```Markdown
 [Help Guide]: {}temp <temp#> <from F|K|C> <to F|K|C>
 Convert temperature between F, K, or C.
 <temp#> = Temperature you want to convert to.
 <from F|K|C> = Current temperature measurement.
-<to F|K|C> = Temperature measurement to convert to.```'''.format(Cmd_char)
+<to F|K|C> = Temperature measurement to convert to.```'''.format(cmd_char)
 
 HELP_TIME = '''```Markdown
 [Help Guide]: {}time <timezone>
 Get current time according to timezone.
 <timezone> = Timezone to get current time from (ex: America/Chicago).```
-List of timezones: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>'''.format(Cmd_char)
+List of timezones: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>'''.format(cmd_char)
 
 HELP_TRANS = '''```Markdown
 [Help Guide]: {}trans <language-code> <to-translate>
@@ -155,32 +155,32 @@ Translate a specified message to a supported language of choice.
 <language-code> = The language code to which the message should be translated.
 <to-translate> = The message to be translated.```
 List of supported language codes:
-<https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/>'''.format(Cmd_char)
+<https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/>'''.format(cmd_char)
 
 HELP_TWITCH = '''```Markdown
 [Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>
 Receive live status of Twitch username whenever he/she goes online.
 <add|remove|list|toggle|setchannel> = List of sub-commands.
-<username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(Cmd_char)
+<username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(cmd_char)
 
 HELP_UDPATE = '''```Markdown
 [Help Guide]: {}
-```'''.format(Cmd_char)
+```'''.format(cmd_char)
 
 HELP_UPTIME = '''```Markdown
 [Help Guide]: {}uptime
-Bot's uptime status.```'''.format(Cmd_char)
+Bot's uptime status.```'''.format(cmd_char)
 
 HELP_XKCD = '''```Markdown
 [Help Guide]: {}xkcd <latest>
 Gets random or latest comic from xkcd.com website.
-<latest> = Latest comic published on xkcd.com.```'''.format(Cmd_char)
+<latest> = Latest comic published on xkcd.com.```'''.format(cmd_char)
 
 HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>
 Retrieves first video from YouTube search results.
-<to-search> = No need to explain here.```'''.format(Cmd_char)
+<to-search> = No need to explain here.```'''.format(cmd_char)
 
 HELP_NINE = '''```Markdown
 [Help Guide]: {}9
-Restarts Jinux.```'''.format(Cmd_char)
+Restarts Jinux.```'''.format(cmd_char)
