@@ -4,7 +4,7 @@ from datetime import datetime
 from time import localtime, strftime
 
 import discord
-from cleverbot import Cleverbot
+import aiml
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif,
@@ -70,8 +70,10 @@ async def twitch_live_stream_notify():
                         active.remove(Streamer)
 
 
-# Cleverbot setup
-cb = Cleverbot()
+# Chat Setup
+chat = aiml.Kernel()
+chat.learn('startup.xml')
+chat.respond('load aiml b')
 
 
 # Sets up the game status
@@ -206,7 +208,7 @@ async def on_message(msg):
             and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
             log('CHATTER_BOT', 'Responding to {}.'.format(get_n(msg)))
-            await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), cb.ask(msg.content[22:])))
+            await dclient.send_message(msg.channel, '{} {}'.format(get_m(msg), chat.respond(msg.content[22:])))
 
 # Activate Bot
 dclient.run(Token_ID)
