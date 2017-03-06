@@ -84,8 +84,6 @@ async def on_ready():
     global start_time
     start_time = datetime.now()
     log('BOOTUP', 'Finished starting up Jinux system!')
-    if twitch_enabled:
-        await dclient.loop.create_task(twitch_live_stream_notify())
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
 
@@ -210,6 +208,10 @@ async def on_message(msg):
         if int(msg.author.id) != int(Client_ID):
             log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
             await dclient.send_message(msg.channel, '{} {}'.format(get_mention(msg), chat.respond(msg.content[22:])))
+
+# Execute Twitch Loop
+if twitch_enabled:
+    dclient.loop.create_task(twitch_live_stream_notify())
 
 # Activate Bot
 dclient.run(Token_ID)
