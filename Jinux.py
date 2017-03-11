@@ -112,7 +112,7 @@ async def on_message(msg):
     if msg.content.startswith(cmd_char):
         global poll_enable, poll_question, options, votes, voted, twitch_enabled, Channel_ID, streamers, active, \
             twitch_channel
-        cmd = msg.content[1:].split(' ')[0]
+        cmd = msg.content[1:].split(' ')[0].lower()
         if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
             log('COMMAND', 'Executing {}cat command for {}.'.format(cmd_char, get_name(msg)))
             await cat.ex(dclient, msg.channel)
