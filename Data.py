@@ -45,7 +45,7 @@ HELP = '''```Markdown
 - {0}info = Information about this bot.
 - {0}poll <start|stop> <Question...> = Create or stop polls.
 - {0}vote <option> = Vote an option to the poll.
-- {0}reddit <subreddit> = Get 20 hottest submissions from a subreddit.
+- {0}reddit <# of subs OR subreddit> <# of subs> = Get hottest submissions from front page or subreddit.
 - {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
 - {0}serverinfo = Information about the server you are in.
 - {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
@@ -123,9 +123,10 @@ Vote an option to the poll.
 ```'''.format(cmd_char)
 
 HELP_REDDIT = '''```Markdown
-[Help Guide]: {}reddit <subreddit>
-Get 20 hottest submissions from a subreddit.
-<subreddit> = Subreddit name, such as, gifs or funny```'''.format(cmd_char)
+[Help Guide]: {}reddit <# of subs OR subreddit> <# of subs>
+Get hottest submissions from front page or subreddit. If no # of subs listed, default is 5 submissions.
+<# of subs OR subreddit> = If front page, # of submissions to view. If subreddit, views 5 hot submissions.
+<# of subs> = Number of hot submissions to view from a subreddit.```'''.format(cmd_char)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
