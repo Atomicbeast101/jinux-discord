@@ -58,5 +58,5 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(public_channel, 'I am unable to find the command you are looking for, {}! '
                                                        'Perhaps check {}help?'.format(mention, cmd_char))
     else:
-        await c.send_message(private_channel, HELP)
-        await c.send_message(public_channel, '{}, I sent you the help guide in a private message.'.format(mention))
+        await dclient.send_message(private_channel, HELP)
+        await dclient.send_message(public_channel, '{}, I sent you the help guide in a private message.'.format(mention))
