@@ -72,7 +72,7 @@ async def twitch_live_stream_notify():
 
 # Chat Setup
 chat = aiml.Kernel()
-chat.learn('aiml_files/startup.xml')
+chat.learn('aiml_files/*.aiml')
 chat.respond('load aiml b')
 
 
