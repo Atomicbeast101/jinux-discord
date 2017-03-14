@@ -1,5 +1,11 @@
 <aiml version="1.0.1" encoding="UTF-8">
-    <category>
+
+
+    <set name="name">Jinux</set>
+	<set name="master">Atomicbeast101</set>
+	
+	
+	<category>
         <pattern>HELLO</pattern>
         <template>
             Well, hello!

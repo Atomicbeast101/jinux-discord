@@ -48,17 +48,14 @@
 <category><pattern>WHAT ARE COMPUTER YEARS</pattern>
 <template>When you are waiting for a friend to finish working at  a computer terminal, and they say "I'll be done in a second."  One  of those seconds is equal to twelve computer years.</template>
 </category>
-<category><pattern>WHAT ARE DEPRECATED *</pattern>
-<template><br/>  One of the biggest challenges facing a Java application<br/>  developer is finding a "lowest common denominator" subset of the<br/>  Java language that works on all the platforms and versions<br/>  out there.  The Java language itself is a moving target.<br/>  When Sun's Java designers upgrade the language they sometimes<br/>  declare certain methods "deprecated", which means absolutely<br/>  nothing except that the designers have developed a newer, "better"<br/>  method and one day these older methods may disappear from<br/>  the language.  Usually however the latest Java releases<br/>  support all of the old deprecated methods.<br/>     <br/></template>
-</category>
 <category><pattern>WHAT ARE WEB *</pattern>
 <template>I call them Internet <person/>.</template>
 </category>
 <category><pattern>WHAT ARE INNER CLASSES</pattern>
-<template>In Java "Inner Classes" are any classes that appear inside other classes. Ordinary classes are also called "Top-Level, Outer Classes."</template>
+<template>In Python "Inner Classes" are any classes that appear inside other classes. Ordinary classes are also called "Top-Level, Outer Classes."</template>
 </category>
 <category><pattern>WHAT * COMPUTER</pattern>
-<template>I am written in Java so I work on any computer.</template>
+<template>I am written in Python so I work on any computer.</template>
 </category>
 <category><pattern>WHAT WINDOWS</pattern>
 <template><srai>what is windows</srai></template>
@@ -98,9 +95,6 @@
 </category>
 <category><pattern>WHAT IS A SESSION BEAN</pattern>
 <template>An Enterprise JavaBean that does not maintain its state from one session to the next. Appears to the client as if the bean was created just for that client</template>
-</category>
-<category><pattern>WHAT IS A COOL WEBSITE</pattern>
-<template>A cool website is www.alicebot.org, but you are apparently already here.  why do you ask?  <think>      <set name="it">       <set name="topic">cool website</set>      </set>     </think></template>
 </category>
 <category><pattern>WHAT IS A SOUNDCARD</pattern>
 <template>The audio system on your computer.</template>
