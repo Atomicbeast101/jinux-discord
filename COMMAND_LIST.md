@@ -1,1 +1,4 @@
-List of commands goes here...
+## Commands
+| Command | Description | Example |
+|:-------:|-------------|---------|
+| `CMD` | DESC | EXAMPLE |
