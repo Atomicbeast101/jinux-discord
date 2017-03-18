@@ -27,7 +27,7 @@
 | `-youtube <to-search>` | Gets first video from YouTube search results. |
 | `-9` | Restarts Jinux. |
 
-> Administrators only have access to `-poll <start|stop>` and `-twitch <add|remove|toggle|setchannel>`. Users can do -twitch list. 
+> Administrators only have access to `-poll <start|stop>`, `-twitch <add|remove|toggle|setchannel>` and `-9`. Users can do `-twitch list`. 
 
 List of translate codes: [https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/](https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/)
 
