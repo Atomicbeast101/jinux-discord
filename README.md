@@ -4,7 +4,7 @@
 [<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/)
 
 ## Requirements
-- Python v3.5+ (This was tested with Python v3.5.0. Python version 3.4 and below WILL not work.)
+- Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
 - Python packages: `asyncio python-aiml discord.py python-twitch aiohttp PyDictionary geopy translate bs4`
 - Linux or Windows OS (Standard server version is recommended.)
 - Strong internet speed with minimal latency (Latency effects the response time from the bot.)
@@ -14,7 +14,7 @@
 [Installation Guide](https://github.com/Atomicbeast101/Jinux/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/COMMAND_LIST.md)
 
 ## Change Log:
-- [v3.0] = Big update! Such wow! Such awesomeness!
+- [v3.0] = Big overhaul update. Features added: -reddit, -twitch, -uptime, -9, logging system, & auto welcome messaging. Improved features: -time & -poll
 - [v2.3] = Made Cleverbot API work again.
 - [v2.2] = Fixed bot's roasting program to work with Cleverbot's v2.0.0 update.
 - [v2.1] = Bot kept talking to himself so I told him not to. (bug happens when doing -trans en @BotName Hello!).
