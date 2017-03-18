@@ -140,3 +140,6 @@ $RECYCLE.BIN/
 
 # Jetbeans products
 .idea/
+
+# VSCode
+.vscode/
