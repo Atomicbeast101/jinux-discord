@@ -11,7 +11,7 @@
 - Sudo access (Linux) or Administrator access (Windows)
 
 ## Links
-[Installation Guide](https://github.com/Atomicbeast101/Jinux/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/COMMAND_LIST.md)
+[Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md)
 
 ## Information to Keep in Mind
 The chat feature is not perfect. You may have to mess with the AIML files to have the bot reply exactly you want them to. More information on the AIML [here](https://www.tutorialspoint.com/aiml/).
