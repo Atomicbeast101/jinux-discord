@@ -134,3 +134,27 @@ https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot
 ```PowerShell
 python /path/to/Jinux.py
 ```
+
+
+## Configuration
+```Ini
+Channel = 0
+```
+ID of the channel where Jinux will "wave" in (meaning that it's online and working).
+```Ini
+Character = -
+```
+Starting character of the command. Default is `-`. If you change it to `=` for example, all commands have to start with that. (ex: =help).
+```Ini
+Playing = -help | Jinux v3.0
+```
+Playing status of the bot.
+```Ini
+Logging = On
+```
+Toggle the logging of the commands/bot replies the users execute.
+```Ini
+Auto_Welcome = On
+Auto_Welcome_Channel = 0
+```
+Toggle the auto welcoming messages for new users that join the server. The `Auto_Welcome_Channel` variable is for the channel ID where the bot will post the welcome messages to the user.
