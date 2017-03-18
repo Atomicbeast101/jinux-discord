@@ -39,20 +39,19 @@ HELP = '''```Markdown
 - {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
 - {0}dice = Randomly chooses a number between 1 to 6.
 - {0}dictionary <term> = Grab meaning of a given term.
-- {0}8ball = Magic eight ball answering machine.
+- {0}8ball <question...> = Magic eight ball answering machine.
 - {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
 - {0}help <command> = Lists commands and description for each.
 - {0}info = Information about this bot.
 - {0}poll <start|stop> <Question...> = Create or stop polls.
 - {0}vote <option> = Vote an option to the poll.
-- {0}reddit <# of subs OR subreddit> <# of subs> = Get hottest submissions from front page or subreddit.
+- {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
 - {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
 - {0}serverinfo = Information about the server you are in.
-- {0}temp <temp#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-- {0}time <timezone> = Get current time according to timezone.
+- {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+- {0}time <location> = Get current time according to timezone.
 - {0}trans <language-code> <to-translate> = Translate message to desired language.
-- {0}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID> = Twitch live stream notification.
-- {0}update = Update Jinux bot to latest.
+- {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
 - {0}uptime = Bot's uptime status.
 - {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
 - {0}youtube <to-search> = Gets first video from YouTube search results.
@@ -97,9 +96,9 @@ Grab meaning of a given term.
 <term> = Word to get meaning for.```'''.format(cmd_char)
 
 HELP_EIGHTBALL = '''```Markdown
-[Help Guide]: {}8ball <question>
+[Help Guide]: {}8ball <question...>
 Ask the magical 8ball a question and receive an answer.
-<question> = Desired question.```'''.format(cmd_char)
+<question...> = Desired question.```'''.format(cmd_char)
 
 HELP_GIF = '''```Markdown
 [Help Guide]: {}gif <tags>
@@ -111,10 +110,10 @@ HELP_INFO = '''```Markdown
 Information about this bot.```'''.format(cmd_char)
 
 HELP_POLL = '''```Markdown
-[Help Guide]: {}poll <start|stop> <question>
+[Help Guide]: {}poll <start|stop> <question...>
 Create or stop polls. Currently only admins are allowed to use this command.
 <start|stop> = Either start a new poll or stop an active poll.
-<question> = Desired poll question.```'''.format(cmd_char)
+<question...> = Desired poll question.```'''.format(cmd_char)
 
 HELP_VOTE = '''```Markdown
 [Help Guide]: {}vote <option>
@@ -123,10 +122,10 @@ Vote an option to the poll.
 ```'''.format(cmd_char)
 
 HELP_REDDIT = '''```Markdown
-[Help Guide]: {}reddit <# of subs OR subreddit> <# of subs>
+[Help Guide]: {}reddit <#-subs-OR-subreddit> <#-subs>
 Get hottest submissions from front page or subreddit. If no # of subs listed, default is 5 submissions.
-<# of subs OR subreddit> = If front page, # of submissions to view. If subreddit, views 5 hot submissions.
-<# of subs> = Number of hot submissions to view from a subreddit.```'''.format(cmd_char)
+<#-subs-OR-subreddit> = If front page, # of submissions to view. If subreddit, views 5 hot submissions.
+<#-subs> = Number of hot submissions to view from a subreddit.```'''.format(cmd_char)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
@@ -145,10 +144,9 @@ Convert temperature between F, K, or C.
 <to F|K|C> = Temperature measurement to convert to.```'''.format(cmd_char)
 
 HELP_TIME = '''```Markdown
-[Help Guide]: {}time <timezone>
+[Help Guide]: {}time <location>
 Get current time according to timezone.
-<timezone> = Timezone to get current time from (ex: America/Chicago).```
-List of timezones: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>'''.format(cmd_char)
+<location> = Timezone to get current time from (ex: Chicago, IL or Paris, France).```'''.format(cmd_char)
 
 HELP_TRANS = '''```Markdown
 [Help Guide]: {}trans <language-code> <to-translate>
@@ -159,14 +157,10 @@ List of supported language codes:
 <https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/>'''.format(cmd_char)
 
 HELP_TWITCH = '''```Markdown
-[Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <username-OR-channel-ID>
+[Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID>
 Receive live status of Twitch username whenever he/she goes online.
 <add|remove|list|toggle|setchannel> = List of sub-commands.
 <username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(cmd_char)
-
-HELP_UDPATE = '''```Markdown
-[Help Guide]: {}
-```'''.format(cmd_char)
 
 HELP_UPTIME = '''```Markdown
 [Help Guide]: {}uptime

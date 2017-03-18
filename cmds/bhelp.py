@@ -44,8 +44,6 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(public_channel, HELP_TRANS)
         elif s == 'twitch':
             await dclient.send_message(public_channel, HELP_TWITCH)
-        elif s == 'update':
-            await dclient.send_message(public_channel, HELP_UDPATE)
         elif s == 'uptime':
             await dclient.send_message(public_channel, HELP_UPTIME)
         elif s == 'xkcd':

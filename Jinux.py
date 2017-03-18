@@ -188,9 +188,6 @@ async def on_message(msg):
             twitch_enabled, Channel_ID, streamers, active = await twitch.ex(
                 dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:], twitch_enabled, twitch_channel,
                 streamers, active, cmd_char)
-        elif cmd == 'update' and config.getboolean('Functions', 'Update'):
-            print()
-            # TODO
         elif cmd == 'uptime':
             log('COMMAND', 'Executing {}uptime command for {}.'.format(cmd_char, get_name(msg)))
             await uptime.ex(dclient, msg.channel, start_time)
