@@ -13,6 +13,9 @@
 ## Links
 [Installation Guide](https://github.com/Atomicbeast101/Jinux/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/COMMAND_LIST.md)
 
+## Information to Keep in Mind
+The chat feature is not perfect. You may have to mess with the AIML files to have the bot reply exactly you want them to. More information on the AIML [here](https://www.tutorialspoint.com/aiml/).
+
 ## Change Log:
 - [v3.0] = Big overhaul update. Features added: -reddit, -twitch, -uptime, -9, logging system, & auto welcome messaging. Improved features: -time & -poll
 - [v2.3] = Made Cleverbot API work again.
