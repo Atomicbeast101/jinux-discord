@@ -75,4 +75,7 @@
 <category><pattern>TELL ME ABOUT GUNS</pattern>
 <template><srai>WHAT IS A GUN</srai></template>
 </category>
+<category><pattern>WHO IS TRUMP</pattern>
+<template>The best of the best.</template>
+</category>
 </aiml>
