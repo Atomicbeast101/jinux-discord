@@ -5,6 +5,7 @@ from time import localtime, strftime
 
 import discord
 import aiml
+import sqlite3
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
@@ -46,6 +47,23 @@ conspiracy_list = list()
 conspiracies = open('conspiracies.txt', 'r')
 for conspiracy in conspiracies:
     conspiracy_list.append(conspiracy)
+
+# Chat logging setup
+con = sqlite3.connect(config.get('Jinux', 'Chat_Log_File'))
+con_ex = con.cursor()
+con_ex.execute('CREATE TABLE IF NOT EXISTS chat_log ('
+               'id INT NOT NULL AUTO_INCREMENT,'
+               'username_id CHAR(10) NOT NULL,'
+               'channel_id CHAR(10) NOT NULL,'
+               'message TEXT,'
+               'date_posted DATE,'
+               'PRIMARY KEY (id));')
+con.commit()
+async def log_chat(msg):
+    con_ex.execute('INSERT INTO chat_log VALUES (NULL, {}, {}, {}, CURRENT_TIMESTAMP)'
+                   .format(msg.author.id, msg.channel.id, msg.content))
+    con.commit()
+
 
 # Twitch setup
 twitch_enabled = config.getboolean('Twitch', 'Enabled')
@@ -114,6 +132,7 @@ def get_name(msg):
 # Chatter Bot
 @dclient.event
 async def on_message(msg):
+    await log_chat(msg)
     if msg.content.startswith(cmd_char):
         global poll_enable, poll_question, options, votes, voted, twitch_enabled, Channel_ID, streamers, active, \
             twitch_channel
@@ -131,6 +150,9 @@ async def on_message(msg):
         elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
             log('COMMAND', 'Executing {}chucknorris command for {}.'.format(cmd_char, get_name(msg)))
             await chucknorris.ex(dclient, msg.channel)
+        elif cmd == 'chatlog' and config.getboolean('Functions', 'ChatLog'):
+            print('')
+            # TODO
         elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
             log('COMMAND', 'Executing {}coinflip command for {}.'.format(cmd_char, get_name(msg)))
             await coinflip.ex(dclient, msg.channel, get_mention(msg))
@@ -208,7 +230,7 @@ async def on_message(msg):
         elif cmd == '9':
             log('COMMAND', 'Executing {}restart command for {}.'.format(cmd_char, get_name(msg)))
             await restart.ex(dclient, msg.channel, get_mention(msg), msg.author)
-    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Cleverbot') \
+    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
             and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
             log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
