@@ -7,9 +7,9 @@ import discord
 import aiml
 from twitch.api import v3
 
-from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, dice, dictionary, eightball, gif,
-                  info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans, twitch, update, uptime, xkcd,
-                  youtube)
+from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
+                  eightball, gif, info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans, twitch,
+                  uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -41,12 +41,17 @@ options = []
 votes = []
 voted = []
 
+# Conspiracy setup
+conspiracy_list = list()
+conspiracies = open('conspiracies.txt', 'r')
+for conspiracy in conspiracies:
+    conspiracy_list.append(conspiracy)
+
 # Twitch setup
 twitch_enabled = config.getboolean('Twitch', 'Enabled')
 streamers = config.get('Twitch', 'Users').split(',')
 active = list()
 start_time = 0
-
 try:
     twitch_channel = config.getint('Twitch', 'Channel')
 except ValueError:
@@ -92,7 +97,7 @@ async def on_ready():
 @dclient.event
 async def on_member_join(member):
     if config.getboolean('Jinux', 'Auto_Welcome'):
-        await auto_welcome.welcome(dclient, member, config.getint('Auto_Welcome_Channel'), '<@{}>'.format(member.id))
+        await auto_welcome.welcome(dclient, member, '<@{}>'.format(member.id))
 
 
 # Mention function
@@ -132,6 +137,9 @@ async def on_message(msg):
         elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
             log('COMMAND', 'Executing {}convert command for {}.'.format(cmd_char, get_name(msg)))
             await convert.ex(dclient, msg.channel, get_mention(msg), msg.content[9:].split(' '), cmd_char)
+        elif cmd == 'conspiracy' and config.getboolean('Functions', 'Conspiracy'):
+            log('COMMAND', 'Executing {}conspiracy command for {}.'.format(cmd_char, get_name(msg)))
+            await conspiracy.ex(dclient, msg.channel, conspiracy_list)
         elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
             log('COMMAND', 'Executing {}dice command for {}.'.format(cmd_char, get_name(msg)))
             await dice.ex(dclient, msg.channel, get_mention(msg))

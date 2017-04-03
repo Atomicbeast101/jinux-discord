@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 # Auto Welcome
-async def welcome(dclient, member, channel, mention):
+async def welcome(dclient, member, mention):
     if member.joined_at < datetime.now() - timedelta(seconds=10):
         r = ''''''
         file = open('Welcome_Message.txt', 'r')
@@ -10,4 +10,4 @@ async def welcome(dclient, member, channel, mention):
 '''
         file.close()
         r.replace('{USER}', mention)
-        await dclient.send_message(dclient.Object(id=channel), r)
+        await dclient.send_message(member, r)
