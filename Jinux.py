@@ -9,8 +9,8 @@ import sqlite3
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans, twitch,
-                  uptime, xkcd, youtube)
+                  eightball, explosm, gif, info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans,
+                  twitch, uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -112,10 +112,18 @@ async def on_ready():
 
 
 # Auto welcome new members
+welcome_msg = ''''''
+file = open('Welcome_Message.txt', 'r')
+for line in file:
+    welcome_msg += line + '''
+'''
+file.close()
+
+
 @dclient.event
 async def on_member_join(member):
     if config.getboolean('Jinux', 'Auto_Welcome'):
-        await auto_welcome.welcome(dclient, member, '<@{}>'.format(member.id))
+        await auto_welcome.welcome(dclient, member, '<@{}>'.format(member.id), welcome_msg)
 
 
 # Mention function
@@ -168,6 +176,9 @@ async def on_message(msg):
         elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
             log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
             await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[12:], cmd_char)
+        elif cmd == 'explosm' and config.getboolean('Functions', 'Explosm'):
+            log('COMMAND', 'Executing {}explosm command for {}.'.format(cmd_char, get_name(msg)))
+            await explosm.ex(dclient, msg.channel, get_mention(msg))
         elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
             log('COMMAND', 'Executing {}8ball command for {}.'.format(cmd_char, get_name(msg)))
             await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
