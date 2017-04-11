@@ -61,7 +61,7 @@ async def ex_vote(dclient, channel, au, mention, a, poll, poll_question, options
             await dclient.send_message(channel, 'Are you trying to make a voting fraud, {}?'.format(mention))
         else:
             a = a.split(' ')
-            if len(a) == 1 and a[0].lower() in opt:
+            if len(a) == 1 and a[0].lower() in options:
                 cnt = 0
                 for op in options:
                     if a[0].lower() == op:
