@@ -9,7 +9,7 @@ import sqlite3
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, explosm, gif, info, poll, purge, reddit, restart, rps, serverinfo, temp, time, trans,
+                  eightball, gif, info, poll, purge, reddit, remindme, restart, rps, serverinfo, temp, time, trans,
                   twitch, uptime, xkcd, youtube)
 import auto_welcome
 
@@ -48,21 +48,44 @@ conspiracies = open('conspiracies.txt', 'r')
 for conspiracy in conspiracies:
     conspiracy_list.append(conspiracy)
 
-# Chat logging setup
-con = sqlite3.connect(config.get('Jinux', 'Chat_Log_File'))
-con_ex = con.cursor()
-con_ex.execute('CREATE TABLE IF NOT EXISTS chat_log ('
-               'id INT NOT NULL AUTO_INCREMENT,'
-               'username_id CHAR(10) NOT NULL,'
-               'channel_id CHAR(10) NOT NULL,'
-               'message TEXT,'
-               'date_posted DATE,'
-               'PRIMARY KEY (id));')
-con.commit()
-async def log_chat(msg):
-    con_ex.execute('INSERT INTO chat_log VALUES (NULL, {}, {}, {}, CURRENT_TIMESTAMP)'
-                   .format(msg.author.id, msg.channel.id, msg.content))
+# RemindMe/All database setup
+con = sqlite3.connect(config.get('Jinux', 'Data_File'))
+try:
+    con_ex = con.cursor()
+    con_ex.execute("CREATE TABLE IF NOT EXISTS reminder ("
+                   "id INTEGER NOT NULL AUTO_INCREMENT,"
+                   "type CHAR(1) NOT NULL,"
+                   "channel CHAR(10) NOT NULL,"
+                   "message TEXT NOT NULL,"
+                   "date DATETIME NOT NULL);")
     con.commit()
+except sqlite3.Error as e:
+    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                 'Error when trying to insert data: ' + e.args[0]))
+    log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                            'Error when trying to insert data: ' + e.args[0]))
+async def check_remindme():
+    await dclient.wait_until_ready()
+    while not dclient.is_closed:
+        await asyncio.sleep(1)
+        try:
+            for row in con_ex.execute("SELECT * FROM reminder WHERE date <= Datetime('{}');".format(
+                    strftime('%Y-%m-%d %X', datetime.now()))):
+                if row[1] == 'ME':
+                    user = dclient.User(id=row[2])
+                    await dclient.send_message(user, '{}'.format(row[3]))
+                    con_ex.execute('DELETE FROM reminder WHERE id={};'.format(row[0]))
+                    con.commit()
+                elif row[1] == 'ALL':
+                    user = dclient.get_channel(row[2])
+                    await dclient.send_message(user, '{}'.format(row[3]))
+                    con_ex.execute('DELETE FROM reminder WHERE id={};'.format(row[0]))
+                    con.commit()
+        except sqlite3.Error as ex:
+            print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                         'Error when trying to insert/delete data: ' + ex.args[0]))
+            log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                    'Error when trying to insert/delete data: ' + ex.args[0]))
 
 
 # Twitch setup
@@ -94,9 +117,9 @@ async def twitch_live_stream_notify():
 
 
 # Chat Setup
-chat = aiml.Kernel()
-chat.learn('aiml_files/*.aiml')
-chat.respond('load aiml b')
+#chat = aiml.Kernel()
+#chat.learn('aiml_files/*.aiml')
+#chat.respond('load aiml b')
 
 
 # Sets up the game status
@@ -140,7 +163,6 @@ def get_name(msg):
 # Chatter Bot
 @dclient.event
 async def on_message(msg):
-    await log_chat(msg)
     if msg.content.startswith(cmd_char):
         global poll_enable, poll_question, options, votes, voted, twitch_enabled, Channel_ID, streamers, active, \
             twitch_channel
@@ -158,9 +180,6 @@ async def on_message(msg):
         elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
             log('COMMAND', 'Executing {}chucknorris command for {}.'.format(cmd_char, get_name(msg)))
             await chucknorris.ex(dclient, msg.channel)
-        elif cmd == 'chatlog' and config.getboolean('Functions', 'ChatLog'):
-            print('')
-            # TODO
         elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
             log('COMMAND', 'Executing {}coinflip command for {}.'.format(cmd_char, get_name(msg)))
             await coinflip.ex(dclient, msg.channel, get_mention(msg))
@@ -176,9 +195,6 @@ async def on_message(msg):
         elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
             log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
             await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[12:], cmd_char)
-        elif cmd == 'explosm' and config.getboolean('Functions', 'Explosm'):
-            log('COMMAND', 'Executing {}explosm command for {}.'.format(cmd_char, get_name(msg)))
-            await explosm.ex(dclient, msg.channel, get_mention(msg))
         elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
             log('COMMAND', 'Executing {}8ball command for {}.'.format(cmd_char, get_name(msg)))
             await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
@@ -209,7 +225,10 @@ async def on_message(msg):
         elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
             log('COMMAND', 'Executing {}reddit command for {}.'.format(cmd_char, get_name(msg)))
             await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
-        elif cmd == 'rps' and config.getboolean('Functions', 'Rock_paper_scissors'):
+        elif cmd == 'remindme' and config.getboolean('Functions', 'Remind_Me_All'):
+            print('')
+            # TODO
+        elif cmd == 'rps' and config.getboolean('Functions', 'Rock_Paper_Scissors'):
             log('COMMAND', 'Executing {}rps command for {}.'.format(cmd_char, get_name(msg)))
             await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
         elif cmd == 'serverinfo' and config.getboolean('Functions', 'ServerInfo'):
@@ -241,15 +260,19 @@ async def on_message(msg):
         elif cmd == '9':
             log('COMMAND', 'Executing {}restart command for {}.'.format(cmd_char, get_name(msg)))
             await restart.ex(dclient, msg.channel, get_mention(msg), msg.author)
-    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
-            and Client_ID != 0:
-        if int(msg.author.id) != int(Client_ID):
-            log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
-            await dclient.send_message(msg.channel, '{} {}'.format(get_mention(msg), chat.respond(msg.content[22:])))
+    #elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
+    #        and Client_ID != 0:
+    #    if int(msg.author.id) != int(Client_ID):
+    #        log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
+    #        await dclient.send_message(msg.channel, '{} {}'.format(get_mention(msg), chat.respond(msg.content[22:])))
 
 # Execute Twitch Loop
 if twitch_enabled:
     dclient.loop.create_task(twitch_live_stream_notify())
+
+# Execute RemindMe/All loop
+if config.getboolean('Functions', 'Remind_Me_All'):
+    dclient.loop.create_task(check_remindme())
 
 # Activate Bot
 dclient.run(Token_ID)

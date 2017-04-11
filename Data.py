@@ -31,31 +31,34 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
 
 HELP = '''```Markdown
 # List of commands #
-- {0}cat = Random picture or gif of a cat.
-- {0}channelinfo = Information about the channel you are in.
-- {0}choose <options_by_space> = Random chooses an option from the list.
-- {0}chucknorris = Random Chuck Norris jokes.
-- {0}coinflip = Flip a coin to receive heads or tails.
-- {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-- {0}dice = Randomly chooses a number between 1 to 6.
-- {0}dictionary <term> = Grab meaning of a given term.
-- {0}8ball <question...> = Magic eight ball answering machine.
-- {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
-- {0}help <command> = Lists commands and description for each.
-- {0}info = Information about this bot.
-- {0}poll <start|stop> <Question...> = Create or stop polls.
-- {0}vote <option> = Vote an option to the poll.
-- {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
-- {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
-- {0}serverinfo = Information about the server you are in.
-- {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-- {0}time <location> = Get current time according to timezone.
-- {0}trans <language-code> <to-translate> = Translate message to desired language.
-- {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
-- {0}uptime = Bot's uptime status.
-- {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-- {0}youtube <to-search> = Gets first video from YouTube search results.
-- {0}9 = Restarts Jinux.```'''.format(cmd_char)
+1) {0}cat = Random picture or gif of a cat.
+2) {0}channelinfo = Information about the channel you are in.
+3) {0}choose <options_by_space> = Random chooses an option from the list.
+4) {0}chucknorris = Random Chuck Norris jokes.
+5) {0}coinflip = Flip a coin to receive heads or tails.
+6) {0}conspiracy = Random conspiracy.
+7) {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
+8) {0}dice = Randomly chooses a number between 1 to 6.
+9) {0}dictionary <term> = Grab meaning of a given term.
+10) {0}8ball <question...> = Magic eight ball answering machine.
+11) {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
+12) {0}help <command> = Lists commands and description for each.
+13) {0}info = Information about this bot.
+14) {0}poll <start|stop> <Question...> = Create or stop polls.
+15) {0}vote <option> = Vote an option to the poll.
+16) {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
+17) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
+18) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
+19) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+20) {0}serverinfo = Information about the server you are in.
+21) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+22) {0}time <location> = Get current time according to timezone.
+23) {0}trans <language-code> <to-translate> = Translate message to desired language.
+24) {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
+25) {0}uptime = Bot's uptime status.
+26) {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
+27) {0}youtube <to-search> = Gets first video from YouTube search results.
+28) {0}9 = Restarts Jinux.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -77,6 +80,10 @@ Posts a random Chuck Norris joke.```'''.format(cmd_char)
 HELP_COINFLIP = '''```Markdown
 [Help Guide]: {}coinflip
 Flip a coin to receive heads or tails.```'''.format(cmd_char)
+
+HELP_CONSPIRACY = '''```Markdown
+[Help Guide]: {}conspiracy
+Random conspiracy.```'''.format(cmd_char)
 
 HELP_CONVERT = '''```Markdown
 [Help Guide]: {}convert <amount> <from-currency> <to-currency>
@@ -126,6 +133,20 @@ HELP_REDDIT = '''```Markdown
 Get hottest submissions from front page or subreddit. If no # of subs listed, default is 5 submissions.
 <#-subs-OR-subreddit> = If front page, # of submissions to view. If subreddit, views 5 hot submissions.
 <#-subs> = Number of hot submissions to view from a subreddit.```'''.format(cmd_char)
+
+HELP_REMINDALL = '''```Markdown
+[Help Guide]: {}remindall <time> <message...>
+Set a reminder for everyone in the same channel you sent the message in.
+<time> = How long you want for Jinux to wait before sending a message to everyone in the channel. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<message...> = Message that you want Jinux to send to everyone in the channel.```'''.format(cmd_char)
+
+HELP_REMINDME = '''```Markdown
+[Help Guide]: {}remindall <time> <message...>
+Set a reminder for Jinux to message you through private message.
+<time> = How long you want for Jinux to wait before sending a message to you. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<message...> = Message that you want Jinux to send to you.```'''.format(cmd_char)
 
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
