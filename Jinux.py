@@ -226,8 +226,13 @@ async def on_message(msg):
             log('COMMAND', 'Executing {}reddit command for {}.'.format(cmd_char, get_name(msg)))
             await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
         elif cmd == 'remindme' and config.getboolean('Functions', 'Remind_Me_All'):
-            print('')
-            # TODO
+            log('COMMAND', 'Executing {}remindme command for {}.'.format(cmd_char, get_name(msg)))
+            await remindme.ex_me(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
+                                 log_file, cmd_char)
+        elif cmd == 'remindall' and config.getboolean('Functions', 'Remind_Me_All'):
+            log('COMMAND', 'Executing {}remindall command for {}.'.format(cmd_char, get_name(msg)))
+            await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
+                                 log_file, cmd_char)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_Paper_Scissors'):
             log('COMMAND', 'Executing {}rps command for {}.'.format(cmd_char, get_name(msg)))
             await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
