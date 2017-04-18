@@ -11,30 +11,30 @@ def get_date(time):
         for t in times:
             val = t
             if 's' in val:
-                val.replace('s', '')
+                val = val.replace('s', '')
                 now += timedelta(seconds=int(val))
             elif 'm' in val:
-                val.replace('m', '')
+                val = val.replace('m', '')
                 now += timedelta(minutes=int(val))
             elif 'h' in val:
-                val.replace('h', '')
+                val = val.replace('h', '')
                 now += timedelta(hours=int(val))
             elif 'd' in val:
-                val.replace('d', '')
+                val = val.replace('d', '')
                 now += timedelta(days=int(val))
     else:
         val = time
         if 's' in val:
-            val.replace('s', '')
+            val = val.replace('s', '')
             now += timedelta(seconds=int(val))
         elif 'm' in val:
-            val.replace('m', '')
+            val = val.replace('m', '')
             now += timedelta(minutes=int(val))
         elif 'h' in val:
-            val.replace('h', '')
+            val = val.replace('h', '')
             now += timedelta(hours=int(val))
         elif 'd' in val:
-            val.replace('d', '')
+            val = val.replace('d', '')
             now += timedelta(days=int(val))
     return now
 
@@ -51,9 +51,9 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
             date = get_date(time)
             try:
                 con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('0', {}, '{}', '{}');"
-                               .format(author_id, msg, strftime('%Y-%m-%d %X', date)))
+                               .format(author_id, msg, date.strftime('%Y-%m-%d %X')))
                 con.commit()
-                await dclient.send_message(channel, '{}, I will remind you!'.format(mention))
+                await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
                 await dclient.send_message(channel, '{}, error when trying to add info to database! Please notifiy '
                                                     'the admins!'.format(mention))
@@ -70,7 +70,7 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
 
 
 # RemindAll command
-async def ex_all(dclient, channel, mention, con, con_ex, author_id, a, log_file, cmd_char):
+async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file, cmd_char):
     a = a.split(' ')
     if len(a) >= 2:
         time = a[0].lower()
@@ -80,10 +80,10 @@ async def ex_all(dclient, channel, mention, con, con_ex, author_id, a, log_file,
         if 'd' in time or 'h' in time or 'm' in time or 's' in time or ',' in time:
             date = get_date(time)
             try:
-                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('0', {}, '{}', '{}');"
-                               .format(author_id, msg, str(date)))
+                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('1', {}, '{}', '{}');"
+                               .format(channel_id, msg, str(date)))
                 con.commit()
-                await dclient.send_message(channel, '{}, I will remind you!'.format(mention))
+                await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
                 await dclient.send_message(channel, '{}, error when trying to add info to database! Please notifiy '
                                                     'the admins!'.format(mention))
