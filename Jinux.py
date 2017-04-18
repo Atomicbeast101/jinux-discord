@@ -45,15 +45,15 @@ voted = []
 # Conspiracy setup
 conspiracy_list = list()
 conspiracies = open('conspiracies.txt', 'r')
-for conspiracy in conspiracies:
-    conspiracy_list.append(conspiracy)
+for consp in conspiracies:
+    conspiracy_list.append(consp.rstrip())
 
 # RemindMe/All database setup
 con = sqlite3.connect(config.get('Jinux', 'Data_File'))
 try:
     con_ex = con.cursor()
     con_ex.execute("CREATE TABLE IF NOT EXISTS reminder ("
-                   "id INTEGER NOT NULL AUTO_INCREMENT,"
+                   "id INTEGER PRIMARY KEY,"
                    "type CHAR(1) NOT NULL,"
                    "channel CHAR(10) NOT NULL,"
                    "message TEXT NOT NULL,"
@@ -70,20 +70,20 @@ async def check_remindme():
         await asyncio.sleep(1)
         try:
             for row in con_ex.execute("SELECT * FROM reminder WHERE date <= Datetime('{}');".format(
-                    strftime('%Y-%m-%d %X', datetime.now()))):
-                if row[1] == 'ME':
-                    user = dclient.User(id=row[2])
+                    datetime.now().strftime('%Y-%m-%d %X'))):
+                if row[1] == '0':  # ME type
+                    user = discord.User(id=row[2])
                     await dclient.send_message(user, '{}'.format(row[3]))
                     con_ex.execute('DELETE FROM reminder WHERE id={};'.format(row[0]))
                     con.commit()
-                elif row[1] == 'ALL':
+                elif row[1] == '1':  # ALL type
                     user = dclient.get_channel(row[2])
                     await dclient.send_message(user, '{}'.format(row[3]))
                     con_ex.execute('DELETE FROM reminder WHERE id={};'.format(row[0]))
                     con.commit()
         except sqlite3.Error as ex:
             print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                         'Error when trying to insert/delete data: ' + ex.args[0]))
+                                         'Error when trying to select/delete data: ' + ex.args[0]))
             log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                                     'Error when trying to insert/delete data: ' + ex.args[0]))
 
@@ -102,7 +102,6 @@ async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
         await asyncio.sleep(config.getint('Twitch', 'Interval'))
-        log('AUTO_TASK', 'Running Twitch auto task...')
         if twitch_enabled and len(streamers) > 0:
             for streamer in streamers:
                 stream = v3.streams.by_channel(streamer)
@@ -231,7 +230,7 @@ async def on_message(msg):
                                  log_file, cmd_char)
         elif cmd == 'remindall' and config.getboolean('Functions', 'Remind_Me_All'):
             log('COMMAND', 'Executing {}remindall command for {}.'.format(cmd_char, get_name(msg)))
-            await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
+            await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.channel.id, msg.content[11:],
                                  log_file, cmd_char)
         elif cmd == 'rps' and config.getboolean('Functions', 'Rock_Paper_Scissors'):
             log('COMMAND', 'Executing {}rps command for {}.'.format(cmd_char, get_name(msg)))
