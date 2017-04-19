@@ -106,10 +106,6 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(private_channel, HELP_YOUTUBE)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
                                        .format(mention))
-        elif s == '9':
-            await dclient.send_message(private_channel, HELP_NINE)
-            await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
-                                       .format(mention))
         else:
             await dclient.send_message(public_channel, 'I am unable to find the command you are looking for, {}! '
                                                        'Perhaps check {}help?'.format(mention, cmd_char))

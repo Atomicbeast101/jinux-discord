@@ -9,8 +9,8 @@ import sqlite3
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, poll, purge, reddit, remindme, restart, rps, serverinfo, temp, time, trans,
-                  twitch, uptime, xkcd, youtube)
+                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, time, trans, twitch,
+                  uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -128,9 +128,10 @@ async def on_ready():
     await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
     global start_time
     start_time = datetime.now()
-    log('BOOTUP', 'Finished starting up Jinux system!')
+    # Notifies that Jinux has successfully connected to the Discord server
     if Channel_ID != 0:
         await dclient.send_message(discord.Object(id=Channel_ID), ":wave:")
+    log('BOOTUP', 'Finished starting up Jinux system!')
 
 
 # Auto welcome new members
@@ -261,9 +262,6 @@ async def on_message(msg):
         elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
             log('COMMAND', 'Executing {}youtube command for {}.'.format(cmd_char, get_name(msg)))
             await youtube.ex(dclient, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
-        elif cmd == '9':
-            log('COMMAND', 'Executing {}restart command for {}.'.format(cmd_char, get_name(msg)))
-            await restart.ex(dclient, msg.channel, get_mention(msg), msg.author)
     #elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
     #        and Client_ID != 0:
     #    if int(msg.author.id) != int(Client_ID):
