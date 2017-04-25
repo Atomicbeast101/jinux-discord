@@ -1,6 +1,6 @@
 # Poll command
-async def ex_poll(dclient, channel, au, mention, a, poll, poll_question, options, votes, voted, cmd_char):
-    if channel.permissions_for(au):
+async def ex_poll(dclient, channel, author, mention, a, poll, poll_question, options, votes, voted, cmd_char):
+    if channel.permissions_for(author):
         a = a.split(' ')
         if len(a) >= 1:
             if a[0].lower() == 'start':
