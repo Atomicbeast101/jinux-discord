@@ -2,7 +2,8 @@ import random as r
 
 
 # Choose command
-async def ex(dclient, channel, mention, options, cmd_char):
+async def ex(dclient, channel, mention, a, cmd_char):
+    options = a.split(' ')
     if len(options) >= 2:
         await dclient.send_message(channel, '{}, I choose `{}`!'.format(mention, r.choice(options)))
     else:
