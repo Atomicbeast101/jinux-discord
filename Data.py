@@ -37,27 +37,28 @@ HELP = '''```Markdown
 4) {0}chucknorris = Random Chuck Norris jokes.
 5) {0}coinflip = Flip a coin to receive heads or tails.
 6) {0}conspiracy = Random conspiracy.
-7) {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-8) {0}dice = Randomly chooses a number between 1 to 6.
-9) {0}dictionary <term> = Grab meaning of a given term.
-10) {0}8ball <question...> = Magic eight ball answering machine.
-11) {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
-12) {0}help <command> = Lists commands and description for each.
-13) {0}info = Information about this bot.
-14) {0}poll <start|stop> <Question...> = Create or stop polls.
-15) {0}vote <option> = Vote an option to the poll.
-16) {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
-17) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
-18) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
-19) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
-20) {0}serverinfo = Information about the server you are in.
-21) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-22) {0}time <location> = Get current time according to timezone.
-23) {0}trans <language-code> <to-translate> = Translate message to desired language.
-24) {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
-25) {0}uptime = Bot's uptime status.
-26) {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-27) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
+7) {0}custcmd <cmd> <message...> = Create a custom {0}command with a custom message!
+8) {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
+9) {0}dice = Randomly chooses a number between 1 to 6.
+10) {0}dictionary <term> = Grab meaning of a given term.
+11) {0}8ball <question...> = Magic eight ball answering machine.
+12) {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
+13) {0}help <command> = Lists commands and description for each.
+14) {0}info = Information about this bot.
+15) {0}poll <start|stop> <Question...> = Create or stop polls.
+16) {0}vote <option> = Vote an option to the poll.
+17) {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
+18) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
+19) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
+20) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+21) {0}serverinfo = Information about the server you are in.
+22) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+23) {0}time <location> = Get current time according to timezone.
+24) {0}trans <language-code> <to-translate> = Translate message to desired language.
+25) {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
+26) {0}uptime = Bot's uptime status.
+27) {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
+28) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -83,6 +84,12 @@ Flip a coin to receive heads or tails.```'''.format(cmd_char)
 HELP_CONSPIRACY = '''```Markdown
 [Help Guide]: {}conspiracy
 Random conspiracy.```'''.format(cmd_char)
+
+HELP_CUSTCMD = '''```Markdown
+[Help Guide]: {0}custcmd <cmd> <message...>
+Create a custom {0}command with a custom message!
+<cmd> = Command you want users to use. (ex. {0}custom_command)
+<message...> = Message that the custom command will output.```'''.format(cmd_char)
 
 HELP_CONVERT = '''```Markdown
 [Help Guide]: {}convert <amount> <from-currency> <to-currency>
@@ -187,9 +194,9 @@ HELP_UPTIME = '''```Markdown
 Bot's uptime status.```'''.format(cmd_char)
 
 HELP_XKCD = '''```Markdown
-[Help Guide]: {}xkcd <latest>
+[Help Guide]: {}xkcd <latest OR comic_ID>
 Gets random or latest comic from xkcd.com website.
-<latest> = Latest comic published on xkcd.com.```'''.format(cmd_char)
+<latest OR comic_ID> = Latest comic published on xkcd.com or get specific comic through ID #.```'''.format(cmd_char)
 
 HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>
