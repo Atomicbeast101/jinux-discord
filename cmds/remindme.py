@@ -50,8 +50,8 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
         if 'd' in time or 'h' in time or 'm' in time or 's' in time or ',' in time:
             date = get_date(time)
             try:
-                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('0', {}, '{}', '{}');"
-                               .format(author_id, msg, date.strftime('%Y-%m-%d %X')))
+                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('0', ?, ?, ?);",
+                               (author_id, msg, date.strftime('%Y-%m-%d %X')))
                 con.commit()
                 await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
@@ -66,7 +66,6 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
                                        .format(mention, cmd_char))
     else:
         await dclient.send_message(channel, '{}, **USAGE:** {}remindme <time> <message...>'.format(mention, cmd_char))
-        print('')
 
 
 # RemindAll command
@@ -80,8 +79,8 @@ async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file
         if 'd' in time or 'h' in time or 'm' in time or 's' in time or ',' in time:
             date = get_date(time)
             try:
-                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('1', {}, '{}', '{}');"
-                               .format(channel_id, msg, str(date)))
+                con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('1', ?, ?, ?);",
+                               (channel_id, msg, str(date)))
                 con.commit()
                 await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
@@ -96,4 +95,3 @@ async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file
                                        .format(mention, cmd_char))
     else:
         await dclient.send_message(channel, '{}, **USAGE:** {}remindall <time> <message...>'.format(mention, cmd_char))
-        print('')
