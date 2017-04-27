@@ -21,18 +21,18 @@
 | `gif (tags)` | User | Gets a GIF from Giphy according to the tags given. |
 | `help (command)` | User | Lists commands and description for each. |
 | `info` | User | Information about this bot. |
-| `poll <start|stop> <question...>` | Admin | Create or stop polls. |
+| `poll <start/stop> <question...>` | Admin | Create or stop polls. |
 | `vote <option>` | User | Vote an option to the poll. |
 | `reddit <#-subs OR subreddit> <#-subs>` | User | Get hottest submissions from front page or subreddit. |
 | `remindall <time> <msg...>` | User | Set a reminder for everyone in the same channel you sent the message in. |
 | `remindme <time> <msg...>` | User | Set a reminder for Jinux to message you through private message. |
-| `rps <rock|paper|scissors>` | User | Rock, paper, scissors game. |
+| `rps <rock/paper/scissors>` | User | Rock, paper, scissors game. |
 | `serverinfo` | User | Information about the server you are in. |
-| `temp <temp-#> <K|F|C> <K|F|C>` | User | Convert temperature between F, K, or C. |
-| `tempch <voice|text> <time> <channel-name>` | User | Create a temporary channel that'll be public for a time limit! |
+| `temp <temp-#> <K/F/C> <K/F/C>` | User | Convert temperature between F, K, or C. |
+| `tempch <voice/text> <time> <channel-name>` | User | Create a temporary channel that'll be public for a time limit! |
 | `time <location>` | User | Get current time according to timezone. |
 | `trans <language-code> <msg-to-translate>` | User | Translate message to desired language. |
-| `twitch <add|remove|list|toggle|setchannel> <userID OR channelID>` | User/Admin | Twitch live stream notification. |
+| `twitch <add/remove/list/toggle/setchannel> <userID OR channelID>` | User/Admin | Twitch live stream notification. |
 | `uptime` | User | Jinux's uptime status. |
 | `xkcd <comicID OR latest>` | User | Gets random or latest comic from xkcd.com website. |
 | `youtube <to-search>` | User | Gets first video from YouTube search results. |
