@@ -39,7 +39,7 @@
 
 > User/Admin* = Only users have access to `twitch list` while the admins will have access to other commands (`add/remove/toggle/setchannel`).
 
-List of translate codes: [https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/](https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/)
+List of language codes: [https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/](https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/)
 
 List of currency codes: [https://currencysystem.com/codes/](https://currencysystem.com/codes/)
 
