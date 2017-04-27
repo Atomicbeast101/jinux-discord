@@ -86,6 +86,10 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(private_channel, HELP_TEMP)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
                                        .format(mention))
+        elif s == 'tempch':
+            await dclient.send_message(private_channel, HELP_TEMPCH)
+            await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
+                                       .format(mention))
         elif s == 'time':
             await dclient.send_message(private_channel, HELP_TIME)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
@@ -116,5 +120,6 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
 
     else:
         await dclient.send_message(private_channel, HELP)
+        await dclient.send_message(private_channel, HELP2)
         await dclient.send_message(public_channel, '{}, I sent you the help guide in a private message.'
                                    .format(mention))
