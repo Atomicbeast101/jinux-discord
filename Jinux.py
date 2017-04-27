@@ -45,7 +45,7 @@ voted = []
 conspiracy_list = list()
 conspiracies = open('conspiracies.txt', 'r')
 for consp in conspiracies:
-    conspiracy_list.append(consp.rstrip())
+    conspiracy_list.append(consp.encode('utf-8').rstrip())
 
 # RemindMe/All database setup
 con = sqlite3.connect(config.get('Jinux', 'Data_File'))
