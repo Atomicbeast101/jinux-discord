@@ -9,8 +9,8 @@ import sqlite3
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, custom_cmd, time, trans,
-                  twitch, uptime, xkcd, youtube)
+                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch, custom_cmd, time,
+                  trans, twitch, uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -153,6 +153,42 @@ async def twitch_live_stream_notify():
                         active.remove(streamer)
 
 
+# Temporary Channel Setup
+time_limit = config.get('Temporary_Channel', 'Time_Limit')
+channel_name_limit = config.getint('Temporary_Channel', 'Channel_Name_Limit')
+try:
+    con_ex.execute("CREATE TABLE IF NOT EXISTS temp_channel ("
+                   "id VARCHAR(10) PRIMARY KEY,"
+                   "name VARCHAR(255) NOT NULL,"
+                   "owner VARCHAR(10) NOT NULL,"
+                   "date DATETIME NOT NULL);")
+    con.commit()
+except sqlite3.Error as e:
+    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                 'Error when trying to setup table for tempch: ' + e.args[0]))
+    log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                            'Error when trying to setup table for tempch: ' + e.args[0]))
+async def temp_channel_timeout():
+    await dclient.wait_until_ready()
+    while not dclient.is_closed:
+        await asyncio.sleep(1)
+        try:
+            for channel in con_ex.execute("SELECT * FROM temp_channel WHERE date <= Datetime('{}');".format(
+                    datetime.now().strftime('%Y-%m-%d %X'))):
+                remove_channel = dclient.get_channel(channel[0])
+                channel_name = channel[1]
+                owner = discord.User(id=channel[2])
+                await dclient.delete_channel(remove_channel)
+                con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(channel[0]))
+                con.commit()
+                await dclient.send_message(owner, 'Channel `{}` has expired and has been removed!'.format(channel_name))
+        except sqlite3.Error as ex:
+            print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                         'Error when trying to select/delete data: ' + ex.args[0]))
+            log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                    'Error when trying to insert/delete data: ' + ex.args[0]))
+
+
 # Chat Setup
 chat_limit = datetime.now()
 chat = clever.CleverBot(user='GDGIucQhUFgyq1t9', key='ubKRM64WrhjPWgEZf4u2XBymnjqoY1K9', nick='user')
@@ -255,7 +291,7 @@ async def on_message(msg):
                                                                                    votes, voted, cmd_char)
         elif cmd == 'purge' and config.getboolean('Functions', 'Purge'):
             log('COMMAND', 'Executing {}purge command for {}.'.format(cmd_char, get_name(msg)))
-            await purge.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+            await purge.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[7:], cmd_char)
         elif cmd == 'vote' and config.getboolean('Functions', 'poll'):
             log('COMMAND', 'Executing {}vote command for {}.'.format(cmd_char, get_name(msg)))
             poll_enable, poll_question, options, votes, voted = await poll.ex_vote(dclient, msg.channel, msg.author,
@@ -282,6 +318,10 @@ async def on_message(msg):
         elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
             log('COMMAND', 'Executing {}temp command for {}.'.format(cmd_char, get_name(msg)))
             await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+        elif cmd == 'tempch' and config.getboolean('Temporary_Channel', 'Enabled'):
+            log('COMMAND', 'Executing {}tempch command for {}.'.format(cmd_char, get_name(msg)))
+            await tempch.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], msg.author, time_limit,
+                            channel_name_limit, msg.channel.server, con, con_ex, log_file, cmd_char)
         elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
             log('COMMAND', 'Executing {}time command for {}.'.format(cmd_char, get_name(msg)))
             await time.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
@@ -309,7 +349,7 @@ async def on_message(msg):
         if int(msg.author.id) != int(Client_ID):
             limit = datetime.now() - chat_limit
             result = divmod(limit.days * 86400 + limit.seconds, 60)[1]
-            if result > 2:
+            if result > 1:
                 chat_limit = datetime.now()
                 log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
                 await dclient.send_message(msg.channel, '{} {}'.format(get_mention(msg),
@@ -322,9 +362,13 @@ async def on_message(msg):
 if twitch_enabled:
     dclient.loop.create_task(twitch_live_stream_notify())
 
-# Execute RemindMe/All loop
+# Execute RemindMe/All Loop
 if config.getboolean('Functions', 'Remind_Me_All'):
     dclient.loop.create_task(check_remindme())
+
+# Execute Temporary Channel Loop
+if config.getboolean('Temporary_Channel', 'Enabled'):
+    dclient.loop.create_task(temp_channel_timeout())
 
 # Activate Bot
 dclient.run(Token_ID)
