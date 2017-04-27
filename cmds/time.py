@@ -17,4 +17,4 @@ async def ex(dclient, channel, mention, a, cmd_char):
                                                 'Google maps to get the coordinates for the timezone, {}!'
                                        .format(a, mention))
     else:
-        await dclient.send_message(channel, '{}, **USAGE:** {}time <timezone>'.format(mention, cmd_char))
+        await dclient.send_message(channel, '{}, **USAGE:** {}time <location>'.format(mention, cmd_char))
