@@ -23,8 +23,7 @@ log_file = open('jinux.log', 'a')
 if config.getboolean('Jinux', 'Logging'):
     def log(typ, reason):
         print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
-        log_file.write(
-            '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
+        log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), typ, reason))
 
 # Fetch config data and turn it into objects
 Token_ID = config.get('Jinux', 'Token')
@@ -76,11 +75,13 @@ async def check_remindme():
                     await dclient.send_message(user, '{}'.format(reminders[3]))
                     con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
                     con.commit()
+                    log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
                 elif reminders[1] == '1':  # ALL type
                     user = dclient.get_channel(reminders[2])
                     await dclient.send_message(user, '{}'.format(reminders[3]))
                     con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
                     con.commit()
+                    log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
         except sqlite3.Error as ex:
             print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                          'Error when trying to select/delete data: ' + ex.args[0]))
@@ -147,6 +148,7 @@ async def twitch_live_stream_notify():
                     if streamer not in active:
                         await dclient.send_message(dclient.get_channel(str(twitch_channel)),
                                                    "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(streamer))
+                    log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
                     active.append(streamer)
                 else:
                     if streamer in active:
@@ -182,6 +184,7 @@ async def temp_channel_timeout():
                 con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(channel[0]))
                 con.commit()
                 await dclient.send_message(owner, 'Channel `{}` has expired and has been removed!'.format(channel_name))
+                log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(channel[0]))
         except sqlite3.Error as ex:
             print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                          'Error when trying to select/delete data: ' + ex.args[0]))
