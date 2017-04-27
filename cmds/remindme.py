@@ -62,8 +62,8 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
                 log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                                         'Error when trying to insert data: ' + e.args[0]))
         else:
-            await dclient.send_message(channel, '{}, The time must be in #time format (ex: 1h or 2h,5m).'
-                                       .format(mention, cmd_char))
+            await dclient.send_message(channel, '{}, the time must be in #time format (ex: 1h or 2h,5m).'
+                                       .format(mention))
     else:
         await dclient.send_message(channel, '{}, **USAGE:** {}remindme <time> <message...>'.format(mention, cmd_char))
 
