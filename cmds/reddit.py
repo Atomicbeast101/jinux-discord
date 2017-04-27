@@ -1,5 +1,5 @@
 import aiohttp
-import re
+
 
 def is_int(a):
     try:
