@@ -21,7 +21,8 @@
 | `gif (tags)` | User | Gets a GIF from Giphy according to the tags given. |
 | `help (command)` | User | Lists commands and description for each. |
 | `info` | User | Information about this bot. |
-| `poll <start|stop> <question...>mm` | Admin | Create or stop polls. |
+
+| `poll <start|stop> <question...>` | Admin | Create or stop polls. |
 | `vote <option>` | User | Vote an option to the poll. |
 | `reddit <#-subs OR subreddit> <#-subs>` | User | Get hottest submissions from front page or subreddit. |
 | `remindall <time> <msg...>` | User | Set a reminder for everyone in the same channel you sent the message in. |
