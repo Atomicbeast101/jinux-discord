@@ -30,7 +30,7 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
              'TMT', 'AED', 'UGX', 'XFU', 'UAH', 'UYU', 'USD', 'UZS', 'VUV', 'VEF', 'VND', 'YER', 'ZMK', 'ZWL']
 
 HELP = '''```Markdown
-# List of commands #
+# Command List #1 #
 1) {0}cat = Random picture or gif of a cat.
 2) {0}channelinfo = Information about the channel you are in.
 3) {0}choose <options_by_space> = Random chooses an option from the list.
@@ -50,15 +50,19 @@ HELP = '''```Markdown
 17) {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
 18) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
 19) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
-20) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+20) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
+
+HELP2 = '''```Markdown
+# Command List #2 #
 21) {0}serverinfo = Information about the server you are in.
 22) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-23) {0}time <location> = Get current time according to timezone.
-24) {0}trans <language-code> <to-translate> = Translate message to desired language.
-25) {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
-26) {0}uptime = Bot's uptime status.
-27) {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-28) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
+23) {0}tempch <voice|text> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
+24) {0}time <location> = Get current time according to timezone.
+25) {0}trans <language-code> <to-translate> = Translate message to desired language.
+26) {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
+27) {0}uptime = Bot's uptime status.
+28) {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
+29) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -101,7 +105,7 @@ List of supported currency codes: <https://currencysystem.com/codes/>'''.format(
 
 HELP_DICE = '''```Markdown
 [Help Guide]: {}dice
-Randomly chooses a number between 1 to 6.```'''
+Randomly chooses a number between 1 to 6.```'''.format(cmd_char)
 
 HELP_DICTIONARY = '''```Markdown
 [Help Guide]: {}dictionary <term>
@@ -169,6 +173,14 @@ Convert temperature between F, K, or C.
 <temp#> = Temperature you want to convert to.
 <from F|K|C> = Current temperature measurement.
 <to F|K|C> = Temperature measurement to convert to.```'''.format(cmd_char)
+
+HELP_TEMPCH = '''```Markdown
+[Help Guide]: {}tempch <voice|text> <time> <channel-name>
+Create a temporary channel that'll be public for a time limit!
+<voice|text> = What kind of channel do you want to make? Voice or Text?
+<time> = How long you want the channel to last for. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<channel-name> = Name of the channel.```'''.format(cmd_char)
 
 HELP_TIME = '''```Markdown
 [Help Guide]: {}time <location>
