@@ -3,7 +3,7 @@
 
 > Command Syntax: <..> means it's required while (...) means it's optional
 
-> If <option1|option2> means you have to choose between option1 or option2.
+> If <option1/option2> means you have to choose between option1 or option2.
 
 | Command | Access | Description |
 |:-------:|--------|-------------|
