@@ -32,12 +32,12 @@
 | `tempch <voice/text> <time> <channel-name>` | User | Create a temporary channel that'll be public for a time limit! |
 | `time <location>` | User | Get current time according to timezone. |
 | `trans <language-code> <msg-to-translate>` | User | Translate message to desired language. |
-| `twitch <add/remove/list/toggle/setchannel> <userID OR channelID>` | User/Admin | Twitch live stream notification. |
+| `twitch <add/remove/list/toggle/setchannel> <userID OR channelID>` | User/Admin* | Twitch live stream notification. |
 | `uptime` | User | Jinux's uptime status. |
 | `xkcd <comicID OR latest>` | User | Gets random or latest comic from xkcd.com website. |
 | `youtube <to-search>` | User | Gets first video from YouTube search results. |
 
-> Administrators only have access to . Users can do `-twitch list`. 
+> User/Admin* = Only users have access to `twitch list` while the admins will have access to other commands (`add/remove/toggle/setchannel`).
 
 List of translate codes: [https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/](https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/)
 
