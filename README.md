@@ -13,11 +13,8 @@
 ## Links
 [Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md)
 
-## Information to Keep in Mind
-The chat feature uses Cleverbot.io's system and it is only for development purposes so there is a 1 second time limit between each request. Please do not abuse the system.
-
 ## Change Log:
-- [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID. Removed chat AIML and replaced it with Cleverbot.io. Fixed bugs in -purge and -vote.
+- [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID. Removed chat system as it's difficult to maintain it. Fixed bugs in -purge and -vote.
 - [v3.0] = Big overhaul update. Features added: -reddit, -twitch, -uptime, -9, logging system, & auto welcome messaging. Improved features: -time & -poll
 - [v2.3] = Made Cleverbot API work again.
 - [v2.2] = Fixed bot's roasting program to work with Cleverbot's v2.0.0 update.
