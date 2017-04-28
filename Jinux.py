@@ -194,7 +194,7 @@ async def temp_channel_timeout():
 
 # Chat Setup
 chat_limit = datetime.now()
-chat = clever.CleverBot(user='GDGIucQhUFgyq1t9', key='ubKRM64WrhjPWgEZf4u2XBymnjqoY1K9', nick='user')
+chat = clever.CleverBot(user='CMBl48yDwZGbu6xv', key='mKMHuwtAO5K7vKb7DXVYeuLYBuhEfh8U', nick='user')
 
 
 # Sets up the game status
