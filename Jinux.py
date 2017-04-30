@@ -4,8 +4,8 @@ from datetime import datetime
 from time import localtime, strftime
 
 import discord
-import clever
 import sqlite3
+import random as r
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
@@ -45,7 +45,7 @@ voted = []
 conspiracy_list = list()
 conspiracies = open('conspiracies.txt', 'r')
 for consp in conspiracies:
-    conspiracy_list.append(consp.encode('utf-8').rstrip())
+    conspiracy_list.append(consp.encode('utf-8').rstrip()[2:-1])
 
 # RemindMe/All database setup
 con = sqlite3.connect(config.get('Jinux', 'Data_File'))
@@ -192,9 +192,32 @@ async def temp_channel_timeout():
                                                     'Error when trying to insert/delete data: ' + ex.args[0]))
 
 
-# Chat Setup
-chat_limit = datetime.now()
-chat = clever.CleverBot(user='CMBl48yDwZGbu6xv', key='mKMHuwtAO5K7vKb7DXVYeuLYBuhEfh8U', nick='user')
+# Auto remove temporary channel from database if an admin force removes it from the server
+@dclient.event
+async def on_channel_delete(channel):
+    try:
+        con_ex.execute('SELECT * FROM temp_channel WHERE id={};'.format(channel.id))
+        ch_info = con_ex.fetchone()[0]
+        remove_channel = ch_info[0]
+        channel_name = ch_info[1]
+        owner = discord.User(id=ch_info[2])
+        await dclient.delete_channel(remove_channel)
+        con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(ch_info[0]))
+        con.commit()
+        await dclient.send_message(owner, 'Channel `{}` has been force removed by an admin!'.format(channel_name))
+        log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(channel[0]))
+    except sqlite3.Error as ex:
+        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                     'Error when trying to select/delete data: ' + ex.args[0]))
+        log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                'Error when trying to insert/delete data: ' + ex.args[0]))
+
+
+# Reply messages for users who talk to Jinux
+replies_list = list()
+replies = open('replies.txt', 'r')
+for reply in replies:
+    replies_list.append(reply.encode('utf-8').rstrip()[2:-1])
 
 
 # Sets up the game status
@@ -323,7 +346,7 @@ async def on_message(msg):
             await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
         elif cmd == 'tempch' and config.getboolean('Temporary_Channel', 'Enabled'):
             log('COMMAND', 'Executing {}tempch command for {}.'.format(cmd_char, get_name(msg)))
-            await tempch.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], msg.author, time_limit,
+            await tempch.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[8:], msg.author, time_limit,
                             channel_name_limit, msg.channel.server, con, con_ex, log_file, cmd_char)
         elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
             log('COMMAND', 'Executing {}time command for {}.'.format(cmd_char, get_name(msg)))
@@ -350,16 +373,8 @@ async def on_message(msg):
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
             and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
-            limit = datetime.now() - chat_limit
-            result = divmod(limit.days * 86400 + limit.seconds, 60)[1]
-            if result > 1:
-                chat_limit = datetime.now()
-                log('CHATTER_BOT', 'Responding to {}.'.format(get_name(msg)))
-                await dclient.send_message(msg.channel, '{} {}'.format(get_mention(msg),
-                                                                       chat.query(msg.content[22:])))
-            else:
-                await dclient.send_message(msg.channel, '{}, chill bro! I can only respond every **2 seconds**!'
-                                           .format(get_mention(msg)))
+            await dclient.send_message(msg.channel, '{}, {}'.format(get_mention(msg), r.choice(replies_list)))
+
 
 # Execute Twitch Loop
 if twitch_enabled:
