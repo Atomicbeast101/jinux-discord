@@ -41,58 +41,97 @@ def get_date(time):
 
 
 # Tempch Command
-async def ex(dclient, channel, mention, a, author, time_limit, channel_name_limit, server, con, con_ex, log_file,
-             cmd_char):
+async def ex(dclient, public_channel, private_channel, mention, a, author, time_limit, channel_name_limit, server, con,
+             con_ex, log_file, cmd_char):
     a = a.split(' ')
     if len(a) == 3:
         channel_type = a[0].lower()
         time = a[1].lower()
         channel_name = a[2].lower()
         try:
-            if channel_type == 'voice' or channel_type == 'text':
-                if channel_type is 'voice':
-                    channel_type = discord.ChannelType.voice
-                elif channel_type is 'text':
-                    channel_type = discord.ChannelType.text
-                if 'd' in time or 'h' in time or 'm' in time or 's' in time or ',' in time:
-                    date = get_date(time)
-                    date_limit = get_date(time_limit)
-                    # Prevents from creating temporary channels with time exceeding the time limit set by server owner
-                    if date <= date_limit:
-                        if len(channel_name) <= channel_name_limit:
-                            new_channel = await dclient.create_channel(server, channel_name, type=channel_type)
-                            try:
-                                con_ex.execute("INSERT INTO temp_channel VALUES (?, ?, ?, ?);",
-                                               (new_channel.id, channel_name, author.id, date.strftime('%Y-%m-%d %X')))
-                                con.commit()
-                                await dclient.send_message(channel, '{}, channel created! You can reach it at <#{}>!'
-                                                           .format(mention, new_channel.id))
-                            except sqlite3.Error as e:
-                                await dclient.send_message(channel,
-                                                           '{}, error when trying to add info to database! Please'
-                                                           ' notifiy the admins!'.format(mention))
-                                print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                             'Error when trying to insert data: ' + e.args[0]))
-                                log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                                        'Error when trying to insert data: ' +
-                                                                        e.args[0]))
+            if channel_type == 'voice' or channel_type == 'text' or channel_type == 'list':
+                if channel_type == 'voice' or channel_type == 'text':
+                    if channel_type == 'voice':
+                        channel_type = discord.ChannelType.voice
+                    elif channel_type == 'text':
+                        channel_type = discord.ChannelType.text
+                    if 'd' in time or 'h' in time or 'm' in time or 's' in time or ',' in time:
+                        date = get_date(time)
+                        date_limit = get_date(time_limit)
+                        # Prevents from creating temporary channels with time exceeding the time limit set by server
+                        # owner
+                        if date <= date_limit:
+                            if len(channel_name) <= channel_name_limit:
+                                new_channel = await dclient.create_channel(server, channel_name, type=channel_type)
+                                try:
+                                    con_ex.execute("INSERT INTO temp_channel VALUES (?, ?, ?, ?);",
+                                                   (new_channel.id, channel_name, author.id,
+                                                    date.strftime('%Y-%m-%d %X')))
+                                    con.commit()
+                                    await dclient.send_message(public_channel,
+                                                               '{}, channel created! You can reach it at <#{}>!'
+                                                               .format(mention, new_channel.id))
+                                except sqlite3.Error as e:
+                                    await dclient.send_message(public_channel,
+                                                               '{}, error when trying to add info to database! Please'
+                                                               ' notify the admins!'.format(mention))
+                                    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                                 'Error when trying to insert data: ' + e.args[0]))
+                                    log_file.write(
+                                        '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                                 'Error when trying to insert data: ' +
+                                                                 e.args[0]))
+                            else:
+                                await dclient.send_message(public_channel,
+                                                           '{}, the channel name `{}` is `{}` characters long! It '
+                                                           'must be `{}` or less!'.format(mention, channel_name,
+                                                                                          len(channel_name),
+                                                                                          channel_name_limit))
                         else:
-                            await dclient.send_message(channel, '{}, the channel name `{}` is `{}` characters long! It '
-                                                                'must be `{}` or less!'.format(mention, channel_name,
-                                                                                               len(channel_name),
-                                                                                               channel_name_limit))
+                            await dclient.send_message(public_channel,
+                                                       '{}, you cannot exceed the time limit! The time limit is '
+                                                       '`{}`.'.format(mention, time_limit))
                     else:
-                        await dclient.send_message(channel, '{}, you cannot exceed the time limit! The time limit is '
-                                                            '`{}`.'.format(mention, time_limit))
-                else:
-                    await dclient.send_message(channel, '{}, the time must be in #time format (ex: 1h or 2h,5m).'
-                                               .format(mention))
+                        await dclient.send_message(public_channel, '{}, the time must be in #time format (ex: 1h or 2h,'
+                                                                   '5m).'.format(mention))
+                elif channel_type is 'list':
+                    try:
+                        response = '''**Remaining Temporary Channels:**'''
+                        for channel in con_ex.execute("SELECT id, date FROM temp_channel;"):
+                            channel_id = dclient.get_channel(channel[0])
+                            expire_date = datetime.strptime(channel[1], '%Y-%m-%d %X')
+                            diff_date = datetime.now() - expire_date
+                            rem_days = diff_date.days
+                            rem_time = datetime.strptime(str(datetime.now() - diff_date), "%H:%M:%S.%f")
+                            if rem_days == 0:
+                                response += '''
+    <#{}> - Time remaining: `{} hours`, `{} minutes`, and `{} seconds`.'''.format(channel_id, rem_time.hour,
+                                                                                  rem_time.minute, rem_time.second)
+                            else:
+                                response += '''
+    <#{}> - Time remaining: `{} days`, `{} hours`, `{} minutes`, and `{} seconds`.'''.format(channel_id, rem_days,
+                                                                                             rem_time.hour,
+                                                                                             rem_time.minute,
+                                                                                             rem_time.second)
+                        await dclient.send_message(private_channel, response)
+                        await dclient.send_message(public_channel,
+                                                   '{}, I sent the list in a private message.'.format(mention))
+                    except sqlite3.Error as e:
+                        await dclient.send_message(public_channel,
+                                                   '{}, error when trying to retrieve info from the database! Please'
+                                                   ' notify the admins!'.format(mention))
+                        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                     'Error when trying to retrieve data: ' + e.args[0]))
+                        log_file.write(
+                            '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                     'Error when trying to retrieve data: ' +
+                                                     e.args[0]))
             else:
-                await dclient.send_message(channel, '{}, channel type `{}` invalid! You must choose between `voice` or '
-                                                    '`text`.'.format(mention, channel_type))
+                await dclient.send_message(public_channel, '{}, channel type `{}` invalid! You must choose between '
+                                                           '`voice`, `text`, or `list`.'.format(mention, channel_type))
         except discord.Forbidden:
-            await dclient.send_message(channel, "{}, I don't have access to `manage_channels`! Please notify an "
-                                                "admin!".format(mention))
+            await dclient.send_message(public_channel, "{}, I don't have access to `manage_channels`! Please notify an "
+                                                       "admin!".format(mention))
     else:
-        await dclient.send_message(channel, '{}, **USAGE** {}tempch <voice-or-text> <time> <channel-name>'
+        await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice-or-text> <time> <channel-name>'
                                    .format(mention, cmd_char))
