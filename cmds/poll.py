@@ -5,21 +5,26 @@ async def ex_poll(dclient, channel, author, mention, a, poll, poll_question, opt
         if len(a) >= 1:
             if a[0].lower() == 'start':
                 if len(a) >= 3:
-                    if poll:
-                        await dclient.send_message(channel, '{}, poll is already running! If you want to close the '
-                                                            'poll, do {}poll stop!'.format(mention, cmd_char))
-                    else:
-                        poll = True
-                        i = 2
-                        while i < len(a):
-                            poll_question += a[i] + ' '
-                            i += 1
-                        options = a[1].lower().split('|')
-                        votes = [0] * len(options)
-                        voted = []
-                        await dclient.send_message(channel, '''```CSS
+                    if '|' in a[1]:
+                        if poll:
+                            await dclient.send_message(channel, '{}, poll is already running! If you want to close the '
+                                                                'poll, do {}poll stop!'.format(mention, cmd_char))
+                        else:
+                            poll = True
+                            i = 2
+                            while i < len(a):
+                                poll_question += a[i] + ' '
+                                i += 1
+                            options = a[1].lower().split('|')
+                            votes = [0] * len(options)
+                            voted = []
+                            await dclient.send_message(channel, '''```CSS
 [Poll Started]: {}
 Answer: -vote <{}>```'''.format(poll_question, '|'.join(options)))
+                    else:
+                        await dclient.send_message(channel, "{}, there can't be a vote when there's no options to vote "
+                                                            "for, right? (Ex: {}poll start yes|no LIke this?"
+                                                   .format(mention, cmd_char))
                 else:
                     await dclient.send_message(channel, '{}, **USAGE:** {}poll start <options1|options2|etc...> '
                                                         '<question>'.format(mention, cmd_char))
