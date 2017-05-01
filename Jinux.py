@@ -309,7 +309,7 @@ async def on_message(msg):
         elif cmd == 'info':
             log('COMMAND', 'Executing {}info command for {}.'.format(cmd_char, get_name(msg)))
             await info.ex(dclient, msg.channel)
-        elif cmd == 'likebill':
+        elif cmd == 'likebill' and config.getboolean('Functions', 'Be_Like_Bill_Memes'):
             log('COMMAND', 'Executing {}likebill command for {}.'.format(cmd_char, get_name(msg)))
             await likebill.ex(dclient, msg.channel)
         elif cmd == 'poll' and config.getboolean('Functions', 'poll'):
