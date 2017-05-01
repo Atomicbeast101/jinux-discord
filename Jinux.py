@@ -9,8 +9,8 @@ import random as r
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch, custom_cmd, time,
-                  trans, twitch, uptime, xkcd, youtube)
+                  eightball, gif, info, likebill, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch,
+                  custom_cmd, time, trans, twitch, uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -309,6 +309,9 @@ async def on_message(msg):
         elif cmd == 'info':
             log('COMMAND', 'Executing {}info command for {}.'.format(cmd_char, get_name(msg)))
             await info.ex(dclient, msg.channel)
+        elif cmd == 'likebill':
+            log('COMMAND', 'Executing {}likebill command for {}.'.format(cmd_char, get_name(msg)))
+            await likebill.ex(dclient, msg.channel)
         elif cmd == 'poll' and config.getboolean('Functions', 'poll'):
             log('COMMAND', 'Executing {}poll command for {}.'.format(cmd_char, get_name(msg)))
             poll_enable, poll_question, options, votes, voted = await poll.ex_poll(dclient, msg.channel, msg.author,

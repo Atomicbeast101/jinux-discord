@@ -47,24 +47,25 @@ HELP = '''```Markdown
 12) {0}gif (tags) = Gets a GIF from Giphy according to the tags given.
 13) {0}help (command) = Lists commands and description for each.
 14) {0}info = Information about this bot.
-15) {0}poll <start|stop> <question...> = Create or stop polls.
-16) {0}vote <option> = Vote an option to the poll.
-17) {0}reddit <#-subs OR subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
-18) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
-19) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
-20) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
+15) {0}likebill = Random "Be Like Bill" memes.
+16) {0}poll <start|stop> <question...> = Create or stop polls.
+17) {0}vote <option> = Vote an option to the poll.
+18) {0}reddit <#-subs OR subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
+19) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
+20) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
+21) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
 
 HELP2 = '''```Markdown
 # Command List #2 #
-21) {0}serverinfo = Information about the server you are in.
-22) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-23) {0}tempch <voice|text> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
-24) {0}time <location> = Get current time according to timezone.
-25) {0}trans <language-code> <message-to-translate> = Translate message to desired language.
-26) {0}twitch <add|remove|list|toggle|setchannel> <userID OR channelID> = Twitch live stream notification.
-27) {0}uptime = Jinux's uptime status.
-28) {0}xkcd <comicID OR latest> = Gets random or latest comic from xkcd.com website.
-29) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
+22) {0}serverinfo = Information about the server you are in.
+23) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+24) {0}tempch <voice|text> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
+25) {0}time <location> = Get current time according to timezone.
+26) {0}trans <language-code> <message-to-translate> = Translate message to desired language.
+27) {0}twitch <add|remove|list|toggle|setchannel> <userID OR channelID> = Twitch live stream notification.
+28) {0}uptime = Jinux's uptime status.
+29) {0}xkcd <comicID OR latest> = Gets random or latest comic from xkcd.com website.
+30) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -127,6 +128,10 @@ Retrieves GIF from Giphy according to the tags given.
 HELP_INFO = '''```Markdown
 [Help Guide]: {}info
 Information about this bot.```'''.format(cmd_char)
+
+HELP_LIKEBILL = '''```Markdown
+[Help Guide]: {}likebill
+Random "Be Like Bill" memes.```'''.format(cmd_char)
 
 HELP_POLL = '''```Markdown
 [Help Guide]: {}poll <start|stop> <question...>
