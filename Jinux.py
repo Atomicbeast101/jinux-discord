@@ -9,8 +9,8 @@ import random as r
 from twitch.api import v3
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, likebill, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch,
-                  custom_cmd, time, trans, twitch, uptime, xkcd, youtube)
+                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch, custom_cmd, time,
+                  trans, twitch, uptime, xkcd, youtube)
 import auto_welcome
 
 
@@ -45,7 +45,7 @@ voted = []
 conspiracy_list = list()
 conspiracies = open('conspiracies.txt', 'r')
 for consp in conspiracies:
-    conspiracy_list.append(consp.encode('utf-8').rstrip()[2:-1])
+    conspiracy_list.append(consp.rstrip())
 
 # RemindMe/All database setup
 con = sqlite3.connect(config.get('Jinux', 'Data_File'))
@@ -196,16 +196,11 @@ async def temp_channel_timeout():
 @dclient.event
 async def on_channel_delete(channel):
     try:
-        con_ex.execute('SELECT * FROM temp_channel WHERE id={};'.format(channel.id))
+        con_ex.execute('SELECT id FROM temp_channel WHERE id={};'.format(channel.id))
         ch_info = con_ex.fetchone()[0]
-        remove_channel = ch_info[0]
-        channel_name = ch_info[1]
-        owner = discord.User(id=ch_info[2])
-        await dclient.delete_channel(remove_channel)
-        con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(ch_info[0]))
+        con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(ch_info))
         con.commit()
-        await dclient.send_message(owner, 'Channel `{}` has been force removed by an admin!'.format(channel_name))
-        log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(channel[0]))
+        log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(ch_info))
     except sqlite3.Error as ex:
         print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                      'Error when trying to select/delete data: ' + ex.args[0]))
@@ -217,7 +212,7 @@ async def on_channel_delete(channel):
 replies_list = list()
 replies = open('replies.txt', 'r')
 for reply in replies:
-    replies_list.append(reply.encode('utf-8').rstrip()[2:-1])
+    replies_list.append(reply.rstrip())
 
 
 # Sets up the game status
@@ -309,9 +304,6 @@ async def on_message(msg):
         elif cmd == 'info':
             log('COMMAND', 'Executing {}info command for {}.'.format(cmd_char, get_name(msg)))
             await info.ex(dclient, msg.channel)
-        elif cmd == 'likebill' and config.getboolean('Functions', 'Be_Like_Bill_Memes'):
-            log('COMMAND', 'Executing {}likebill command for {}.'.format(cmd_char, get_name(msg)))
-            await likebill.ex(dclient, msg.channel)
         elif cmd == 'poll' and config.getboolean('Functions', 'poll'):
             log('COMMAND', 'Executing {}poll command for {}.'.format(cmd_char, get_name(msg)))
             poll_enable, poll_question, options, votes, voted = await poll.ex_poll(dclient, msg.channel, msg.author,
