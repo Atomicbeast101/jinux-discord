@@ -33,39 +33,38 @@ HELP = '''```Markdown
 # Command List #1 #
 # <..> means it's required while (...) means it's optional. #
 # If <option1|option2> means you have to choose between option1 or option2. #
-1) {0}cat = Random picture or gif of a cat.
-2) {0}channelinfo = Information about the channel you are in.
-3) {0}choose <options_by_space> = Random chooses an option from the list.
-4) {0}chucknorris = Random Chuck Norris jokes.
-5) {0}coinflip = Flip a coin to receive heads or tails.
-6) {0}conspiracy = Random conspiracy.
-7) {0}custcmd <cmd> <message...> = Create a custom {0}command with a custom message!
-8) {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
-9) {0}dice = Randomly chooses a number between 1 to 6.
-10) {0}dictionary <term> = Grab meaning of a given term.
-11) {0}8ball <question...> = Magic eight ball answering machine.
-12) {0}gif (tags) = Gets a GIF from Giphy according to the tags given.
-13) {0}help (command) = Lists commands and description for each.
-14) {0}info = Information about this bot.
-15) {0}likebill = Random "Be Like Bill" memes.
-16) {0}poll <start|stop> <question...> = Create or stop polls.
-17) {0}vote <option> = Vote an option to the poll.
-18) {0}reddit <#-subs OR subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
-19) {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
-20) {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
-21) {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
+- {0}cat = Random picture or gif of a cat.
+- {0}channelinfo = Information about the channel you are in.
+- {0}choose <options_by_space> = Random chooses an option from the list.
+- {0}chucknorris = Random Chuck Norris jokes.
+- {0}coinflip = Flip a coin to receive heads or tails.
+- {0}conspiracy = Random conspiracy.
+- {0}custcmd <cmd> <message...> = Create a custom {0}command with a custom message!
+- {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
+- {0}dice = Randomly chooses a number between 1 to 6.
+- {0}dictionary <term> = Grab meaning of a given term.
+- {0}8ball <question...> = Magic eight ball answering machine.
+- {0}gif (tags) = Gets a GIF from Giphy according to the tags given.
+- {0}help (command) = Lists commands and description for each.
+- {0}info = Information about this bot.
+- {0}poll <start|stop> <question...> = Create or stop polls.
+- {0}vote <option> = Vote an option to the poll.
+- {0}reddit <#-subs OR subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
+- {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
+- {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
+- {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
 
 HELP2 = '''```Markdown
 # Command List #2 #
-22) {0}serverinfo = Information about the server you are in.
-23) {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
-24) {0}tempch <voice|text> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
-25) {0}time <location> = Get current time according to timezone.
-26) {0}trans <language-code> <message-to-translate> = Translate message to desired language.
-27) {0}twitch <add|remove|list|toggle|setchannel> <userID OR channelID> = Twitch live stream notification.
-28) {0}uptime = Jinux's uptime status.
-29) {0}xkcd <comicID OR latest> = Gets random or latest comic from xkcd.com website.
-30) {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
+- {0}serverinfo = Information about the server you are in.
+- {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+- {0}tempch <voice|text|list> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
+- {0}time <location> = Get current time according to timezone.
+- {0}trans <language-code> <message-to-translate> = Translate message to desired language.
+- {0}twitch <add|remove|list|toggle|setchannel> <userID OR channelID> = Twitch live stream notification.
+- {0}uptime = Jinux's uptime status.
+- {0}xkcd <comicID OR latest> = Gets random or latest comic from xkcd.com website.
+- {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -128,10 +127,6 @@ Retrieves GIF from Giphy according to the tags given.
 HELP_INFO = '''```Markdown
 [Help Guide]: {}info
 Information about this bot.```'''.format(cmd_char)
-
-HELP_LIKEBILL = '''```Markdown
-[Help Guide]: {}likebill
-Random "Be Like Bill" memes.```'''.format(cmd_char)
 
 HELP_POLL = '''```Markdown
 [Help Guide]: {}poll <start|stop> <question...>
