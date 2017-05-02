@@ -58,10 +58,6 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(private_channel, HELP_INFO)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
                                        .format(mention))
-        elif s == 'likebill':
-            await dclient.send_message(private_channel, HELP_LIKEBILL)
-            await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
-                                       .format(mention))
         elif s == 'poll':
             await dclient.send_message(private_channel, HELP_POLL)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
