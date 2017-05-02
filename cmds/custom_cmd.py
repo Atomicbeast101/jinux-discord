@@ -11,8 +11,6 @@ async def ex(dclient, channel, mention, author, a, cmd_list, con, con_ex, log_fi
             msg = ''
             for i in range(1, len(a)):
                 msg += a[i] + ' '
-            print(msg)
-            print(str(msg))
             if len(cmd) > 10:
                 await dclient.send_message(channel,
                                            '{}, command `{}` has `{}` characters. It must be 10 or less characters!'
