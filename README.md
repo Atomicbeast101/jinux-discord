@@ -11,7 +11,7 @@
 - Sudo access (Linux) or Administrator access (Windows)
 
 ## Links
-[Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md)
+[Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md) | [Configuration](https://github.com/Atomicbeast101/Jinux/blob/master/CONFIG.md)
 
 ## Change Log:
 - [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID. Removed chat system as it's difficult to maintain it. Fixed bugs in -purge and -vote.
