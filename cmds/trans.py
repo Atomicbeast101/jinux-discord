@@ -4,9 +4,9 @@ from Data import LANG_LIST
 
 # Trans command
 async def ex(dclient, channel, mention, a, cmd_char):
-    a = a.split(' ')
-    if len(a) >= 2:
-        lang_id = a[0]
+    ar = a.split(' ')
+    if len(ar) >= 2:
+        lang_id = ar[0]
         if lang_id.upper() in LANG_LIST:
             s = a[3:]
             t = Translator(to_lang=lang_id).translate(s)
