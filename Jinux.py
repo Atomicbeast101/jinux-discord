@@ -66,27 +66,27 @@ except sqlite3.Error as e:
 async def check_remindme():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
-        async with asyncio.sleep(1):
-            try:
-                for reminders in con_ex.execute("SELECT * FROM reminder WHERE date <= Datetime('{}');".format(
-                        datetime.now().strftime('%Y-%m-%d %X'))):
-                    if reminders[1] == '0':  # ME type
-                        user = discord.User(id=reminders[2])
-                        await dclient.send_message(user, '{}'.format(reminders[3]))
-                        con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
-                        con.commit()
-                        log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
-                    elif reminders[1] == '1':  # ALL type
-                        user = dclient.get_channel(reminders[2])
-                        await dclient.send_message(user, '{}'.format(reminders[3]))
-                        con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
-                        con.commit()
-                        log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
-            except sqlite3.Error as ex:
-                print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                             'Error when trying to select/delete data: ' + ex.args[0]))
-                log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                        'Error when trying to insert/delete data: ' + ex.args[0]))
+        try:
+            for reminders in con_ex.execute("SELECT * FROM reminder WHERE date <= Datetime('{}');".format(
+                    datetime.now().strftime('%Y-%m-%d %X'))):
+                if reminders[1] == '0':  # ME type
+                    user = discord.User(id=reminders[2])
+                    await dclient.send_message(user, '{}'.format(reminders[3]))
+                    con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
+                    con.commit()
+                    log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
+                elif reminders[1] == '1':  # ALL type
+                    user = dclient.get_channel(reminders[2])
+                    await dclient.send_message(user, '{}'.format(reminders[3]))
+                    con_ex.execute('DELETE FROM reminder WHERE id={};'.format(reminders[0]))
+                    con.commit()
+                    log('REMINDER', 'Removed ID {} from database.'.format(reminders[0]))
+        except sqlite3.Error as ex:
+            print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                         'Error when trying to select/delete data: ' + ex.args[0]))
+            log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                    'Error when trying to insert/delete data: ' + ex.args[0]))
+        await asyncio.sleep(1)
 
 
 # Custom cmd setup
@@ -141,23 +141,23 @@ except ValueError:
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
-        async with asyncio.sleep(twitch_timelimit):
-            if twitch_enabled and len(streamers) > 0:
-                for streamer in streamers:
-                    async with aiohttp.ClientSession() as s:
-                        async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=i3qc4co9e138y2fjl41kb8bj'
-                                         'gzddma'.format(streamer)) as raw_data:
-                            data = await raw_data.json()
-                            if data['stream'] is not None:
-                                if streamer not in active:
-                                    await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                                                               "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
-                                                                   streamer))
-                                    log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
-                                    active.append(streamer)
-                                else:
-                                    if streamer in active:
-                                        active.remove(streamer)
+        if twitch_enabled and len(streamers) > 0:
+            for streamer in streamers:
+                async with aiohttp.ClientSession() as s:
+                    async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=i3qc4co9e138y2fjl41kb8bj'
+                                     'gzddma'.format(streamer)) as raw_data:
+                        data = await raw_data.json()
+                        if data['stream'] is not None:
+                            if streamer not in active:
+                                await dclient.send_message(dclient.get_channel(str(twitch_channel)),
+                                                           "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
+                                                               streamer))
+                                log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
+                                active.append(streamer)
+                            else:
+                                if streamer in active:
+                                    active.remove(streamer)
+        await asyncio.sleep(twitch_timelimit)
 
 
 # Temporary Channel Setup
@@ -178,23 +178,24 @@ except sqlite3.Error as e:
 async def temp_channel_timeout():
     await dclient.wait_until_ready()
     while not dclient.is_closed:
-        async with asyncio.sleep(1):
-            try:
-                for channel in con_ex.execute("SELECT * FROM temp_channel WHERE date <= Datetime('{}');".format(
-                        datetime.now().strftime('%Y-%m-%d %X'))):
-                    remove_channel = dclient.get_channel(channel[0])
-                    channel_name = channel[1]
-                    owner = discord.User(id=channel[2])
-                    await dclient.delete_channel(remove_channel)
-                    con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(channel[0]))
-                    con.commit()
-                    await dclient.send_message(owner, 'Channel `{}` has expired and has been removed!'.format(channel_name))
-                    log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(channel[0]))
-            except sqlite3.Error as ex:
-                print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                             'Error when trying to select/delete data: ' + ex.args[0]))
-                log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                        'Error when trying to insert/delete data: ' + ex.args[0]))
+        try:
+            for channel in con_ex.execute("SELECT * FROM temp_channel WHERE date <= Datetime('{}');".format(
+                    datetime.now().strftime('%Y-%m-%d %X'))):
+                remove_channel = dclient.get_channel(channel[0])
+                channel_name = channel[1]
+                owner = discord.User(id=channel[2])
+                await dclient.delete_channel(remove_channel)
+                con_ex.execute('DELETE FROM temp_channel WHERE id={};'.format(channel[0]))
+                con.commit()
+                await dclient.send_message(owner, 'Channel `{}` has expired and has been removed!'.format(channel_name))
+                log('TEMP_CHANNEL', 'Removed ID {} from database.'.format(channel[0]))
+        except sqlite3.Error as ex:
+            print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                         'Error when trying to select/delete data: ' + ex.args[0]))
+            log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
+                                                    'Error when trying to insert/delete data: ' + ex.args[0]))
+
+        await asyncio.sleep(1)
 
 
 # Auto remove temporary channel from database if an admin force removes it from the server
