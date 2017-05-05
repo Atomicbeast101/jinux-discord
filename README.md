@@ -14,7 +14,7 @@
 [Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md) | [Configuration](https://github.com/Atomicbeast101/Jinux/blob/master/CONFIG.md)
 
 ## Change Log:
-- [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID. Removed chat system as it's difficult to maintain it. Fixed bugs in -purge and -vote.
+- [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID, improved -tempch to allow users to list all temporary channels by `-tempch list` and auto remove temporary channels from the database if forced removed by an admin, and ability to use `1m` or `2b` in -convert. Removed chat system and replaced it with replies from `replies.txt` file as it's difficult to maintain it. Fixed bugs in -purge, -vote, & -conspiracy.
 - [v3.0] = Big overhaul update. Features added: -reddit, -twitch, -uptime, -9, logging system, & auto welcome messaging. Improved features: -time & -poll
 - [v2.3] = Made Cleverbot API work again.
 - [v2.2] = Fixed bot's roasting program to work with Cleverbot's v2.0.0 update.
