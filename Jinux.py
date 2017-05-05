@@ -236,7 +236,7 @@ async def on_ready():
 
 # Auto welcome new members
 welcome_msg = ''''''
-file = open('Welcome_Message.txt', 'r')
+file = open('welcome_message.txt', 'r')
 for line in file:
     welcome_msg += line + '''
 '''
