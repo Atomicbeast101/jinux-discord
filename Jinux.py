@@ -147,16 +147,20 @@ async def twitch_live_stream_notify():
                     async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=ygyhel3k6oyrq17gg4ame28uffxsxp'
                                      'gzddma'.format(streamer)) as raw_data:
                         data = await raw_data.json()
-                        if data['stream'] is not None:
-                            if streamer not in active:
-                                await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                                                           "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
-                                                               streamer))
-                                log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
-                                active.append(streamer)
-                            else:
-                                if streamer in active:
-                                    active.remove(streamer)
+                        try:
+                            if data['stream'] is not None:
+                                if streamer not in active:
+                                    await dclient.send_message(dclient.get_channel(str(twitch_channel)),
+                                                               "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
+                                                                   streamer))
+                                    log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
+                                    active.append(streamer)
+                                else:
+                                    if streamer in active:
+                                        active.remove(streamer)
+                        except KeyError:
+                            if streamer in active:
+                                active.remove(streamer)
         await asyncio.sleep(twitch_timelimit)
 
 
