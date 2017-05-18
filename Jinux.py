@@ -144,7 +144,7 @@ async def twitch_live_stream_notify():
         if twitch_enabled and len(streamers) > 0:
             for streamer in streamers:
                 async with aiohttp.ClientSession() as s:
-                    async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=i3qc4co9e138y2fjl41kb8bj'
+                    async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=ygyhel3k6oyrq17gg4ame28uffxsxp'
                                      'gzddma'.format(streamer)) as raw_data:
                         data = await raw_data.json()
                         if data['stream'] is not None:
