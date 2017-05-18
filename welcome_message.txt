@@ -1,4 +1,4 @@
-Welcome to the Discord Server, {PLAYER}!
+Welcome to the Discord Server, {USER}!
 
 -------------
 

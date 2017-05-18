@@ -1,4 +1,5 @@
 ## Setup
+[Ubuntu/Debian](#ubuntudebian-installation) [CentOS](#centos-installation) [Windows](#windows-installation)
 ### Ubuntu/Debian Installation
 In most cases, Python is usually installed by default in Ubuntu, but may not be in latest version you need to run Jinux bot.
 
@@ -21,7 +22,7 @@ sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev
 
 4) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install asyncio python-aiml discord.py python-twitch aiohttp PyDictionary geopy translate bs4
+sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
 ```
 
 5) Download the github files and export it to anywhere you want to store on your computer.
@@ -67,7 +68,7 @@ sudo yum install python35u-pip
 
 3) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install asyncio python-aiml discord.py python-twitch aiohttp PyDictionary geopy translate bs4
+sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
@@ -106,7 +107,7 @@ Click on start menu and type down 'cmd' and then right click on the Command Prom
 
 3) Run the command in Command Prompt to install the Discord Python API:
 ```PowerShell
-python -m pip install asyncio python-aiml discord.py python-twitch aiohttp PyDictionary geopy translate bs4
+python -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
@@ -134,27 +135,3 @@ https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot
 ```PowerShell
 python /path/to/Jinux.py
 ```
-
-
-## Configuration
-```Ini
-Channel = 0
-```
-ID of the channel where Jinux will "wave" in (meaning that it's online and working).
-```Ini
-Character = -
-```
-Starting character of the command. Default is `-`. If you change it to `=` for example, all commands have to start with that. (ex: =help).
-```Ini
-Playing = -help | Jinux v3.0
-```
-Playing status of the bot.
-```Ini
-Logging = On
-```
-Toggle the logging of the commands/bot replies the users execute.
-```Ini
-Auto_Welcome = On
-Auto_Welcome_Channel = 0
-```
-Toggle the auto welcoming messages for new users that join the server. The `Auto_Welcome_Channel` variable is for the channel ID where the bot will post the welcome messages to the user.

@@ -30,32 +30,41 @@ CURR_LIST = ['AFA', 'ALL', 'DZD', 'AOR', 'ARS', 'AMD', 'AWG', 'AUD', 'AZN', 'BSD
              'TMT', 'AED', 'UGX', 'XFU', 'UAH', 'UYU', 'USD', 'UZS', 'VUV', 'VEF', 'VND', 'YER', 'ZMK', 'ZWL']
 
 HELP = '''```Markdown
-# List of commands #
+# Command List #1 #
+# <..> means it's required while (...) means it's optional. #
+# If <option1|option2> means you have to choose between option1 or option2. #
 - {0}cat = Random picture or gif of a cat.
 - {0}channelinfo = Information about the channel you are in.
 - {0}choose <options_by_space> = Random chooses an option from the list.
 - {0}chucknorris = Random Chuck Norris jokes.
 - {0}coinflip = Flip a coin to receive heads or tails.
+- {0}conspiracy = Random conspiracy.
+- {0}custcmd <cmd> <message...> = Create a custom {0}command with a custom message!
 - {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
 - {0}dice = Randomly chooses a number between 1 to 6.
 - {0}dictionary <term> = Grab meaning of a given term.
 - {0}8ball <question...> = Magic eight ball answering machine.
-- {0}gif <tags> = Gets a GIF from Giphy according to the tags given.
-- {0}help <command> = Lists commands and description for each.
+- {0}gif (tags) = Gets a GIF from Giphy according to the tags given.
+- {0}help (command) = Lists commands and description for each.
 - {0}info = Information about this bot.
-- {0}poll <start|stop> <Question...> = Create or stop polls.
+- {0}poll <start|stop> <question...> = Create or stop polls.
 - {0}vote <option> = Vote an option to the poll.
-- {0}reddit <#-subs-OR-subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
-- {0}rps <rock|paper|scissors> = Rock, paper, scissors game.
+- {0}reddit <#-subs OR subreddit> <#-subs> = Get hottest submissions from front page or subreddit.
+- {0}remindall <time> <message...> = Set a reminder for everyone in the same channel you sent the message in.
+- {0}remindme <time> <message...> = Set a reminder for Jinux to message you through private message.
+- {0}rps <rock|paper|scissors> = Rock, paper, scissors game.```'''.format(cmd_char)
+
+HELP2 = '''```Markdown
+# Command List #2 #
 - {0}serverinfo = Information about the server you are in.
 - {0}temp <temp-#> <from-F|K|C> <to-F|K|C> = Convert temperature between F, K, or C.
+- {0}tempch <voice|text|list> <time> <channel-name> = Create a temporary channel that'll be public for a time limit!
 - {0}time <location> = Get current time according to timezone.
-- {0}trans <language-code> <to-translate> = Translate message to desired language.
-- {0}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID> = Twitch live stream notification.
-- {0}uptime = Bot's uptime status.
-- {0}xkcd <latest> = Gets random or latest comic from xkcd.com website.
-- {0}youtube <to-search> = Gets first video from YouTube search results.
-- {0}9 = Restarts Jinux.```'''.format(cmd_char)
+- {0}trans <language-code> <message-to-translate> = Translate message to desired language.
+- {0}twitch <add|remove|list|toggle|setchannel> <userID OR channelID> = Twitch live stream notification.
+- {0}uptime = Jinux's uptime status.
+- {0}xkcd <comicID OR latest> = Gets random or latest comic from xkcd.com website.
+- {0}youtube <to-search> = Gets first video from YouTube search results.```'''.format(cmd_char)
 
 HELP_CAT = '''```Markdown
 [Help Guide]: {}cat
@@ -78,6 +87,16 @@ HELP_COINFLIP = '''```Markdown
 [Help Guide]: {}coinflip
 Flip a coin to receive heads or tails.```'''.format(cmd_char)
 
+HELP_CONSPIRACY = '''```Markdown
+[Help Guide]: {}conspiracy
+Random conspiracy.```'''.format(cmd_char)
+
+HELP_CUSTCMD = '''```Markdown
+[Help Guide]: {0}custcmd <cmd> <message...>
+Create a custom {0}command with a custom message!
+<cmd> = Command you want users to use. (ex. {0}custom_command)
+<message...> = Message that the custom command will output.```'''.format(cmd_char)
+
 HELP_CONVERT = '''```Markdown
 [Help Guide]: {}convert <amount> <from-currency> <to-currency>
 Converts the specified amount of money to a desired currency.
@@ -88,7 +107,7 @@ List of supported currency codes: <https://currencysystem.com/codes/>'''.format(
 
 HELP_DICE = '''```Markdown
 [Help Guide]: {}dice
-Randomly chooses a number between 1 to 6.```'''
+Randomly chooses a number between 1 to 6.```'''.format(cmd_char)
 
 HELP_DICTIONARY = '''```Markdown
 [Help Guide]: {}dictionary <term>
@@ -127,6 +146,20 @@ Get hottest submissions from front page or subreddit. If no # of subs listed, de
 <#-subs-OR-subreddit> = If front page, # of submissions to view. If subreddit, views 5 hot submissions.
 <#-subs> = Number of hot submissions to view from a subreddit.```'''.format(cmd_char)
 
+HELP_REMINDALL = '''```Markdown
+[Help Guide]: {}remindall <time> <message...>
+Set a reminder for everyone in the same channel you sent the message in.
+<time> = How long you want for Jinux to wait before sending a message to everyone in the channel. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<message...> = Message that you want Jinux to send to everyone in the channel.```'''.format(cmd_char)
+
+HELP_REMINDME = '''```Markdown
+[Help Guide]: {}remindall <time> <message...>
+Set a reminder for Jinux to message you through private message.
+<time> = How long you want for Jinux to wait before sending a message to you. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<message...> = Message that you want Jinux to send to you.```'''.format(cmd_char)
+
 HELP_RPS = '''```Markdown
 [Help Guide]: {}rps <rock|paper|scissors>
 Rock, paper, scissors game.
@@ -142,6 +175,14 @@ Convert temperature between F, K, or C.
 <temp#> = Temperature you want to convert to.
 <from F|K|C> = Current temperature measurement.
 <to F|K|C> = Temperature measurement to convert to.```'''.format(cmd_char)
+
+HELP_TEMPCH = '''```Markdown
+[Help Guide]: {}tempch <voice|text> <time> <channel-name>
+Create a temporary channel that'll be public for a time limit!
+<voice|text> = What kind of channel do you want to make? Voice or Text?
+<time> = How long you want the channel to last for. 
+    (ex: 4h = 4 hours or 1h,30m = 1 hour and 30 minutes)
+<channel-name> = Name of the channel.```'''.format(cmd_char)
 
 HELP_TIME = '''```Markdown
 [Help Guide]: {}time <location>
@@ -167,15 +208,11 @@ HELP_UPTIME = '''```Markdown
 Bot's uptime status.```'''.format(cmd_char)
 
 HELP_XKCD = '''```Markdown
-[Help Guide]: {}xkcd <latest>
+[Help Guide]: {}xkcd <latest OR comic_ID>
 Gets random or latest comic from xkcd.com website.
-<latest> = Latest comic published on xkcd.com.```'''.format(cmd_char)
+<latest OR comic_ID> = Latest comic published on xkcd.com or get specific comic through ID #.```'''.format(cmd_char)
 
 HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>
 Retrieves first video from YouTube search results.
 <to-search> = No need to explain here.```'''.format(cmd_char)
-
-HELP_NINE = '''```Markdown
-[Help Guide]: {}9
-Restarts Jinux.```'''.format(cmd_char)
