@@ -22,7 +22,7 @@ sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev
 
 4) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
+sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4 pytz
 ```
 
 5) Download the github files and export it to anywhere you want to store on your computer.
@@ -68,7 +68,7 @@ sudo yum install python35u-pip
 
 3) Install Python packages with PIP:
 ```Bash
-sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
+sudo python3.5 -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4 pytz
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
@@ -107,7 +107,7 @@ Click on start menu and type down 'cmd' and then right click on the Command Prom
 
 3) Run the command in Command Prompt to install the Discord Python API:
 ```PowerShell
-python -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4
+python -m pip install asyncio discord.py aiohttp PyDictionary geopy translate bs4 pytz
 ```
 
 4) Download the github files and export it to anywhere you want to store on your computer.
