@@ -5,7 +5,7 @@
 
 ## Requirements
 - Python v3.5+ (This was tested with Python v3.5.2. Python version 3.4 and below WILL not work.)
-- Python packages: `asyncio discord.py aiohttp PyDictionary geopy translate bs4`
+- Python packages: `asyncio discord.py aiohttp PyDictionary geopy translate bs4 pytz`
 - Linux or Windows OS machine (Desktop or Server versions are fine.)
 - Strong internet speed with minimal latency (Latency effects the response time from the bot.)
 - Sudo access (Linux) or Administrator access (Windows)
