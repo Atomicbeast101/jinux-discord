@@ -1,4 +1,5 @@
 from PyDictionary import PyDictionary
+import discord
 
 # Dictionary command
 async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
@@ -7,36 +8,36 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
         word = a[0].lower()
         pydict = PyDictionary()
         r = pydict.meaning(word)
+
+        # Creates embed for dictionary term
+        embed = discord.Embed()
+        embed.set_author(name='Meaning: {}'.format(word))
+        embed.set_thumbnail(url='http://imgur.com/kqCrStG')
         try:
-            an = '''```Markdown
-# Meaning: {} #
-'''.format(word)
             if 'Noun' in r:
-                an += '''<Noun>
-'''
                 cnt = 1
+                val = ''
                 for d in r['Noun']:
-                    an += '''[{}]: {}
+                    val += '''{}) {}
 '''.format(cnt, d)
-                    cnt += 1
+                embed.add_field(name='Noun', value=val)
             if 'Verb' in r:
-                an += '''<Verb>
-'''
                 cnt = 1
+                val = ''
                 for d in r['Verb']:
-                    an += '''[{}]: {}
+                    val += '''{}) {}
 '''.format(cnt, d)
-                    cnt += 1
+                embed.add_field(name='Verb', value=val)
             if 'Adjective' in r:
-                an += '''<Adjective>
-'''
                 cnt = 1
+                val = ''
                 for d in r['Adjective']:
-                    an += '''[{}]: {}
+                    val += '''{}) {}
 '''.format(cnt, d)
-                    cnt += 1
-            an += '''```'''
-            await dclient.send_message(private_channel, an)
+                embed.add_field(name='Adjective', value=val)
+
+            # Send embed message to chat
+            await dclient.send_message(private_channel, embed=embed)
             await dclient.send_message(public_channel, '{}, the meaning for the term `{}` has been sent in a private '
                                                        'message.'.format(mention, word))
         except Exception:
