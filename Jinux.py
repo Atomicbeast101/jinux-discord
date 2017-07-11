@@ -151,8 +151,8 @@ async def twitch_live_stream_notify():
                             if data['stream'] is not None:
                                 if streamer not in active:
                                     await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                                                               "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
-                                                                   streamer))
+                                                               "**{0}** is now live! @<https://www.twitch.tv/{0}>"
+                                                               .format(streamer))
                                     log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
                                     active.append(streamer)
                                 else:
