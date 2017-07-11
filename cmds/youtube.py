@@ -23,9 +23,10 @@ async def ex(dclient, channel, mention, a, cmd_char):
                     await dclient.send_message(channel, 'Unable to find the link in the results, {}!'.format(mention))
                 else:
                     await dclient.send_message(channel, 'https://youtube.com{}'.format(h))
-        except Exception as exc:
-            await dclient.send_message(channel, 'Unable to complete this task, {}! Please let the admins know!'
-                                       .format(mention))
-            print(exc)
+        except Exception as ex:
+			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://www.youtube.com/results", color=0xff0000)
+			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+			embed.add_field(name="Reason", value=ex, inline=False)
+			await dclient.say(embed=embed)
     else:
         await dclient.send_message(channel, '{}, **USAGE:** {}youtube <to-search>'.format(mention, cmd_char))

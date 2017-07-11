@@ -35,34 +35,41 @@ async def ex(dclient, private_channel, public_channel, mention, a):
             title = '/r/{}'.format(subreddit_link)
             subreddit = True
     if valid:
-        async with aiohttp.ClientSession() as s:
-            async with s.get(url) as r:
-                d = await r.json()
-                r = '''**{} Hot Submissions in {}:**
+		try:
+			async with aiohttp.ClientSession() as s:
+				async with s.get(url) as r:
+					d = await r.json()
+					r = '''**{} Hot Submissions in {}:**
 '''.format(str(max_subs), title)
-                cnt = 1
-                if subreddit:
-                    for sr in d['data']['children']:
-                        if not sr['data']['author'] == 'AutoModerator':
-                            title = str(sr['data']['title'].encode('utf-8'))[2:-1]
-                            url = sr['data']['permalink']
-                            r += '''**{})** {}
-    <https://reddit.com{}>
+					cnt = 1
+					if subreddit:
+						for sr in d['data']['children']:
+							if not sr['data']['author'] == 'AutoModerator':
+								title = str(sr['data']['title'].encode('utf-8'))[2:-1]
+								url = sr['data']['permalink']
+								r += '''**{})** {}
+	<https://reddit.com{}>
 
 '''.format(cnt, title, url)
-                            cnt += 1
-                            if cnt > max_subs:
-                                break
-                else:
-                    for sr in d['data']['children']:
-                        title = str(sr['data']['title'].encode('utf-8'))[2:-1]
-                        url = sr['data']['permalink']
-                        r += '''**{})** {}
-    <https://reddit.com{}>
+								cnt += 1
+								if cnt > max_subs:
+									break
+					else:
+						for sr in d['data']['children']:
+							title = str(sr['data']['title'].encode('utf-8'))[2:-1]
+							url = sr['data']['permalink']
+							r += '''**{})** {}
+	<https://reddit.com{}>
 
 '''.format(cnt, title, url)
-                        cnt += 1
-                        if cnt > max_subs:
-                            break
-        await dclient.send_message(private_channel, r)
-        await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
+							cnt += 1
+							if cnt > max_subs:
+								break
+			await dclient.send_message(private_channel, r)
+			await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
+		except Exception ex:
+			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://reddit.com/r/", color=0xff0000)
+			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+			embed.add_field(name="Reason", value=ex, inline=False)
+			await dclient.say(embed=embed)
+			

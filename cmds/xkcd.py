@@ -17,12 +17,18 @@ async def ex(dclient, channel, mention, a, cmd_char):
     if len(a) > 0:
         a = a.split(' ')[0]
         if a == 'latest':
-            async with aiohttp.ClientSession() as s:
-                async with s.get('https://xkcd.com/info.0.json') as r:
-                    d = await r.json()
-                    await dclient.send_message(channel, '''Title: {}
+			try:
+				async with aiohttp.ClientSession() as s:
+					async with s.get('https://xkcd.com/info.0.json') as r:
+						d = await r.json()
+						await dclient.send_message(channel, '''Title: {}
 Comic ID: {}
 {}'''.format(d['safe_title'], d['num'], d['img']))
+			except Exception ex:
+				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/info.0.json", color=0xff0000)
+				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+				embed.add_field(name="Reason", value=ex, inline=False)
+				await dclient.say(embed=embed)
         elif is_int(a):
             comic_id = a
             try:
@@ -43,9 +49,15 @@ Comic ID: {}
         ids = b.find('div', id='middleContainer').find_all('a')
         idr = choice(ids)['href']
         idr.replace('/', '')
-        async with aiohttp.ClientSession() as s:
-            async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
-                d = await r.json()
-                await dclient.send_message(channel, '''Title: {}
+		try:
+			async with aiohttp.ClientSession() as s:
+				async with s.get('https://xkcd.com/{}/info.0.json'.format(idr)) as r:
+					d = await r.json()
+					await dclient.send_message(channel, '''Title: {}
 Comic ID: {}
 {}'''.format(d['safe_title'], d['num'], d['img']))
+		except Exception ex:
+			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/info.0.json", color=0xff0000)
+			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+			embed.add_field(name="Reason", value=ex, inline=False)
+			await dclient.say(embed=embed)

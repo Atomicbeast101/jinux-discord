@@ -46,6 +46,14 @@ async def ex(dclient, private_channel, public_channel, mention, a, cmd_char):
             await dclient.send_message(private_channel, HELP_DICTIONARY)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
                                        .format(mention))
+        elif s == 'dict':
+            await dclient.send_message(private_channel, HELP_DICTIONARY)
+            await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
+                                       .format(mention))
+        elif s == 'meaning':
+            await dclient.send_message(private_channel, HELP_DICTIONARY)
+            await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'
+                                       .format(mention))
         elif s == '8ball':
             await dclient.send_message(private_channel, HELP_EIGHTBALL)
             await dclient.send_message(public_channel, '{}, I sent you the specific help guide in a private message.'

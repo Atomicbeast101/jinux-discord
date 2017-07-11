@@ -55,8 +55,10 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
                 con.commit()
                 await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
-                await dclient.send_message(channel, '{}, error when trying to add info to database! Please notifiy '
-                                                    'the admins!'.format(mention))
+						embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite", color=0xff0000)
+						embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+						embed.add_field(name="Reason", value=e, inline=False)
+						await dclient.say(embed=embed)
                 print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                              'Error when trying to insert data: ' + e.args[0]))
                 log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
@@ -84,8 +86,10 @@ async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file
                 con.commit()
                 await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
-                await dclient.send_message(channel, '{}, error when trying to add info to database! Please notifiy '
-                                                    'the admins!'.format(mention))
+					embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite", color=0xff0000)
+					embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+					embed.add_field(name="Reason", value=e, inline=False)
+					await dclient.say(embed=embed)
                 print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                              'Error when trying to insert data: ' + e.args[0]))
                 log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',

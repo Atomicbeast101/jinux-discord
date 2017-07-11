@@ -55,12 +55,19 @@ async def ex(dclient, channel, mention, a, cmd_char):
         if is_money_value(b):
             b = get_money_value(b)
             if cc and ct in CURR_LIST:
-                async with aiohttp.ClientSession() as s:
-                    async with s.get('http://free.currencyconverterapi.com/api/v3/convert?q={}_{}&compact=y'.format(
-                            cc, ct)) as r:
-                        d = await r.json()
-                        nb = b * float(d[cc + '_' + ct]['val'])
-                        await dclient.send_message(channel, '`{}: {:,.2f}` > `{}: {:,.2f}`'.format(cc, b, ct, nb))
+				try:
+					async with aiohttp.ClientSession() as s:
+						async with s.get('http://free.currencyconverterapi.com/api/v3/convert?q={}_{}&compact=y'.format(
+								cc, ct)) as r:
+							d = await r.json()
+							nb = b * float(d[cc + '_' + ct]['val'])
+							await dclient.send_message(channel, '`{}: {:,.2f}` > `{}: {:,.2f}`'.format(cc, b, ct, nb))
+				except Exception ex:
+					embed=discord.Embed(title="Error", description="Error when trying to retrieve data from http://free"
+					".currencyconverterapi.com/api/v3/convert", color=0xff0000)
+					embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+					embed.add_field(name="Reason", value=ex, inline=False)
+					await dclient.say(embed=embed)
             else:
                 await dclient.send_message(channel, '{} Invalid currency code! Please check https://currencysystem.com/'
                                                     'codes/!'.format(mention))

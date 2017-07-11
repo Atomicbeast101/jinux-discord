@@ -143,24 +143,30 @@ async def twitch_live_stream_notify():
     while not dclient.is_closed:
         if twitch_enabled and len(streamers) > 0:
             for streamer in streamers:
-                async with aiohttp.ClientSession() as s:
-                    async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=ygyhel3k6oyrq17gg4ame28uffxsxp'
-                                     'gzddma'.format(streamer)) as raw_data:
-                        data = await raw_data.json()
-                        try:
-                            if data['stream'] is not None:
-                                if streamer not in active:
-                                    await dclient.send_message(dclient.get_channel(str(twitch_channel)),
-                                                               "**{0}** is now live! @<https://www.twitch.tv/{0}>"
-                                                               .format(streamer))
-                                    log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
-                                    active.append(streamer)
-                                else:
-                                    if streamer in active:
-                                        active.remove(streamer)
-                        except KeyError:
-                            if streamer in active:
-                                active.remove(streamer)
+				try:
+					async with aiohttp.ClientSession() as s:
+						async with s.get('https://api.twitch.tv/kraken/streams/{}?client_id=ygyhel3k6oyrq17gg4ame28uffxsxp'
+										 'gzddma'.format(streamer)) as raw_data:
+							data = await raw_data.json()
+							try:
+								if data['stream'] is not None:
+									if streamer not in active:
+										await dclient.send_message(dclient.get_channel(str(twitch_channel)),
+																   "**{0}** is now live! @<https://www.twitch.tv/{0}>".format(
+																	   streamer))
+										log('TWITCH', 'Announced that player {} is streaming on Twitch.'.format(streamer))
+										active.append(streamer)
+									else:
+										if streamer in active:
+											active.remove(streamer)
+							except KeyError:
+								if streamer in active:
+									active.remove(streamer)
+				except Exception ex:
+					print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'TWITCH_API',
+                                 'Error when trying to retrieve data from Twitchs API server'))
+					log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'TWITCH_API',
+                                 'Error when trying to retrieve data from Twitchs API server'))
         await asyncio.sleep(twitch_timelimit)
 
 
@@ -302,6 +308,12 @@ async def on_message(msg):
         elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
             log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
             await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[12:], cmd_char)
+        elif cmd == 'dict' and config.getboolean('Functions', 'Dictionary'):
+            log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
+            await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+        elif cmd == 'meaning' and config.getboolean('Functions', 'Dictionary'):
+            log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
+            await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
         elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
             log('COMMAND', 'Executing {}8ball command for {}.'.format(cmd_char, get_name(msg)))
             await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)

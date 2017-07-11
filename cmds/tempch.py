@@ -85,9 +85,10 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
                                                                '{}, channel created! You can reach it at <#{}>!'
                                                                .format(mention, new_channel.id))
                                 except sqlite3.Error as e:
-                                    await dclient.send_message(public_channel,
-                                                               '{}, error when trying to add info to database! Please'
-                                                               ' notify the admins!'.format(mention))
+									embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite", color=0xff0000)
+									embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+									embed.add_field(name="Reason", value=e, inline=False)
+									await dclient.say(embed=embed)
                                     print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                                                  'Error when trying to insert data: ' + e.args[0]))
                                     log_file.write(
@@ -158,9 +159,10 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
                 await dclient.send_message(public_channel,
                                            '{}, I sent the list in a private message.'.format(mention))
             except sqlite3.Error as e:
-                await dclient.send_message(public_channel,
-                                           '{}, error when trying to retrieve info from the database! Please'
-                                           ' notify the admins!'.format(mention))
+				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from SQLite", color=0xff0000)
+				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+				embed.add_field(name="Reason", value=e, inline=False)
+				await dclient.say(embed=embed)
                 print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
                                              'Error when trying to retrieve data: ' + e.args[0]))
                 log_file.write(
