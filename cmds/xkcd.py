@@ -14,6 +14,7 @@ def is_int(a):
 
 # xkcd command
 async def ex(dclient, channel, mention, a, cmd_char):
+    msg = None
     if len(a) > 0:
         a = a.split(' ')[0]
         if a == 'latest':
@@ -28,8 +29,8 @@ Comic ID: {}
 				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/info.0.json", color=0xff0000)
 				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
 				embed.add_field(name="Reason", value=e.args[1], inline=False)
-				await dclient.send_message(channel, embed=embed)
-                return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/info.0.json. ERROR: {}'.format(e.args[1])
+				msg = await dclient.send_message(channel, embed=embed)
+                return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/info.0.json. ERROR: {}'.format(e.args[1]), msg
         elif is_int(a):
             comic_id = a
             try:
@@ -40,10 +41,10 @@ Comic ID: {}
 Comic ID: {}
 {}'''.format(d['safe_title'], d['num'], d['img']))
             except Exception:
-                await dclient.send_message(channel, "{}, unable to retrieve a specific comic! Perhaps it doesn't "
-                                                    "exist?".format(mention, cmd_char))
+                msg = await dclient.send_message(channel, "{}, unable to retrieve a specific comic! Perhaps it doesn't "
+                                                          "exist?".format(mention, cmd_char))
         else:
-            await dclient.send_message(channel,
+            msg = await dclient.send_message(channel,
                                        '{}, **USAGE:** {}xkcd <latest OR comic_ID>'.format(mention, cmd_char))
     else:
         b = BeautifulSoup(requests.get('https://xkcd.com/archive/').text, 'html.parser')
@@ -61,6 +62,6 @@ Comic ID: {}
 			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/{}/info.0.json".format(idr), color=0xff0000)
 			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
 			embed.add_field(name="Reason", value=e.args[1], inline=False)
-			await dclient.send_message(channel, embed=embed)
-            return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/{}/info.0.json. ERROR: {}'.format(idr, e.args[1])
-    return False
+			msg = await dclient.send_message(channel, embed=embed)
+            return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/{}/info.0.json. ERROR: {}'.format(idr, e.args[1]), msg
+    return False, None, None, msg

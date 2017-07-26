@@ -9,6 +9,7 @@ def is_f(v):
 
 # Temp command
 async def ex(dclient, channel, mention, a, cmd_char):
+    msg = None
     a = a.split(' ')
     if len(a) == 3:
         if is_f(a[0]):
@@ -35,11 +36,11 @@ async def ex(dclient, channel, mention, a, cmd_char):
                     f = (t + 273.15) * (5 / 9)
                     await dclient.send_message(channel, '`{:.1f} Celsius`  >  `{:.1f} Kelvin`'.format(t, f))
             else:
-                await dclient.send_message(channel, '{}, you must choose the option between `F`, `K`, or `C`!'
+                msg = await dclient.send_message(channel, '{}, you must choose the option between `F`, `K`, or `C`!'
                                            .format(mention))
         else:
-            await dclient.send_message(channel, '{}, the temperature must be in numeric value (ex: 102 or 24.45)!'
+            msg = await dclient.send_message(channel, '{}, the temperature must be in numeric value (ex: 102 or 24.45)!'
                                        .format(mention))
     else:
-        await dclient.send_message(channel, '{}, **USAGE:** {}temp <#> <from F|K|C> <to F|K|C>'.format(mention,
-                                                                                                       cmd_char))
+        msg = await dclient.send_message(channel, '{}, **USAGE:** {}temp <#> <from F|K|C> <to F|K|C>'.format(mention,
+    return msg                                                                                  cmd_char))

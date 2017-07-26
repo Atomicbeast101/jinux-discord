@@ -56,6 +56,7 @@ def get_date(time):
 # Tempch Command
 async def ex(dclient, public_channel, private_channel, mention, a, author, time_limit, channel_name_limit, server, con,
              con_ex, log_file, cmd_char):
+    msg = None
     a = a.split(' ')
     if len(a) == 3:
         channel_type = a[0].lower()
@@ -88,29 +89,29 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
 									embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite.", color=0xff0000)
 									embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
 									embed.add_field(name="Reason", value=e.args[1], inline=False)
-									await dclient.send_message(channel, embed=embed)
-                                    return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1])
+									msg = await dclient.send_message(channel, embed=embed)
+                                    return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1]), msg
                             else:
-                                await dclient.send_message(public_channel,
+                                msg = await dclient.send_message(public_channel,
                                                            '{}, the channel name `{}` is `{}` characters long! It '
                                                            'must be `{}` or less!'.format(mention, channel_name,
                                                                                           len(channel_name),
                                                                                           channel_name_limit))
                         else:
-                            await dclient.send_message(public_channel,
+                            msg = await dclient.send_message(public_channel,
                                                        '{}, you cannot exceed the time limit! The time limit is '
                                                        '`{}`.'.format(mention, time_limit))
                     else:
-                        await dclient.send_message(public_channel, '{}, the time must be in #time format (ex: 1h or 2h,'
+                        msg = await dclient.send_message(public_channel, '{}, the time must be in #time format (ex: 1h or 2h,'
                                                                    '5m).'.format(mention))
                 else:
-                    await dclient.send_message(public_channel, '{}, the time must be in #time format (ex: 1h or 2h,'
+                    msg = await dclient.send_message(public_channel, '{}, the time must be in #time format (ex: 1h or 2h,'
                                                                '5m).'.format(mention))
             else:
-                await dclient.send_message(public_channel, '{}, channel type `{}` invalid! You must choose between '
+                msg = await dclient.send_message(public_channel, '{}, channel type `{}` invalid! You must choose between '
                                                            '`voice` or `text`.'.format(mention, channel_type))
         except discord.Forbidden:
-            await dclient.send_message(public_channel, "{}, I don't have access to `manage_channels`! Please notify an "
+            msg = await dclient.send_message(public_channel, "{}, I don't have access to `manage_channels`! Please notify an "
                                                        "admin!".format(mention))
     elif len(a) == 1:
         if a[0].lower() == 'list':
@@ -151,18 +152,18 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
                                                                                                       rem_time.minute,
                                                                                                       rem_time.second)
                 await dclient.send_message(private_channel, response)
-                await dclient.send_message(public_channel,
+                msg = await dclient.send_message(public_channel,
                                            '{}, I sent the list in a private message.'.format(mention))
             except sqlite3.Error as e:
 				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from SQLite.", color=0xff0000)
 				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-									embed.add_field(name="Reason", value=e.args[1], inline=False)
-									await dclient.send_message(channel, embed=embed)
-                                    return True, 'SQLITE', 'Error when trying to retrieve data from SQLite. ERROR: {}'.format(e.args[1])
+                embed.add_field(name="Reason", value=e.args[1], inline=False)
+                msg = await dclient.send_message(channel, embed=embed)
+                return True, 'SQLITE', 'Error when trying to retrieve data from SQLite. ERROR: {}'.format(e.args[1]), msg
         else:
-            await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
+            msg = await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
                                        .format(mention, cmd_char))
     else:
-        await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
+        msg = await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
                                    .format(mention, cmd_char))
-    return False
+    return False, None, None, msg

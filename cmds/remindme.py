@@ -41,6 +41,7 @@ def get_date(time):
 
 # RemindMe command
 async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, cmd_char):
+    msg = None
     a = a.split(' ')
     if len(a) >= 2:
         time = a[0].lower()
@@ -53,23 +54,24 @@ async def ex_me(dclient, channel, mention, con, con_ex, author_id, a, log_file, 
                 con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('0', ?, ?, ?);",
                                (author_id, msg, date.strftime('%Y-%m-%d %X')))
                 con.commit()
-                await dclient.send_message(channel, '{}, will remind you.'.format(mention))
+                msg = await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
                 embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite.", color=0xff0000)
                 embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
                 embed.add_field(name="Reason", value=e.args[1], inline=False)
-                await dclient.send_message(channel, embed=embed)
-                return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1])
+                msg = await dclient.send_message(channel, embed=embed)
+                return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1]), msg
         else:
-            await dclient.send_message(channel, '{}, the time must be in #time format (ex: 1h or 2h,5m).'
+            msg = await dclient.send_message(channel, '{}, the time must be in #time format (ex: 1h or 2h,5m).'
                                        .format(mention))
     else:
-        await dclient.send_message(channel, '{}, **USAGE:** {}remindme <time> <message...>'.format(mention, cmd_char))
-    return False
+        msg = await dclient.send_message(channel, '{}, **USAGE:** {}remindme <time> <message...>'.format(mention, cmd_char))
+    return False, None, None, msg
 
 
 # RemindAll command
 async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file, cmd_char):
+    msg = None
     a = a.split(' ')
     if len(a) >= 2:
         time = a[0].lower()
@@ -82,16 +84,16 @@ async def ex_all(dclient, channel, mention, con, con_ex, channel_id, a, log_file
                 con_ex.execute("INSERT INTO reminder (type, channel, message, date) VALUES ('1', ?, ?, ?);",
                                (channel_id, msg, str(date)))
                 con.commit()
-                await dclient.send_message(channel, '{}, will remind you.'.format(mention))
+                msg = await dclient.send_message(channel, '{}, will remind you.'.format(mention))
             except sqlite3.Error as e:
                 embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite.", color=0xff0000)
                 embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
                 embed.add_field(name="Reason", value=e.args[1], inline=False)
-                await dclient.send_message(channel, embed=embed)
-                return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1])
+                msg = await dclient.send_message(channel, embed=embed)
+                return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1]), msg
         else:
-            await dclient.send_message(channel, '{}, The time must be in #time format (ex: 1h or 2h,5m).'
+            msg = await dclient.send_message(channel, '{}, The time must be in #time format (ex: 1h or 2h,5m).'
                                        .format(mention, cmd_char))
     else:
-        await dclient.send_message(channel, '{}, **USAGE:** {}remindall <time> <message...>'.format(mention, cmd_char))
-    return False
+        msg = await dclient.send_message(channel, '{}, **USAGE:** {}remindall <time> <message...>'.format(mention, cmd_char))
+    return False, None, None, msg

@@ -8,8 +8,8 @@ import sqlite3
 import aiohttp
 
 from cmds import (bhelp, cat, channelinfo, choose, chucknorris, coinflip, convert, conspiracy, dice, dictionary,
-                  eightball, gif, info, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch, custom_cmd, time,
-                  trans, twitch, uptime, xkcd, youtube)
+                  eightball, gif, info, old_message, poll, purge, reddit, remindme, rps, serverinfo, temp, tempch, 
+                  custom_cmd, time, trans, twitch, uptime, xkcd, youtube)
 from Data import CMD_LIST, CMD_CONFIG
 import auto_welcome
 
@@ -213,12 +213,14 @@ for reply in replies:
 
 
 # Auto remove Jinux's messages
-bot_messages = list()
-message_expiration = config.get('Bot_Messages', 'Expiration')
-async def clear_bot_messages():
-    for bot_msg in bot_messages:
-        if bot_msg.is_passed_time(message_expiration):
-            dclient.delete_message(bot_msg.get_msg())
+msgs_to_remove = list()
+message_expiration = config.get('Auto_Remove_Messages', 'Expiration')
+async def clear_old_messages():
+    while True:
+        for msg in msgs_to_remove:
+            if msg.is_passed_time():
+                dclient.delete_message(msg.get_msg())
+        await asyncio.sleep(1)
 
 
 # Sets up the game status
@@ -283,106 +285,252 @@ async def on_message(msg):
 
             # execute built-in commands
             if cmd == 'cat':
-                to_log, error_type, error_msg = await cat.ex(dclient, msg.channel)
+                to_log, error_type, error_msg, bot_msg = await cat.ex(dclient, msg.channel)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'channelinfo':
-                await channelinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+                bot_msg = await channelinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'choose':
-                await choose.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], cmd_char)
+                bot_msg = await choose.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+            
             elif cmd == 'chucknorris':
-                to_log, error_type, error_msg = await chucknorris.ex(dclient, msg.channel)
+                to_log, error_type, error_msg, bot_msg = await chucknorris.ex(dclient, msg.channel)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'coinflip':
                 await coinflip.ex(dclient, msg.channel, get_mention(msg))
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'conspiracy':
                 await conspiracy.ex(dclient, msg.channel, conspiracy_list)
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'custcmd':
-                to_log, error_type, error_msg, cmd_list = await custom_cmd.ex(dclient, msg.channel, get_mention(msg), msg.author, msg.content[9:],
+                to_log, error_type, error_msg, cmd_list, bot_msg = await custom_cmd.ex(dclient, msg.channel, get_mention(msg), msg.author, msg.content[9:],
                                         cmd_list, con, con_ex, log_file, cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'convert':
-                to_log, error_type, error_msg = await convert.ex(dclient, msg.channel, get_mention(msg), msg.content[9:].split(' '), cmd_char)
+                to_log, error_type, error_msg, bot_msg = await convert.ex(dclient, msg.channel, get_mention(msg), msg.content[9:].split(' '), cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'dice':
                 await dice.ex(dclient, msg.channel, get_mention(msg))
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == '8ball':
-                to_log, error_type, error_msg = await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+                to_log, error_type, error_msg, bot_msg = await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'gif':
-                to_log, error_type, error_msg = await gif.ex(dclient, msg.channel, msg.content[5:], get_mention(msg), cmd_char)
-
+                to_log, error_type, error_msg, bot_msg = await gif.ex(dclient, msg.channel, msg.content[5:], get_mention(msg), cmd_char)
+                if to_log:
+                    log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'help':
-                await bhelp.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content.split(' '), cmd_char)
+                bot_msg = await bhelp.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content.split(' '), cmd_char)
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+            
             elif cmd == 'info':
                 await info.ex(dclient, msg.channel)
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+
             elif cmd == 'poll':
-                poll_enable, poll_question, options, votes, voted = await poll.ex_poll(dclient, msg.channel, msg.author,
+                poll_enable, poll_question, options, votes, voted, bot_msg = await poll.ex_poll(dclient, msg.channel, msg.author,
                                                                                    get_mention(msg), msg.content[6:],
                                                                                    poll_enable, poll_question, options,
                                                                                    votes, voted, cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'purge':
-                await purge.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[7:], cmd_char)
+                bot_msg = await purge.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[7:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+
             elif cmd == 'vote':
-                poll_enable, poll_question, options, votes, voted = await poll.ex_vote(dclient, msg.channel, msg.author,
+                poll_enable, poll_question, options, votes, voted, bot_msg = await poll.ex_vote(dclient, msg.channel, msg.author,
                                                                                    get_mention(msg), msg.content[6:],
                                                                                    poll_enable, poll_question, options,
                                                                                    votes, voted)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+
             elif cmd == 'reddit':
-                await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
+                to_log, error_type, error_msg, bot_msg = await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
+                if to_log:
+                    log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+
             elif cmd == 'remindme':
-                to_log, error_type, error_msg = await remindme.ex_me(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
+                to_log, error_type, error_msg, bot_msg = await remindme.ex_me(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
                                  log_file, cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'remindall':
-                to_log, error_type, error_msg = await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.channel.id, msg.content[11:],
+                to_log, error_type, error_msg, bot_msg = await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.channel.id, msg.content[11:],
                                  log_file, cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'rps':
-                await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
+                bot_msg = await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'serverinfo':
-                await serverinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+                bot_msg = await serverinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+            
             elif cmd == 'temp':
-                await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+                bot_msg = await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'tempch':
-                to_log, error_type, error_msg = await tempch.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[8:], msg.author, time_limit,
+                to_log, error_type, error_msg, bot_msg = await tempch.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[8:], msg.author, time_limit,
                             channel_name_limit, msg.channel.server, con, con_ex, log_file, cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'time':
-                await time.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+                bot_msg = await time.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'trans':
-                await trans.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+                bot_msg = await trans.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+            
             elif cmd == 'twitch':
-                twitch_enabled, Channel_ID, streamers, active = await twitch.ex(
+                twitch_enabled, Channel_ID, streamers, active, bot_msg = await twitch.ex(
                     dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:], twitch_enabled, twitch_channel,
                     streamers, active, cmd_char)
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+            
             elif cmd == 'uptime':
                 await uptime.ex(dclient, msg.channel, start_time)
+                msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+            
             elif cmd == 'xkcd':
-                to_log, error_type, error_msg = await xkcd.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+                to_log, error_type, error_msg, bot_msg = await xkcd.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+           
             elif cmd == 'youtube':
-                to_log, error_type, error_msg = await youtube.ex(dclient, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
+                to_log, error_type, error_msg, bot_msg = await youtube.ex(dclient, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
                 if to_log:
                     log(error_type, error_msg)
+                if bot_msg is not None:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
+                    msgs_to_remove.append(old_message.Old_Message(bot_msg, message_expiration))  # bot's message
+                else:
+                    msgs_to_remove.append(old_message.Old_Message(msg, message_expiration))  # human's message
             
             # execute custom commands
             elif cmd in cmd_list:
                 await dclient.send_message(msg.channel, get_custom_cmd_msg(cmd))
 
-    # bot autoreply      
+    # bot chat auto-replies
     elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
             and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
             await dclient.send_message(msg.channel, '{}, {}'.format(get_mention(msg), r.choice(replies_list)))
+    
+    # bot replying to "notice me senpai"
+    elif 'notice me senpai' in msg.content.lower():
+        await dclient.send_message(msg.channel, 'I notice you, {}.'.format(get_mention(msg)))
 
 
 # Execute Twitch Loop
@@ -396,8 +544,13 @@ if config.getboolean('Functions', 'Remind_Me_All'):
 
 
 # Execute Temporary Channel Loop
-if config.getboolean('Temporary_Channel', 'Enabled'):
+if config.getboolean('Functions', 'Temporary_Channel'):
     dclient.loop.create_task(temp_channel_timeout())
+
+
+# Execute Bot Message Removal loop
+if config.getboolean('Bot_Messages', 'Enabled'):
+    dclient.loop.create_task(clear_bot_messages())
 
 
 # Activate Bot

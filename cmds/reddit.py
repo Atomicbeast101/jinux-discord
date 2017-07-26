@@ -11,6 +11,7 @@ def is_int(a):
 
 # Reddit command
 async def ex(dclient, private_channel, public_channel, mention, a):
+	msg = None
     a = a.split(' ')
     url = 'https://reddit.com/.json'
     max_subs = 5
@@ -21,7 +22,7 @@ async def ex(dclient, private_channel, public_channel, mention, a):
         if is_int(a[0]):
             max_subs = int(a[0])
             if max_subs < 1 or max_subs > 10:
-                await dclient.send_message(public_channel, '{}, you can request only up to 10 submissions!'.format(mention))
+                msg = await dclient.send_message(public_channel, '{}, you can request only up to 10 submissions!'.format(mention))
                 valid = False
         else:
             subreddit_link = a[0].lower()
@@ -30,7 +31,7 @@ async def ex(dclient, private_channel, public_channel, mention, a):
                 if is_int(a[1]):
                     max_subs = int(a[1])
                     if max_subs < 1 or max_subs > 10:
-                        await dclient.send_message(public_channel, '{}, you can request only up to 10 submissions!'.format(mention))
+                        msg = await dclient.send_message(public_channel, '{}, you can request only up to 10 submissions!'.format(mention))
                         valid = False
             title = '/r/{}'.format(subreddit_link)
             subreddit = True
@@ -66,11 +67,11 @@ async def ex(dclient, private_channel, public_channel, mention, a):
 							if cnt > max_subs:
 								break
 			await dclient.send_message(private_channel, r)
-			await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
+			msg = await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
 		except Exception as e:
 			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://reddit.com/r/", color=0xff0000)
 			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
 			embed.add_field(name="Reason", value=e.args[1], inline=False)
-			await dclient.send_message(embed=embed)
-			return True, 'HTTP', 'Error when trying to retrieve data from https://reddit.com/r/. ERROR: {}'.format(e.args[1])
-	return False
+			msg = await dclient.send_message(embed=embed)
+			return True, 'HTTP', 'Error when trying to retrieve data from https://reddit.com/r/. ERROR: {}'.format(e.args[1]), msg
+	return False, None, None, msg

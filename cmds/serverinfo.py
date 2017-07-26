@@ -36,5 +36,6 @@ async def ex(dclient, private_channel, public_channel, mention):
                                   len(channel_list(server, discord.ChannelType.voice)), server.region,
                                   ', '.join(get_string_roles(server.roles)), server.icon)
     await dclient.send_message(private_channel, r)
-    await dclient.send_message(public_channel, '{}, the server information has been sent in a private message.'
+    msg = await dclient.send_message(public_channel, '{}, the server information has been sent in a private message.'
                                .format(mention))
+    return msg

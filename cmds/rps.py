@@ -3,6 +3,7 @@ from random import choice
 
 # RPS command
 async def ex(dclient, channel, mention, a, cmd_char):
+    msg = None
     a = a.split(' ')
     if len(a) > 0:
         a = a[0].lower()
@@ -36,7 +37,8 @@ async def ex(dclient, channel, mention, a, cmd_char):
                 await dclient.send_message(channel, "{}, you chose `{}` while I chose `{}`...it's a tie!"
                                            .format(mention, a, r))
         else:
-            await dclient.send_message(channel, '{}, you much choose between `rock`, `paper`, or `scissors`!'
+            msg = await dclient.send_message(channel, '{}, you much choose between `rock`, `paper`, or `scissors`!'
                                        .format(mention))
     else:
-        await dclient.send_message(channel, '{}, **USAGE:** {}rps <rock|paper|scissors>'.format(mention, cmd_char))
+        msg = await dclient.send_message(channel, '{}, **USAGE:** {}rps <rock|paper|scissors>'.format(mention, cmd_char))
+    return msg
