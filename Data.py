@@ -42,7 +42,6 @@ HELP = '''```Markdown
 - {0}custcmd <cmd> <message...> = Create a custom {0}command with a custom message!
 - {0}convert <amount> <currency-code> <currency-code-to> = Convert currency.
 - {0}dice = Randomly chooses a number between 1 to 6.
-- {0}dictionary <term> = Grab meaning of a given term.
 - {0}8ball <question...> = Magic eight ball answering machine.
 - {0}gif (tags) = Gets a GIF from Giphy according to the tags given.
 - {0}help (command) = Lists commands and description for each.
@@ -109,11 +108,6 @@ HELP_DICE = '''```Markdown
 [Help Guide]: {}dice
 Randomly chooses a number between 1 to 6.```'''.format(cmd_char)
 
-HELP_DICTIONARY = '''```Markdown
-[Help Guide]: {}dictionary <term>
-Grab meaning of a given term.
-<term> = Word to get meaning for.```'''.format(cmd_char)
-
 HELP_EIGHTBALL = '''```Markdown
 [Help Guide]: {}8ball <question...>
 Ask the magical 8ball a question and receive an answer.
@@ -123,6 +117,11 @@ HELP_GIF = '''```Markdown
 [Help Guide]: {}gif <tags>
 Retrieves GIF from Giphy according to the tags given.
 <tags> = Specific GIF you want to find (ex: silly OR american).```'''.format(cmd_char)
+
+HELP_HELP = '''```Markdown
+[Help Guide]: {}help
+Why are you looking for help on this command?
+```'''.format(cmd_char)
 
 HELP_INFO = '''```Markdown
 [Help Guide]: {}info
@@ -134,11 +133,17 @@ Create or stop polls. Currently only admins are allowed to use this command.
 <start|stop> = Either start a new poll or stop an active poll.
 <question...> = Desired poll question.```'''.format(cmd_char)
 
+HELP_PURGE = '''```Markdown
+[Help Guide]: {}purge <#-of-messages> <user-id>
+Purge messages that are recently posted.
+<#-of-messages> = Number of messages to purge.
+<user-id> = User's ID to remove messages based on.
+```'''.format(cmd_char)
+
 HELP_VOTE = '''```Markdown
 [Help Guide]: {}vote <option>
 Vote an option to the poll.
-<option> = List of options given from the Poll.
-```'''.format(cmd_char)
+<option> = List of options given from the Poll.```'''.format(cmd_char)
 
 HELP_REDDIT = '''```Markdown
 [Help Guide]: {}reddit <#-subs-OR-subreddit> <#-subs>
@@ -198,21 +203,89 @@ List of supported language codes:
 <https://www.sitepoint.com/web-foundations/iso-2-letter-language-codes/>'''.format(cmd_char)
 
 HELP_TWITCH = '''```Markdown
-[Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-ID>
+[Help Guide]: {}twitch <add|remove|list|toggle|setchannel> <user-OR-channel-id>
 Receive live status of Twitch username whenever he/she goes online.
 <add|remove|list|toggle|setchannel> = List of sub-commands.
-<username-OR-channel-ID> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(cmd_char)
+<username-OR-channel-id> = Twitch's username OR channel's ID for bot to post notifications.```'''.format(cmd_char)
 
 HELP_UPTIME = '''```Markdown
 [Help Guide]: {}uptime
 Bot's uptime status.```'''.format(cmd_char)
 
 HELP_XKCD = '''```Markdown
-[Help Guide]: {}xkcd <latest OR comic_ID>
+[Help Guide]: {}xkcd <latest OR comic-id>
 Gets random or latest comic from xkcd.com website.
-<latest OR comic_ID> = Latest comic published on xkcd.com or get specific comic through ID #.```'''.format(cmd_char)
+<latest OR comic-id> = Latest comic published on xkcd.com or get specific comic through ID #.```'''.format(cmd_char)
 
 HELP_YOUTUBE = '''```Markdown
 [Help Guide]: {}youtube <to-search>
 Retrieves first video from YouTube search results.
 <to-search> = No need to explain here.```'''.format(cmd_char)
+
+HELP_CMD = json.dumps({
+    'cat': HELP_CAT,
+    'channelinfo': HELP_CHANNELINFO,
+    'choose': HELP_CHOOSE,
+    'chucknorris': HELP_CHUCKNORRIS,
+    'coinflip': HELP_COINFLIP,
+    'conspiracy': HELP_CONSPIRACY,
+    'custcmd': HELP_CUSTCMD,
+    'convert': HELP_CONVERT,
+    'dice': HELP_DICE,
+    '8ball': HELP_EIGHTBALL,
+    'gif': HELP_GIF,
+    'help': HELP_HELP,
+    'info': HELP_INFO,
+    'poll': HELP_POLL,
+    'purge': HELP_PURGE,
+    'vote': HELP_VOTE,
+    'reddit': HELP_REDDIT,
+    'remindme': HELP_REMINDME,
+    'remindall': HELP_REMINDALL,
+    'rps': HELP_RPS,
+    'serverinfo': HELP_SERVERINFO,
+    'temp': HELP_TEMP,
+    'tempch': HELP_TEMPCH,
+    'time': HELP_TIME,
+    'trans': HELP_TRANS,
+    'twitch': HELP_TWITCH,
+    'uptime': HELP_UPTIME,
+    'xkcd': HELP_XKCD,
+    'youtube': HELP_YOUTUBE
+})
+
+CMD_CONFIG = json.dumps({
+    'cat': 'Random_cat',
+    'channelinfo': 'ChannelInfo',
+    'choose': 'Choose',
+    'chucknorris': 'Chucknorris',
+    'coinflip': 'Coinflip',
+    'conspiracy': 'Conspiracy',
+    'custcmd': 'Custom_Cmd',
+    'convert': 'Currency',
+    'dice': 'Dice',
+    '8ball': 'EightBall',
+    'gif': 'Random_gif',
+    'help': 'NONE',
+    'info': 'NONE',
+    'poll': 'Poll',
+    'purge': 'Purge',
+    'vote': 'Poll',
+    'reddit': 'Reddit',
+    'remindme': 'Remind_Me_All',
+    'remindall': 'Remind_Me_All',
+    'rps': 'Rock_Paper_Scissors',
+    'serverinfo': 'ServerInfo',
+    'temp': 'Temperature',
+    'tempch': 'Temporary_Channel',
+    'time': 'Timezone',
+    'trans': 'Translate',
+    'twitch': 'Twitch',
+    'uptime': 'NONE',
+    'xkcd': 'XKCD',
+    'youtube': 'Youtube'
+})
+
+CMD_LIST = ['cat', 'channelinfo', 'choose', 'chucknorris', 'coinflip', 'convert', 'conspiracy', 'custcmd',
+            'dice', '8ball', 'gif', 'help', 'info', 'poll', 'purge', 'vote', 'reddit', 'remindme', 'remindall', 
+            'rps', 'serverinfo', 'temp', 'time', 'trans', 'twitch', 'xkcd', 'youtube']

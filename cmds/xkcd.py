@@ -24,11 +24,12 @@ async def ex(dclient, channel, mention, a, cmd_char):
 						await dclient.send_message(channel, '''Title: {}
 Comic ID: {}
 {}'''.format(d['safe_title'], d['num'], d['img']))
-			except Exception ex:
+			except Exception as e:
 				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/info.0.json", color=0xff0000)
 				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-				embed.add_field(name="Reason", value=ex, inline=False)
-				await dclient.say(embed=embed)
+				embed.add_field(name="Reason", value=e.args[1], inline=False)
+				await dclient.send_message(channel, embed=embed)
+                return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/info.0.json. ERROR: {}'.format(e.args[1])
         elif is_int(a):
             comic_id = a
             try:
@@ -56,8 +57,10 @@ Comic ID: {}
 					await dclient.send_message(channel, '''Title: {}
 Comic ID: {}
 {}'''.format(d['safe_title'], d['num'], d['img']))
-		except Exception ex:
-			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/info.0.json", color=0xff0000)
+		except Exception as e:
+			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://xkcd.com/{}/info.0.json".format(idr), color=0xff0000)
 			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-			embed.add_field(name="Reason", value=ex, inline=False)
-			await dclient.say(embed=embed)
+			embed.add_field(name="Reason", value=e.args[1], inline=False)
+			await dclient.send_message(channel, embed=embed)
+            return True, 'HTTP', 'Error when trying to retrieve data from https://xkcd.com/{}/info.0.json. ERROR: {}'.format(idr, e.args[1])
+    return False

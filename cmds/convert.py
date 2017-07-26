@@ -62,12 +62,13 @@ async def ex(dclient, channel, mention, a, cmd_char):
 							d = await r.json()
 							nb = b * float(d[cc + '_' + ct]['val'])
 							await dclient.send_message(channel, '`{}: {:,.2f}` > `{}: {:,.2f}`'.format(cc, b, ct, nb))
-				except Exception ex:
+				except Exception as e:
 					embed=discord.Embed(title="Error", description="Error when trying to retrieve data from http://free"
 					".currencyconverterapi.com/api/v3/convert", color=0xff0000)
 					embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-					embed.add_field(name="Reason", value=ex, inline=False)
-					await dclient.say(embed=embed)
+					embed.add_field(name="Reason", value=e.args[1], inline=False)
+					await dclient.send_message(channel, embed=embed)
+                    return True, 'HTTP', 'Error when trying to retrieve data from http://free.currencyconverterapi.com/api/v3/convert. ERROR: {}'.format(e.args[1])
             else:
                 await dclient.send_message(channel, '{} Invalid currency code! Please check https://currencysystem.com/'
                                                     'codes/!'.format(mention))
@@ -78,3 +79,4 @@ async def ex(dclient, channel, mention, a, cmd_char):
     else:
         await dclient.send_message(channel, '{}, **USAGE:** {}convert <amount> <from-currency-code> <to-currency-code>'
                                    .format(mention, cmd_char))
+    return False

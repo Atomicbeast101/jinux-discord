@@ -67,9 +67,10 @@ async def ex(dclient, private_channel, public_channel, mention, a):
 								break
 			await dclient.send_message(private_channel, r)
 			await dclient.send_message(public_channel, '{}, I sent the list in a private message.'.format(mention))
-		except Exception ex:
+		except Exception as e:
 			embed=discord.Embed(title="Error", description="Error when trying to retrieve data from https://reddit.com/r/", color=0xff0000)
 			embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-			embed.add_field(name="Reason", value=ex, inline=False)
-			await dclient.say(embed=embed)
-			
+			embed.add_field(name="Reason", value=e.args[1], inline=False)
+			await dclient.send_message(embed=embed)
+			return True, 'HTTP', 'Error when trying to retrieve data from https://reddit.com/r/. ERROR: {}'.format(e.args[1])
+	return False

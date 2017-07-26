@@ -28,16 +28,14 @@ async def ex(dclient, channel, mention, author, a, cmd_list, con, con_ex, log_fi
                         await dclient.send_message(channel, '{0}, command `{1}` made! Now just run `{2}{1}` to see the '
                                                             'message!'.format(mention, cmd, cmd_char))
                     except sqlite3.Error as e:
-                        await dclient.send_message(channel,
-                                                   '{}, error when trying to add info to database! Please notifiy '
-                                                   'the admins!'.format(mention))
-                        print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                     'Error when trying to insert data: ' + e.args[0]))
-                        log_file.write('[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                                'Error when trying to insert data: ' + e.args[0]))
+                        embed=discord.Embed(title="Error", description="Error when trying to add info to database! Please notify the admins!", color=0xff0000)
+                        embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
+                        embed.add_field(name="Reason", value=e.args[1], inline=False)
+                        await dclient.send_message(channel, embed=embed)
+                        return True, 'SQLITE', 'Error when trying to insert data: {}'.format(e.args[1]), cmd_list
         else:
             await dclient.send_message(channel, '{}, **USAGE:** {}custcmd <cmd> <message...>'
                                        .format(mention, cmd_char))
     else:
         await dclient.send_message(channel, 'You must be an administrator, {}!'.format(mention))
-    return cmd_list
+    return False, None, None, cmd_list

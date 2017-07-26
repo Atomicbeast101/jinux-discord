@@ -85,16 +85,11 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
                                                                '{}, channel created! You can reach it at <#{}>!'
                                                                .format(mention, new_channel.id))
                                 except sqlite3.Error as e:
-									embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite", color=0xff0000)
+									embed=discord.Embed(title="Error", description="Error when trying to insert data to SQLite.", color=0xff0000)
 									embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-									embed.add_field(name="Reason", value=e, inline=False)
-									await dclient.say(embed=embed)
-                                    print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                                 'Error when trying to insert data: ' + e.args[0]))
-                                    log_file.write(
-                                        '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                                                 'Error when trying to insert data: ' +
-                                                                 e.args[0]))
+									embed.add_field(name="Reason", value=e.args[1], inline=False)
+									await dclient.send_message(channel, embed=embed)
+                                    return True, 'SQLITE', 'Error when trying to insert data to SQLite. ERROR: {}'.format(e.args[1])
                             else:
                                 await dclient.send_message(public_channel,
                                                            '{}, the channel name `{}` is `{}` characters long! It '
@@ -159,19 +154,15 @@ async def ex(dclient, public_channel, private_channel, mention, a, author, time_
                 await dclient.send_message(public_channel,
                                            '{}, I sent the list in a private message.'.format(mention))
             except sqlite3.Error as e:
-				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from SQLite", color=0xff0000)
+				embed=discord.Embed(title="Error", description="Error when trying to retrieve data from SQLite.", color=0xff0000)
 				embed.set_thumbnail(url='http://i.imgur.com/dx87cAe.png')
-				embed.add_field(name="Reason", value=e, inline=False)
-				await dclient.say(embed=embed)
-                print('[{}]: {} - {}'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                             'Error when trying to retrieve data: ' + e.args[0]))
-                log_file.write(
-                    '[{}]: {} - {}\n'.format(strftime("%b %d, %Y %X", localtime()), 'SQLITE',
-                                             'Error when trying to retrieve data: ' +
-                                             e.args[0]))
+									embed.add_field(name="Reason", value=e.args[1], inline=False)
+									await dclient.send_message(channel, embed=embed)
+                                    return True, 'SQLITE', 'Error when trying to retrieve data from SQLite. ERROR: {}'.format(e.args[1])
         else:
             await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
                                        .format(mention, cmd_char))
     else:
         await dclient.send_message(public_channel, '{}, **USAGE** {}tempch <voice|text|list> <time> <channel-name>'
                                    .format(mention, cmd_char))
+    return False
