@@ -19,6 +19,51 @@ config = ConfigParser()
 config.read('config.ini')
 
 
+# load configuration values
+try:
+    # general variables
+    Token_ID = config.get('Jinux', 'Token')
+    cmd_char = config.get('Jinux', 'Character')
+    Client_ID = config.getint('Jinux', 'Client_ID')
+    Channel_ID = config.getint('Jinux', 'Channel')
+
+    # sql variables
+    sql_file = config.get('Jinux', 'Data_File')
+
+    # twitch variables
+    twitch_enabled = config.getboolean('Functions', 'Twitch')
+    twitch_timelimit = config.getint('Twitch', 'Interval')
+    streamers = config.get('Twitch', 'Users').split(',')
+    try:
+        twitch_channel = config.getint('Twitch', 'Channel')
+    except ValueError:
+        twitch_channel = config.getint('Jinux', 'Channel')
+    
+    # temporary channel variables
+    temp_channel_enabled = config.getboolean('Functions', 'Temporary_Channel')
+    time_limit = config.get('Temporary_Channel', 'Time_Limit')
+    channel_name_limit = config.getint('Temporary_Channel', 'Channel_Name_Limit')
+
+    # anti-message junk variables
+    auto_remove_msgs_enabled = config.getboolean('Auto_Remove_Messages', 'Enabled')
+    message_expiration = config.get('Auto_Remove_Messages', 'Expiration')
+
+    # bot variables
+    bot_playing = config.get('Jinux', 'Playing')
+
+    # auto welcome variables
+    auto_welcome_enabled = config.getboolean('Jinux', 'Auto_Welcome')
+
+    # bot chat variables
+    chatting_enabled = config.getboolean('Functions', 'Chatting')
+
+    # remindme/all variables
+    remind_me_all_enabled = config.getboolean('Functions', 'Remind_Me_All')
+except Exception as e:
+    print('Invalid config value input! ERROR: {}'.format(e.args[1]))
+    exit()
+
+
 # Setup Logging
 log_file = open('jinux.log', 'a')
 LOG_FORMAT = '[{}]: {^6} - {}{}'
@@ -30,13 +75,6 @@ def log(typ, reason):
             log_file.write(LOG_FORMAT.format(strftime("%b %d, %Y %X", localtime()), typ, reason, '\n'))
     except IOError as e:
         print(LOG_FORMAT.format(strftime("%b %d, %Y %X", localtime()), 'LOGGER', 'Unable to store logs to file! ERROR: {}'.format(e.args[1], '')))
-
-
-# Fetch config data and turn it into objects
-Token_ID = config.get('Jinux', 'Token')
-cmd_char = config.get('Jinux', 'Character')
-Client_ID = config.getint('Jinux', 'Client_ID')
-Channel_ID = config.getint('Jinux', 'Channel')
 
 
 # Preparing the bot
@@ -59,7 +97,7 @@ for consp in conspiracies:
 
 
 # RemindMe/All database setup
-con = sqlite3.connect(config.get('Jinux', 'Data_File'))
+con = sqlite3.connect(sql_file)
 con_ex = con.cursor()
 try:
     con_ex.execute('''CREATE TABLE IF NOT EXISTS reminder (
@@ -121,15 +159,8 @@ def get_custom_cmd_msg(cmd):
 
 
 # Twitch setup
-twitch_enabled = config.getboolean('Twitch', 'Enabled')
-twitch_timelimit = config.getint('Twitch', 'Interval')
-streamers = config.get('Twitch', 'Users').split(',')
 active = list()
 start_time = 0
-try:
-    twitch_channel = config.getint('Twitch', 'Channel')
-except ValueError:
-    twitch_channel = config.getint('Jinux', 'Channel')
 
 async def twitch_live_stream_notify():
     await dclient.wait_until_ready()
@@ -161,8 +192,6 @@ async def twitch_live_stream_notify():
 
 
 # Temporary Channel Setup
-time_limit = config.get('Temporary_Channel', 'Time_Limit')
-channel_name_limit = config.getint('Temporary_Channel', 'Channel_Name_Limit')
 try:
     con_ex.execute('''CREATE TABLE IF NOT EXISTS temp_channel (
                       id VARCHAR(10) PRIMARY KEY,
@@ -214,7 +243,6 @@ for reply in replies:
 
 # Auto remove Jinux's messages
 msgs_to_remove = list()
-message_expiration = config.get('Auto_Remove_Messages', 'Expiration')
 async def clear_old_messages():
     while True:
         for msg in msgs_to_remove:
@@ -227,7 +255,7 @@ async def clear_old_messages():
 @dclient.event
 async def on_ready():
     log('BOOTUP', 'Starting up Jinux system...')
-    await dclient.change_presence(game=discord.Game(name=config.get('Jinux', 'Playing')))
+    await dclient.change_presence(game=discord.Game(name=bot_playing))
     global start_time
     start_time = datetime.now()
     # Notifies that Jinux has successfully connected to the Discord server
@@ -247,7 +275,7 @@ file.close()
 
 @dclient.event
 async def on_member_join(member):
-    if config.getboolean('Jinux', 'Auto_Welcome'):
+    if auto_welcome_enabled:
         await auto_welcome.welcome(dclient, member, '<@{}>'.format(member.id), welcome_msg)
 
 
@@ -523,8 +551,7 @@ async def on_message(msg):
                 await dclient.send_message(msg.channel, get_custom_cmd_msg(cmd))
 
     # bot chat auto-replies
-    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
-            and Client_ID != 0:
+    elif msg.content.startswith('<@{}>'.format(Client_ID)) and chatting_enabled and Client_ID != 0:
         if int(msg.author.id) != int(Client_ID):
             await dclient.send_message(msg.channel, '{}, {}'.format(get_mention(msg), r.choice(replies_list)))
     
@@ -539,17 +566,17 @@ if twitch_enabled:
 
 
 # Execute RemindMe/All Loop
-if config.getboolean('Functions', 'Remind_Me_All'):
+if remind_me_all_enabled:
     dclient.loop.create_task(check_remindme())
 
 
 # Execute Temporary Channel Loop
-if config.getboolean('Functions', 'Temporary_Channel'):
+if temp_channel_enabled:
     dclient.loop.create_task(temp_channel_timeout())
 
 
 # Execute Bot Message Removal loop
-if config.getboolean('Bot_Messages', 'Enabled'):
+if auto_remove_msgs_enabled:
     dclient.loop.create_task(clear_bot_messages())
 
 
