@@ -267,118 +267,121 @@ def get_name(msg):
 # Chatter Bot
 @dclient.event
 async def on_message(msg):
-    if msg.content.startswith(cmd_char) and not msg.channel.is_private:
-        global poll_enable, poll_question, options, votes, voted, twitch_enabled, Channel_ID, streamers, active, \
-            twitch_channel, cmd_list, chat_limit
-        cmd = msg.content[1:].split(' ')[0]
-        if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
-            log('COMMAND', 'Executing {}cat command for {}.'.format(cmd_char, get_name(msg)))
-            await cat.ex(dclient, msg.channel)
-        elif cmd == 'channelinfo' and config.getboolean('Functions', 'ChannelInfo'):
-            log('COMMAND', 'Executing {}channelinfo command for {}.'.format(cmd_char, get_name(msg)))
-            await channelinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
-        elif cmd == 'choose' and config.getboolean('Functions', 'Choose'):
-            log('COMMAND', 'Executing {}choose command for {}.'.format(cmd_char, get_name(msg)))
-            await choose.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], cmd_char)
-        elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
-            log('COMMAND', 'Executing {}chucknorris command for {}.'.format(cmd_char, get_name(msg)))
-            await chucknorris.ex(dclient, msg.channel)
-        elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
-            log('COMMAND', 'Executing {}coinflip command for {}.'.format(cmd_char, get_name(msg)))
-            await coinflip.ex(dclient, msg.channel, get_mention(msg))
-        elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
-            log('COMMAND', 'Executing {}convert command for {}.'.format(cmd_char, get_name(msg)))
-            await convert.ex(dclient, msg.channel, get_mention(msg), msg.content[9:].split(' '), cmd_char)
-        elif cmd == 'conspiracy' and config.getboolean('Functions', 'Conspiracy'):
-            log('COMMAND', 'Executing {}conspiracy command for {}.'.format(cmd_char, get_name(msg)))
-            await conspiracy.ex(dclient, msg.channel, conspiracy_list)
-        elif cmd == 'custcmd' and config.getboolean('Functions', 'Custom_Cmd'):
-            log('COMMAND', 'Executing {}custcmd command for {}.'.format(cmd_char, get_name(msg)))
-            cmd_list = await custom_cmd.ex(dclient, msg.channel, get_mention(msg), msg.author, msg.content[9:],
-                                           cmd_list, con, con_ex, log_file, cmd_char)
-        elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
-            log('COMMAND', 'Executing {}dice command for {}.'.format(cmd_char, get_name(msg)))
-            await dice.ex(dclient, msg.channel, get_mention(msg))
-        elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
-            log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
-            await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[12:], cmd_char)
-        elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
-            log('COMMAND', 'Executing {}8ball command for {}.'.format(cmd_char, get_name(msg)))
-            await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
-        elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):
-            log('COMMAND', 'Executing {}gif command for {}.'.format(cmd_char, get_name(msg)))
-            await gif.ex(dclient, msg.channel, msg.content[5:], get_mention(msg), cmd_char)
-        elif cmd == 'help':
-            log('COMMAND', 'Executing {}help command for {}.'.format(cmd_char, get_name(msg)))
-            await bhelp.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content.split(' '), cmd_char)
-        elif cmd == 'info':
-            log('COMMAND', 'Executing {}info command for {}.'.format(cmd_char, get_name(msg)))
-            await info.ex(dclient, msg.channel)
-        elif cmd == 'poll' and config.getboolean('Functions', 'poll'):
-            log('COMMAND', 'Executing {}poll command for {}.'.format(cmd_char, get_name(msg)))
-            poll_enable, poll_question, options, votes, voted = await poll.ex_poll(dclient, msg.channel, msg.author,
-                                                                                   get_mention(msg), msg.content[6:],
-                                                                                   poll_enable, poll_question, options,
-                                                                                   votes, voted, cmd_char)
-        elif cmd == 'purge' and config.getboolean('Functions', 'Purge'):
-            log('COMMAND', 'Executing {}purge command for {}.'.format(cmd_char, get_name(msg)))
-            await purge.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[7:], cmd_char)
-        elif cmd == 'vote' and config.getboolean('Functions', 'poll'):
-            log('COMMAND', 'Executing {}vote command for {}.'.format(cmd_char, get_name(msg)))
-            poll_enable, poll_question, options, votes, voted = await poll.ex_vote(dclient, msg.channel, msg.author,
-                                                                                   get_mention(msg), msg.content[6:],
-                                                                                   poll_enable, poll_question, options,
-                                                                                   votes, voted)
-        elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
-            log('COMMAND', 'Executing {}reddit command for {}.'.format(cmd_char, get_name(msg)))
-            await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
-        elif cmd == 'remindme' and config.getboolean('Functions', 'Remind_Me_All'):
-            log('COMMAND', 'Executing {}remindme command for {}.'.format(cmd_char, get_name(msg)))
-            await remindme.ex_me(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
-                                 log_file, cmd_char)
-        elif cmd == 'remindall' and config.getboolean('Functions', 'Remind_Me_All'):
-            log('COMMAND', 'Executing {}remindall command for {}.'.format(cmd_char, get_name(msg)))
-            await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.channel.id, msg.content[11:],
-                                 log_file, cmd_char)
-        elif cmd == 'rps' and config.getboolean('Functions', 'Rock_Paper_Scissors'):
-            log('COMMAND', 'Executing {}rps command for {}.'.format(cmd_char, get_name(msg)))
-            await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
-        elif cmd == 'serverinfo' and config.getboolean('Functions', 'ServerInfo'):
-            log('COMMAND', 'Executing {}serverinfo command for {}.'.format(cmd_char, get_name(msg)))
-            await serverinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
-        elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
-            log('COMMAND', 'Executing {}temp command for {}.'.format(cmd_char, get_name(msg)))
-            await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
-        elif cmd == 'tempch' and config.getboolean('Temporary_Channel', 'Enabled'):
-            log('COMMAND', 'Executing {}tempch command for {}.'.format(cmd_char, get_name(msg)))
-            await tempch.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[8:], msg.author, time_limit,
-                            channel_name_limit, msg.channel.server, con, con_ex, log_file, cmd_char)
-        elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
-            log('COMMAND', 'Executing {}time command for {}.'.format(cmd_char, get_name(msg)))
-            await time.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
-        elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
-            log('COMMAND', 'Executing {}trans command for {}.'.format(cmd_char, get_name(msg)))
-            await trans.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
-        elif cmd == 'twitch':
-            log('COMMAND', 'Executing {}twitch command for {}.'.format(cmd_char, get_name(msg)))
-            twitch_enabled, Channel_ID, streamers, active = await twitch.ex(
-                dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:], twitch_enabled, twitch_channel,
-                streamers, active, cmd_char)
-        elif cmd == 'uptime':
-            log('COMMAND', 'Executing {}uptime command for {}.'.format(cmd_char, get_name(msg)))
-            await uptime.ex(dclient, msg.channel, start_time)
-        elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
-            log('COMMAND', 'Executing {}xkcd command for {}.'.format(cmd_char, get_name(msg)))
-            await xkcd.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
-        elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
-            log('COMMAND', 'Executing {}youtube command for {}.'.format(cmd_char, get_name(msg)))
-            await youtube.ex(dclient, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
-        elif cmd in cmd_list:
-            await dclient.send_message(msg.channel, get_custom_cmd_msg(cmd))
-    elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
-            and Client_ID != 0:
-        if int(msg.author.id) != int(Client_ID):
-            await dclient.send_message(msg.channel, '{}, {}'.format(get_mention(msg), r.choice(replies_list)))
+    if message.author.bot is True:
+        print('Attempted to listen to a bot command.')
+    else:
+        if msg.content.startswith(cmd_char) and not msg.channel.is_private:
+            global poll_enable, poll_question, options, votes, voted, twitch_enabled, Channel_ID, streamers, active, \
+                twitch_channel, cmd_list, chat_limit
+            cmd = msg.content[1:].split(' ')[0]
+            if cmd == 'cat' and config.getboolean('Functions', 'Random_cat'):
+                log('COMMAND', 'Executing {}cat command for {}.'.format(cmd_char, get_name(msg)))
+                await cat.ex(dclient, msg.channel)
+            elif cmd == 'channelinfo' and config.getboolean('Functions', 'ChannelInfo'):
+                log('COMMAND', 'Executing {}channelinfo command for {}.'.format(cmd_char, get_name(msg)))
+                await channelinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+            elif cmd == 'choose' and config.getboolean('Functions', 'Choose'):
+                log('COMMAND', 'Executing {}choose command for {}.'.format(cmd_char, get_name(msg)))
+                await choose.ex(dclient, msg.channel, get_mention(msg), msg.content[8:], cmd_char)
+            elif cmd == 'chucknorris' and config.getboolean('Functions', 'Chucknorris'):
+                log('COMMAND', 'Executing {}chucknorris command for {}.'.format(cmd_char, get_name(msg)))
+                await chucknorris.ex(dclient, msg.channel)
+            elif cmd == 'coinflip' and config.getboolean('Functions', 'Coinflip'):
+                log('COMMAND', 'Executing {}coinflip command for {}.'.format(cmd_char, get_name(msg)))
+                await coinflip.ex(dclient, msg.channel, get_mention(msg))
+            elif cmd == 'convert' and config.getboolean('Functions', 'Currency'):
+                log('COMMAND', 'Executing {}convert command for {}.'.format(cmd_char, get_name(msg)))
+                await convert.ex(dclient, msg.channel, get_mention(msg), msg.content[9:].split(' '), cmd_char)
+            elif cmd == 'conspiracy' and config.getboolean('Functions', 'Conspiracy'):
+                log('COMMAND', 'Executing {}conspiracy command for {}.'.format(cmd_char, get_name(msg)))
+                await conspiracy.ex(dclient, msg.channel, conspiracy_list)
+            elif cmd == 'custcmd' and config.getboolean('Functions', 'Custom_Cmd'):
+                log('COMMAND', 'Executing {}custcmd command for {}.'.format(cmd_char, get_name(msg)))
+                cmd_list = await custom_cmd.ex(dclient, msg.channel, get_mention(msg), msg.author, msg.content[9:],
+                                               cmd_list, con, con_ex, log_file, cmd_char)
+            elif cmd == 'dice' and config.getboolean('Functions', 'Dice'):
+                log('COMMAND', 'Executing {}dice command for {}.'.format(cmd_char, get_name(msg)))
+                await dice.ex(dclient, msg.channel, get_mention(msg))
+            elif cmd == 'dictionary' and config.getboolean('Functions', 'Dictionary'):
+                log('COMMAND', 'Executing {}dictionary command for {}.'.format(cmd_char, get_name(msg)))
+                await dictionary.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[12:], cmd_char)
+            elif cmd == '8ball' and config.getboolean('Functions', 'EightBall'):
+                log('COMMAND', 'Executing {}8ball command for {}.'.format(cmd_char, get_name(msg)))
+                await eightball.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+            elif cmd == 'gif' and config.getboolean('Functions', 'Random_gif'):
+                log('COMMAND', 'Executing {}gif command for {}.'.format(cmd_char, get_name(msg)))
+                await gif.ex(dclient, msg.channel, msg.content[5:], get_mention(msg), cmd_char)
+            elif cmd == 'help':
+                log('COMMAND', 'Executing {}help command for {}.'.format(cmd_char, get_name(msg)))
+                await bhelp.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content.split(' '), cmd_char)
+            elif cmd == 'info':
+                log('COMMAND', 'Executing {}info command for {}.'.format(cmd_char, get_name(msg)))
+                await info.ex(dclient, msg.channel)
+            elif cmd == 'poll' and config.getboolean('Functions', 'poll'):
+                log('COMMAND', 'Executing {}poll command for {}.'.format(cmd_char, get_name(msg)))
+                poll_enable, poll_question, options, votes, voted = await poll.ex_poll(dclient, msg.channel, msg.author,
+                                                                                       get_mention(msg), msg.content[6:],
+                                                                                       poll_enable, poll_question, options,
+                                                                                       votes, voted, cmd_char)
+            elif cmd == 'purge' and config.getboolean('Functions', 'Purge'):
+                log('COMMAND', 'Executing {}purge command for {}.'.format(cmd_char, get_name(msg)))
+                await purge.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[7:], cmd_char)
+            elif cmd == 'vote' and config.getboolean('Functions', 'poll'):
+                log('COMMAND', 'Executing {}vote command for {}.'.format(cmd_char, get_name(msg)))
+                poll_enable, poll_question, options, votes, voted = await poll.ex_vote(dclient, msg.channel, msg.author,
+                                                                                       get_mention(msg), msg.content[6:],
+                                                                                       poll_enable, poll_question, options,
+                                                                                       votes, voted)
+            elif cmd == 'reddit' and config.getboolean('Functions', 'Reddit'):
+                log('COMMAND', 'Executing {}reddit command for {}.'.format(cmd_char, get_name(msg)))
+                await reddit.ex(dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:])
+            elif cmd == 'remindme' and config.getboolean('Functions', 'Remind_Me_All'):
+                log('COMMAND', 'Executing {}remindme command for {}.'.format(cmd_char, get_name(msg)))
+                await remindme.ex_me(dclient, msg.channel, get_mention(msg), con, con_ex, msg.author.id, msg.content[10:],
+                                     log_file, cmd_char)
+            elif cmd == 'remindall' and config.getboolean('Functions', 'Remind_Me_All'):
+                log('COMMAND', 'Executing {}remindall command for {}.'.format(cmd_char, get_name(msg)))
+                await remindme.ex_all(dclient, msg.channel, get_mention(msg), con, con_ex, msg.channel.id, msg.content[11:],
+                                     log_file, cmd_char)
+            elif cmd == 'rps' and config.getboolean('Functions', 'Rock_Paper_Scissors'):
+                log('COMMAND', 'Executing {}rps command for {}.'.format(cmd_char, get_name(msg)))
+                await rps.ex(dclient, msg.channel, get_mention(msg), msg.content[5:], cmd_char)
+            elif cmd == 'serverinfo' and config.getboolean('Functions', 'ServerInfo'):
+                log('COMMAND', 'Executing {}serverinfo command for {}.'.format(cmd_char, get_name(msg)))
+                await serverinfo.ex(dclient, msg.author, msg.channel, get_mention(msg))
+            elif cmd == 'temp' and config.getboolean('Functions', 'Temperature'):
+                log('COMMAND', 'Executing {}temp command for {}.'.format(cmd_char, get_name(msg)))
+                await temp.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+            elif cmd == 'tempch' and config.getboolean('Temporary_Channel', 'Enabled'):
+                log('COMMAND', 'Executing {}tempch command for {}.'.format(cmd_char, get_name(msg)))
+                await tempch.ex(dclient, msg.channel, msg.author, get_mention(msg), msg.content[8:], msg.author, time_limit,
+                                channel_name_limit, msg.channel.server, con, con_ex, log_file, cmd_char)
+            elif cmd == 'time' and config.getboolean('Functions', 'Timezone'):
+                log('COMMAND', 'Executing {}time command for {}.'.format(cmd_char, get_name(msg)))
+                await time.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+            elif cmd == 'trans' and config.getboolean('Functions', 'Translate'):
+                log('COMMAND', 'Executing {}trans command for {}.'.format(cmd_char, get_name(msg)))
+                await trans.ex(dclient, msg.channel, get_mention(msg), msg.content[7:], cmd_char)
+            elif cmd == 'twitch':
+                log('COMMAND', 'Executing {}twitch command for {}.'.format(cmd_char, get_name(msg)))
+                twitch_enabled, Channel_ID, streamers, active = await twitch.ex(
+                    dclient, msg.author, msg.channel, get_mention(msg), msg.content[8:], twitch_enabled, twitch_channel,
+                    streamers, active, cmd_char)
+            elif cmd == 'uptime':
+                log('COMMAND', 'Executing {}uptime command for {}.'.format(cmd_char, get_name(msg)))
+                await uptime.ex(dclient, msg.channel, start_time)
+            elif cmd == 'xkcd' and config.getboolean('Functions', 'XKCD'):
+                log('COMMAND', 'Executing {}xkcd command for {}.'.format(cmd_char, get_name(msg)))
+                await xkcd.ex(dclient, msg.channel, get_mention(msg), msg.content[6:], cmd_char)
+            elif cmd == 'youtube' and config.getboolean('Functions', 'Youtube'):
+                log('COMMAND', 'Executing {}youtube command for {}.'.format(cmd_char, get_name(msg)))
+                await youtube.ex(dclient, msg.channel, get_mention(msg), msg.content[9:], cmd_char)
+            elif cmd in cmd_list:
+                await dclient.send_message(msg.channel, get_custom_cmd_msg(cmd))
+        elif msg.content.startswith('<@{}>'.format(Client_ID)) and config.getboolean('Functions', 'Chatting') \
+                and Client_ID != 0:
+            if int(msg.author.id) != int(Client_ID):
+                await dclient.send_message(msg.channel, '{}, {}'.format(get_mention(msg), r.choice(replies_list)))
 
 
 # Execute Twitch Loop
