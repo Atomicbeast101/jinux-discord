@@ -267,7 +267,7 @@ def get_name(msg):
 # Chatter Bot
 @dclient.event
 async def on_message(msg):
-    if message.author.bot is True:
+    if msg.author.bot is True:
         print('Attempted to listen to a bot command.')
     else:
         if msg.content.startswith(cmd_char) and not msg.channel.is_private:
