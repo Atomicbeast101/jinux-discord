@@ -79,12 +79,12 @@ sudo python3.5 -m pip install discord.py geopy pytube configparser asyncio pynac
 
 7) Copy the token through clicking on 'click to reveal' link and paste it to the token variable in config.ini file:
 ```Ini
-Token = PASTE_OVER_THIS
+TokenID = PASTE_OVER_THIS
 ```
 
-8) Copy the Client ID and paste it to the Client_ID variable in config.ini file (Needed to allow bot to respond to @mentions):
+8) Copy the Client ID and paste it to the UserID variable in config.ini file (Needed to allow bot to respond to @mentions):
 ```Ini
-Client_ID = PASTE_OVER_THIS
+UserID = PASTE_OVER_THIS
 ```
 
 9) Now we need to register that app to a specific server so that way the bot can find it's path to your server. Copy the 18-digit code from Client ID and follow the URL (replace the YOUR_CLIENT_ID_HERE with the Client ID code):
