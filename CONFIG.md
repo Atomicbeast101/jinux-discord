@@ -1,55 +1,130 @@
 # Configuration
 ## config.ini file for Jinux bot.
+### General
 ```Ini
-[Jinux]
-Channel = 0
+UserID = 
 ```
+ID of the user for Jinux.
+```Ini
+TokenID =
+```
+Token ID for Jinux to connect to Discord server(s).
+```Ini
+ChannelID = 
+```
+ID of the channel where Jinux will say a welcome message in (shows it's online and working).
+```Ini
+Playing = -help | Jinux v5.0
+```
+"Playing" message that will be displayed underneath Jinux on right side of Discord chat application.
+```Ini
+WelcomeMessage = :wave: hey everyone!
+```
+Welcome message where Jinux will say in `ChannelID` channel on end of bootup mode.
+```Ini
+CommandCharacter = -
+```
+Starting symbol to recognize Jinux's commands.
 
-ID of the channel where Jinux will "wave" in (meaning that it's online and working).
+### Log
 ```Ini
-Character = -
+Disabled = no
 ```
-Starting character of the command. Default is `-`. If you change it to `=` for example, all commands have to start with that. (ex: =help).
+Enable/Disable logging.
 ```Ini
-Playing = -help | Jinux v4.0
+Level = ERROR
 ```
-Playing status of the bot.
+Choose log level between INFO/WARNING/ERROR to display/show in log file.
 ```Ini
-Logging = On
+FileName = jinux.log
 ```
-Toggle the logging of the commands/bot replies the users execute. The logs gets stored in `jinux.log` file.
+Name of log file to store logs to.
+
+### Data
 ```Ini
-Auto_Welcome = On
+DataFile = data.db
 ```
-Toggle `Auto_Welcome` between `On` or `Off` to tell Jinux to send a private welcome message (from `welcome_message.txt` file) directly to the new user who recently joined the server.
+Name of SQLite database file to store data in.
+
+### Music
 ```Ini
-[Twitch]
-Enabled = No
+Enabled = yes
 ```
-Toggle between `Yes` or `No` to run the Twitch live stream notifications.
+Enable music player for Jinux.
 ```Ini
-Interval = 300
+TextchannelID = 
 ```
-How long between each job task for Jinux to check each user for live stream status.
+Channel ID to allow music-only commands in.
 ```Ini
-Users =
+VoiceChannelID = 
 ```
-List of Twitch users separated by `,` comma. 
+Channel ID where Jinux will play music in.
 ```Ini
-Channel = 0
+PlaylistnameCharLimit = 10
 ```
-The channel where Jinux will post Twitch live stream notifications in. If not set, Jinux will use the default channel from `Channel` config value.
+Character limit for playlist names.
+
+### TemporaryChannel
 ```Ini
-[Temporary_Channel]
-Enabled = Yes
+Enabled = yes
 ```
-Toggle `Yes` or `No` to allow users to create new temporary channels.
+Enable/Disable ability to create temporary channels.
 ```Ini
-Time_Limit = 1d
+TimeLimit = 1d
 ```
-Time limit on how long the temporary channels can last when created by a user. Default is `1d` which means 1 day. You can assign multiple options separated by a comma: `1d,4h` means 1 day and 4 hours.
->s = seconds, m = minutes, d = days
+Maximum time limit a temporary channel can last up to.
 ```Ini
-Channel_Name_Limit = 10
+ChannelNameCharLimit = 12
 ```
-The character limit of the temporary channel names that any user can make up to. Default is `10` characters.
+Character limit for temporary channel names.
+
+### AutoWelcome
+```Ini
+Enabled = yes
+```
+Enable/Disable auto welcome messages by Jinux to new joiners through private/direct message.
+```Ini
+FileName = welcome.txt
+```
+Name of file to load welcome message in.
+
+### ChatFilter
+```Ini
+Enabled = yes
+```
+Enable/Disable chat filtering system.
+```Ini
+FileName = blacklist.txt
+```
+Name of file to load the list of blacklisted words in.
+
+### CustomCommands
+```Ini
+Enabled = yes
+```
+Enable/Disable ability to create/use custom commands.
+```Ini
+CommandCharaterLimit = 10
+```
+Character limit for custom commands.
+
+### Commands
+```Ini
+Cat = yes
+Choose = yes
+Dice = yes
+Dictionary = yes
+Gif = yes
+Poll = yes
+Purge = yes
+RemindMe = yes
+RemindAll = yes
+Rps = yes
+Tempch = yes
+Temp = yes
+Time = yes
+Uptime = yes
+Xkcd = yes
+Help = yes
+```
+Enable/Disable commands.
