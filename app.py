@@ -85,7 +85,7 @@ try:
 
     # ChatFilter
     cf_enabled = config.getboolean('ChatFilter', 'Enabled')
-    cf_filename = config.get('ChatFilter', 'Filename')
+    cf_filename = config.get('ChatFilter', 'FileName')
 
     # CustomCommands
     cus_enabled = config.getboolean('CustomCommands', 'Enabled')
