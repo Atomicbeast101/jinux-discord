@@ -1,5 +1,0 @@
-Bruh I'm eating. Go check `-help` instead.
-I'm sleeping...
-Go bother someone else.
-What do you want?
-Want something to do? Look into `-help`.
