@@ -1,4 +1,4 @@
-# Jinux - v5.0
+# Jinux - v5.1
 *Personal bot for Discord server(s).*
 
 [<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">](https://github.com/Atomicbeast101/Discord-JProject) [<img src="https://img.shields.io/badge/API-discord.py-551A8B.svg">](https://github.com/Rapptz/discord.py) [<img src="https://img.shields.io/badge/python-3.5%2B-blue.svg">](https://www.python.org/downloads/release/python-360/)
@@ -15,6 +15,7 @@
 [Installation Guide](https://github.com/Atomicbeast101/Jinux/blob/master/INSTALL.md) | [Command Reference](https://github.com/Atomicbeast101/Jinux/blob/master/COMMAND_LIST.md) | [Configuration](https://github.com/Atomicbeast101/Jinux/blob/master/CONFIG.md)
 
 ## Change Log:
+- [v5.1= = TODO
 - [v5.0] = Removed unnecessary commands, added music player system, squashed all known bugs, & recoded everything.
 - [v4.0] = Another massive update since Trump became president: Features added: -tempch, -conspiracy, -remindme, -remindall, and -custcmd. Removed -restart/-9 due to unfortune issues. Improved -xkcd so users can retrieve specific comic by ID, improved -tempch to allow users to list all temporary channels by `-tempch list` and auto remove temporary channels from the database if forced removed by an admin, and ability to use `1m` or `2b` in -convert. Removed chat system and replaced it with replies from `replies.txt` file as it's difficult to maintain it. Fixed bugs in -purge, -vote, & -conspiracy.
 - [v3.0] = Big overhaul update. Features added: -reddit, -twitch, -uptime, -9, logging system, & auto welcome messaging. Improved features: -time & -poll
