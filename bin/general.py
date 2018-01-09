@@ -118,7 +118,7 @@ async def dict(_dclient, _channel, _mention, _cmdchar, _msg):
                     adjectives.append(result['Adjective'][i])
 
             embed = discord.Embed(title='Dictionary Results', color=0xff5700)
-            embed.set_author(name='Car')
+            embed.set_author(name=word)
             embed.set_thumbnail(url='https://i.imgur.com/VCck2RQ.png')
             count = 1
             for noun in nouns:
